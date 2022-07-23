@@ -7,6 +7,7 @@ export default function useUser()  {
  
     const user = ref();
     const errors = ref([]);
+    const success = ref();
 
     const getUser = async() => {
        let response = await axios.get('/user');       
@@ -34,11 +35,27 @@ export default function useUser()  {
         location.reload();
     }
 
+    const changePassword=  async(data) => {
+        errors.value = []
+        success.value = null;
+        try {
+            let response = await axios.put('/change-password', data)
+            success.value = response.data;
+        } catch (e) {
+            if(e.response.status === 422){
+                errors.value = e.response.data.errors;
+            }
+        }
+       
+    };
+
     return {
         getUser,
         logout,
         userlogin,
+        changePassword,
         user,
+        success,
         errors,        
     }
 

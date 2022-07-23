@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="text"], input[type="number"], input[type="email"]{
+input[type="text"], input[type="number"], input[type="email"], input[type="password"]{
     @apply form-control block w-full px-3 py-1.5 text-base 
     font-normal text-gray-700 bg-white bg-clip-padding
     border border-solid border-gray-300 rounded transition

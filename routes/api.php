@@ -6,6 +6,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoanTypeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
@@ -20,6 +22,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 */
 Route::post('/login', [LoginController::class, 'attempt']);
 Route::post('/forgot-password', [ForgotPasswordController::class, 'index']);
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'index']);
+Route::put('/reset-password', [ResetPasswordController::class, 'reset']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -37,6 +41,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/customers/destroy/{customer:id}', [CustomerController::class, 'destroy']);
 
     Route::delete('/logout', [LogoutController::class, 'logout']);
+
+    Route::put('/change-password', [ChangePasswordController::class, 'update']);
 
  
 

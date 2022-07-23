@@ -10,6 +10,11 @@ import customerCreate from '../components/customers/Create.vue'
 import customerEdit from '../components/customers/Edit.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import ForgotPassword from '../pages/ForgotPassword.vue'
+import ResetPassword  from '../pages/ResetPassword.vue'
+import Page404 from '../pages/Page404.vue'
+import Setting from '../pages/Setting.vue'
+import ChangePassword from '../components/settings/ChangePassword.vue'
+import Profile from '../components/settings/Profile.vue'
 import middleware  from './middleware'
 
 
@@ -31,11 +36,22 @@ const router = createRouter({
             { path : 'customers/create', name : 'customers.create', component : customerCreate },
             { path : 'customers/edit/:id', name : 'customers.edit', component : customerEdit },
 
+            { path : 'settings', name: 'settings', component : Setting, beforeEnter : middleware.authenticated , children : [
+                {path : '/profile', name : 'profile', component : Profile},
+                {path : '/change-password', name : 'change.password', component :ChangePassword}
+            ] },
+
         ]},
 
         { path : '/login', name : 'login', component : Login, beforeEnter : middleware.guest },
 
-        { path : '/forgot-password', name : 'forgot.password', component : ForgotPassword, beforeEnter : middleware.guest }
+        { path : '/forgot-password', name : 'forgot.password', component : ForgotPassword, beforeEnter : middleware.guest },
+
+        { path : '/reset-password/:token', name : 'reset.password', component : ResetPassword, beforeEnter : middleware.guest },
+
+       
+
+        { path : '/page-not-found', name : 'page.not.found', component : Page404 }
     ],
    
 });
