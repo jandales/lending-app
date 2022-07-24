@@ -12,6 +12,11 @@
    
         @vite('resources/css/app.css')
     </head>
+    <style>
+        body{
+            background: #f0f2f5;
+        }
+    </style>
     <body class="antialiased">
         <div id="app">
 

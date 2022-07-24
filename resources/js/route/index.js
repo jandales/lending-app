@@ -15,6 +15,8 @@ import Page404 from '../pages/Page404.vue'
 import Setting from '../pages/Setting.vue'
 import ChangePassword from '../components/settings/ChangePassword.vue'
 import Profile from '../components/settings/Profile.vue'
+import LoanIndex from '../components/loans/Index.vue';
+import LoanCreate from '../components/loans/Create.vue';
 import middleware  from './middleware'
 
 
@@ -26,7 +28,9 @@ const router = createRouter({
 
             { path : 'Dashboard' , name : 'dashboard', component : Dashboard },
 
-            { path : 'transactions' , name : 'transactions', component : Dashboard },
+            { path : 'transactions' , name : 'transactions', component : LoanIndex },
+
+            { path : 'loans/create' , name : 'loans.create', component : LoanCreate },
 
             { path : 'loan-types' , name : 'loanTypes', component : LoanTypeIndex },
             { path : 'loan-types/create' , name : 'loanTypes.create',  component : CreateType  },
@@ -37,7 +41,7 @@ const router = createRouter({
             { path : 'customers/edit/:id', name : 'customers.edit', component : customerEdit },
 
             { path : 'settings', name: 'settings', component : Setting, beforeEnter : middleware.authenticated , children : [
-                {path : '/profile', name : 'profile', component : Profile},
+                {path : '', name : 'profile', component : Profile},
                 {path : '/change-password', name : 'change.password', component :ChangePassword}
             ] },
 

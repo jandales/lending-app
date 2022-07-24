@@ -1,10 +1,11 @@
 <template>
-   <div class="flex justify-between items-center mb-4">
+   <div class="bg-white p-4 border rounded-md w-max">
+        <div class="flex justify-between items-center ">
       <h1 class="text-xl">Create Customer</h1> 
   </div>
   
-   <div class="block bg-white max-w-2xl">
-        <form class="max-w-sm">
+   <div class="block bg-white  rounded-md max-w-2xl mt-6">
+        <form>
             <div class="grid grid-cols-2 gap-4">
                 <div class="form-group mb-6">
                     <input type="text"
@@ -53,7 +54,7 @@
             </div>
 
             <div class="flex justify-center">
-                    <div class="mb-3 w-96">
+                    <div class="mb-6 w-full">
                         <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Image</label>
                         <input 
                         @change="onChangeFile($event)"
@@ -93,7 +94,8 @@
                
         </form>
    
-    </div>  
+    </div>
+   </div>  
 </template>
 <script setup>
 import useCustomers from '../../composable/customers';
@@ -114,7 +116,8 @@ const avatar = ref();
 
 
 const onChangeFile = (event) => {      
-    form.avatar = event.target.files[0];    
+    form.avatar = event.target.files[0]; 
+    console.log(form.avatar);   
     avatar.value  = URL.createObjectURL(event.target.files[0]);
 }
 

@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <div class="w-60 bg-white shadow max-h-fit p-2">
+        <div class="w-60 border rounded-md bg-white shadow max-h-fit p-2">
             <ul class="relative px-1">
                 <li class="relative">
                     <router-link :to="{name : 'profile'}" class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">
@@ -29,7 +29,7 @@
                 </li>
             </ul>
         </div>
-        <div class="p-4  w-[calc(100%_-_15rem)]">
+        <div class="px-8  w-[calc(100%_-_15rem)]">
             <router-view></router-view>
         </div>
     </div>

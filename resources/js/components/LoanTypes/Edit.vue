@@ -1,7 +1,7 @@
 <template>
-    <div>     
+    <div class="w-max border bg-white rounded-md p-4">     
         <hi class="block tracking-wider text-lg mb-8">Edit Type</hi>
-        <div class="block bg-white max-w-sm">
+        <div class="block  w-80">
             <form v-if="loanType">
                 <div class="form-group mb-6">
                     <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Name</label>
@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="form-group mb-6">
-                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Name</label>
+                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Description</label>
                     <input type="text"
                         v-model="loanType.description"
                         id="exampleInputPassword1"
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="form-group mb-6">
-                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Password</label>
+                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Interest</label>
                     <input type="text"
                         v-model="loanType.interest"
                         id="exampleInputPassword1"

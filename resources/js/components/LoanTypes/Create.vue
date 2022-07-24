@@ -1,6 +1,7 @@
 <template>
-    <div class="block bg-white max-w-sm">     
-        <hi class="block tracking-wider text-lg mb-8">Create new Type</hi>
+<div class="bg-white p-4 border rounded-md w-max">
+      <div class="block bg-white w-80">     
+        <hi class="block tracking-wider text-lg mb-6 ">Create new Type</hi>
         <div class="form-group mb-6">
             <label 
                     for="exampleFormControlInpu3" 
@@ -58,6 +59,8 @@
 
 
     </div>
+</div>
+  
 </template>
 
 <script setup>

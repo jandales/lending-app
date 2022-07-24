@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoanTypeController;
 use App\Http\Controllers\Auth\LoginController;
@@ -24,10 +26,13 @@ Route::post('/login', [LoginController::class, 'attempt']);
 Route::post('/forgot-password', [ForgotPasswordController::class, 'index']);
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'index']);
 Route::put('/reset-password', [ResetPasswordController::class, 'reset']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::get('/user', [UserController::class, 'user']);
+    Route::put('/user/update',[UserController::class, 'update']);
+    Route::post('/user/upload-avatar',[UserController::class, 'upload']);
+    
     Route::get('/loan-types',[LoanTypeController::class, 'index']);
     Route::get('/loan-types/{loantype:id}',[LoanTypeController::class, 'show']);
     Route::put('/loan-types/update/{id}',[LoanTypeController::class, 'update']);
@@ -43,6 +48,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/logout', [LogoutController::class, 'logout']);
 
     Route::put('/change-password', [ChangePasswordController::class, 'update']);
+
+
+    Route::get('/loans', [LoanController::class, 'index']);
+
+    Route::post('/loans/store', [LoanController::class, 'store']);
+
+   
 
  
 

@@ -2,7 +2,7 @@
     <div class="flex">
         <Sidebar></Sidebar> 
         <div class="w-[calc(100%_-_15rem)] flex flex-col ml-auto ">
-           <div class="h-16 flex items-center px-8 border-b border-[#f2f5f5] shadow">  
+           <div class="h-16 flex items-center px-8 ">  
                  <h1 class="text-gray-500">{{pageTitle}}</h1>
            </div>
            <div class="p-8">              
@@ -36,9 +36,11 @@ const pageTitle = computed(() => {
         case 'transactions':
             return 'Transactions';  
         case 'reports':
-            return 'Reports';  
+            return 'Reports'; 
+        case 'settings':
+            return 'Settings';   
         default:
-            break;
+            return 'Dashboard'            
     }
     
 })

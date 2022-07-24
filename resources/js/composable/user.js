@@ -14,6 +14,21 @@ export default function useUser()  {
        user.value = response.data;     
     }
 
+    const updateUser =  async(body) => {
+        errors.value = []
+        success.value = null;      
+        try {
+            let response= await axios.put('/user/update', body.value);
+            user.value = response.data; 
+            success.value = "Successfully updated"            
+        } catch (e) {
+            if(e.response.status === 422){
+                errors.value = e.response.data.errors;
+            }
+        }
+   
+    }
+
     const userlogin = async(data) => {
         await axios.post('/login',data)
         .then(res => {    
@@ -28,6 +43,21 @@ export default function useUser()  {
         })
     }
 
+    const uploadAvatar = async(data) => {
+        errors.value = []
+        success.value = null; 
+       
+        try {
+            let response = await axios.post('/user/upload-avatar',data, { headers : { 'Content-Type': 'multipart/form-data' } });
+            user.value = response.data;    
+            getUser();                          
+        } catch (e) {           
+            if(e.response.status === 422){
+                errors.value = e.response.data.errors;
+            }         
+        }
+    }
+
     const logout = async() => {
         await axios.delete('/logout');
         localStorage.removeItem('token');
@@ -39,12 +69,16 @@ export default function useUser()  {
         errors.value = []
         success.value = null;
         try {
-            let response = await axios.put('/change-password', data)
+            let response = await axios.put('/change-password', data)  
+            if(response.data.status === 500){                              
+                errors.value = { message : [response.data.message]}              
+                return;
+            }          
             success.value = response.data;
-        } catch (e) {
+        } catch (e) {           
             if(e.response.status === 422){
                 errors.value = e.response.data.errors;
-            }
+            }         
         }
        
     };
@@ -54,6 +88,8 @@ export default function useUser()  {
         logout,
         userlogin,
         changePassword,
+        updateUser,
+        uploadAvatar,
         user,
         success,
         errors,        

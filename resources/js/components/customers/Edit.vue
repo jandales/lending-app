@@ -1,12 +1,14 @@
 <template>
-   <div class="flex justify-between items-center mb-4">
-      <h1 class="text-xl">Edit Customer</h1> 
-  </div>
-
-   <div class="block bg-white max-w-2xl">
-        <form v-if="customer" class="max-w-sm">
+   <div class="bg-white p-4 border rounded-md w-max">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-xl">Edit Customer</h1> 
+         </div>
+         <div class="block bg-white">
+        <form v-if="customer">
             <div class="grid grid-cols-2 gap-4">
+                
                 <div class="form-group mb-6">
+                    <label for="exampleInputPassword1" class="text-gray-700">First Name</label>
                     <input type="text"
                         v-model="customer.firstname"
                         name="firstname"
@@ -15,6 +17,7 @@
                         <small class="text-alert-danger" v-for="error in errors.firstname">{{ error }}</small>
                 </div>
                 <div class="form-group mb-6">
+                    <label for="exampleInputPassword1" class="text-gray-700">Last Name</label>
                     <input type="text" 
                         v-model="customer.lastname" 
                          name="lastname"
@@ -53,7 +56,7 @@
             </div>
 
             <div class="flex justify-center">
-                    <div class="mb-3 w-96">
+                    <div class="mb-6 w-full">
                         <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Image</label>
                         <input 
                         @change="onChangeFile($event)"
@@ -90,7 +93,11 @@
                
         </form>
    
-    </div>  
+    </div> 
+   </div>
+
+
+    
 </template>
 <script setup>
 
