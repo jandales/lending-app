@@ -15,8 +15,7 @@ export default function useLoanTypes() {
         loanTypes.value = response.data;
     }
 
-    const getLoanType = async () => {
-        console.log(route.params.id)
+    const getLoanType = async () => {       
         let response =  await axios.get(`/loan-types/${route.params.id}`)
         loanType.value = response.data;
     }

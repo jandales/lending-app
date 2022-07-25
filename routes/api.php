@@ -44,6 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/customers/store', [CustomerController::class, 'store']);
     Route::post('/customers/update/{customer:id}', [CustomerController::class, 'update']);
     Route::delete('/customers/destroy/{customer:id}', [CustomerController::class, 'destroy']);
+    Route::get('/customers/search/{keyword}', [CustomerController::class, 'search']);
 
     Route::delete('/logout', [LogoutController::class, 'logout']);
 
@@ -53,6 +54,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/loans', [LoanController::class, 'index']);
 
     Route::post('/loans/store', [LoanController::class, 'store']);
+
+    Route::delete('/loans/destroy/{loan:id}', [LoanController::class, 'destroy']);
 
    
 

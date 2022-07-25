@@ -11,13 +11,18 @@ export default function useCustomers(){
     const errors =  ref([])
 
     const getCustomers = async() => {
-        let response = await axios.get('/customers/');
+        let response = await axios.get('/customers');
         customers.value = response.data;
     }
 
     const getCustomer = async(id) => {
         let response = await axios.get(`/customers/${id}`);
         customer.value = response.data;
+    }
+
+    const searchCustomers = async(keyword) => {
+        let response = await axios.get(`/customers/search/${keyword}`);
+        customers.value = response.data;
     }
 
     const storeCustomer = async(data) => {
@@ -51,12 +56,16 @@ export default function useCustomers(){
         await axios.delete(`/customers/destroy/${id}`);
     }
 
+
+    
+
     return {
         getCustomers,
         getCustomer,
         storeCustomer,
         destroyCustomer,
         updateCustomer,
+        searchCustomers,
         customers,
         customer,
         errors,

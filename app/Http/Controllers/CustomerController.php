@@ -41,4 +41,9 @@ class CustomerController extends Controller
         return $this->services->destroy($customer);
     }
 
+    public function search($keyword)
+    {
+        return $this->services->search($keyword);
+    }
+
 }

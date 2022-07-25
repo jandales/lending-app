@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Loan;
 use Illuminate\Http\Request;
 use App\Http\Services\LoanServices;
+use App\Http\Requests\LoanStoreRequest;
 
 class LoanController extends Controller
 {
@@ -22,6 +24,11 @@ class LoanController extends Controller
     public function store(LoanStoreRequest $request)
     {
         return $this->services->store($request);
+    }
+
+    public function destroy(Loan $loan)
+    {
+        return $loan->delete();
     }
 
     

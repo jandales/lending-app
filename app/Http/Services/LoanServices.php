@@ -14,13 +14,12 @@ class LoanServices {
 
     public function store(Request $request)
     {
-        return Loan::create([
-            'customer_id' => $request->customer_id,
-            'loan_type_id' => $request->loan_type_id,
-            'amount' => $request->amount,
-            'status' => 'approved',
-            'user' => $request->user()->id,
-        ]);
-    }
+        $validated = $request->validated();
+        $loan  = Loan::ExistingLoan($validated['customer_id']);       
+        if($loan != null) return response()->json(['status' => 500, 'message' => 'This Customer has an exist loan' ]);   
+        $validated['status'] = 'approved';
+        $validated['user_id'] = $request->user()->id;
+        return Loan::create($validated);
+    }   
 
 }

@@ -64,8 +64,9 @@
                 </td>         
                 <td>
                   <div class="flex justify-end gap-4 mr-4 ">
-                      <router-link :to="{name : 'customers.edit' , params : {id : loan.id} }" type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Edit</router-link>
-                      <button @click="deleteCustomer(loan.id)" type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Delete</button>
+                       <router-link :to="{name : 'customers.edit' , params : {id : loan.id} }" type="button" class="btn-primary">Payment</router-link>
+                      <router-link :to="{name : 'customers.edit' , params : {id : loan.id} }" type="button" class="btn-info">Details</router-link>
+                      <button @click="destroy(loan.id)" type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Delete</button>
                   </div>
                 </td>
               </tr>
@@ -86,30 +87,32 @@ import useCustomers from '../../composable/customers';
 import useLoans from '../../composable/loans'
 import { ref, onMounted, computed } from 'vue';
 
-const { getLoans, loans} =  useLoans();
+const { getLoans, destroyLoan, loans} =  useLoans();
 const selected = ref([])
 const selectAllState = ref(false);
 
 
-// const selectAll = () => {       
-//       selectAllState.value = selectAllState.value == true ? false : true;
-//       selected.value = []
-//       if(selectAllState.value == true){  
-//           customers.value.forEach(type => {
-//               selected.value.push(type.id)
-//           })        
-//           return;
-//       }
-//       selected.value = []      
-// }
+const selectAll = () => {       
+      selectAllState.value = selectAllState.value == true ? false : true;
+      selected.value = []
+      if(selectAllState.value == true){  
+          loans.value.forEach(type => {
+              selected.value.push(type.id)
+          })        
+          return;
+      }
+      selected.value = []      
+}
 
-// const deleteSeleted  =  () => {
-//     selected.value.forEach(id => { 
-//         destroyCustomer(id)
-//         getCustomers();
-//     })    
-// }
-
+const deleteSeleted  =  () => {
+    selected.value.forEach(id => { 
+        destroy(id);
+    })    
+}
+const destroy = async (id) => {
+        await destroyLoan(id)
+        await getLoans();
+}
 onMounted(getLoans);
 
 const list = computed(() => {

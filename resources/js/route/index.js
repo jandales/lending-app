@@ -28,8 +28,7 @@ const router = createRouter({
 
             { path : 'Dashboard' , name : 'dashboard', component : Dashboard },
 
-            { path : 'transactions' , name : 'transactions', component : LoanIndex },
-
+            { path : 'loans' , name : 'loans', component : LoanIndex },
             { path : 'loans/create' , name : 'loans.create', component : LoanCreate },
 
             { path : 'loan-types' , name : 'loanTypes', component : LoanTypeIndex },

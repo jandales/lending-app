@@ -56,4 +56,9 @@ class CustomerServices {
         $this->deleteImage($customer->avatar);        
         return $customer->delete();
     }
+
+    public function search($keyword)
+    {
+        return Customer::search($keyword)->get();
+    }
 }

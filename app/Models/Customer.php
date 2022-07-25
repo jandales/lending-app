@@ -18,4 +18,13 @@ class Customer extends Model
         'avatar',
         'user_id'
     ];
+
+    public function scopeSearch($query, $keyword)
+    {
+        return $query->where('firstname','LIKE', '%' . $keyword . '%' )
+                ->orWhere('lastname', 'LIKE', '%' . $keyword . '%')
+                ->orWhere('address', 'LIKE', '%' . $keyword . '%')
+                ->orWhere('email',  'LIKE', '%' . $keyword . '%')
+                ->orWhere('phone',  'LIKE', '%' . $keyword . '%');
+    }
 }

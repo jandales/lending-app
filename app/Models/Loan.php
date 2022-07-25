@@ -21,6 +21,7 @@ class Loan extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -29,5 +30,12 @@ class Loan extends Model
     public function loanType()
     {
         return $this->belongsTo(LoanType::class);
+    }
+
+    public function scopeExistingLoan($query, $id)
+    {
+        $loan = $query->where([['customer_id',$id],['status','!=', 'completed']])->first();
+        if($loan == null) return false;
+        return true;
     }
 }
