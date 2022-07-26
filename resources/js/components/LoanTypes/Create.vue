@@ -2,51 +2,45 @@
 <div class="bg-white p-4 border rounded-md w-max">
       <div class="block bg-white w-80">     
         <hi class="block tracking-wider text-lg mb-6 ">Create new Type</hi>
-        <div class="form-group mb-6">
-            <label 
-                    for="exampleFormControlInpu3" 
-                    class="form-label inline-block mb-2 text-gray-700">
-                    Type Name
-            </label>
-            <input
-                v-model="form.type"
-                type="text"        
-                id="exampleFormControlInput3"
-                placeholder="Type Name"
-            />
-             <small class="text-alert-danger" v-for="error in errors.type">{{ error }}</small>
-        </div>
 
-        <div class="form-group mb-6">
-            <label 
-                    for="exampleFormControlInpu3" 
-                    class="form-label inline-block mb-2 text-gray-700">
-                    Description
-            </label>
-            <input
-                v-model="form.description"
-                type="text"        
-                id="exampleFormControlInput3"
-                placeholder="Description"
-            />
-        </div>
+        <BaseInput
+            :label="`Type Name`"
+            v-model="form.type"
+            :type="text"        
+            :id="typename"
+            :errors="errors.type"                
+        />   
 
-        <div class="form-group mb-6">
-            <label 
-                    for="exampleFormControlInpu3" 
-                    class="form-label inline-block mb-2 text-gray-700">
-                    Interest
-            </label>
-            <input
-                v-model="form.interest"
-                type="number"        
-                id="exampleFormControlInput3"
-                placeholder="Interest"
-            />
-             <small class="text-alert-danger" v-for="error in errors.interest" >{{ error }}</small>
+        <BaseInput
+            v-model="form.description"
+            :type="`text`"        
+            :id="description"
+            :label="'Description'" 
+        />  
 
-           
-        </div>
+        <BaseInput
+            v-model="form.interest"
+            :type="number"        
+            :id="exampleFormControlInput3"
+            :label="'Interest %'"           
+            :errors="errors.interest"
+        />
+
+        <BaseInput
+            v-model="form.amount_to_pay"
+            :type="number"        
+            :id="exampleFormControlInput3"
+            :label="'Amount to pay'"           
+            :errors="errors.amount_to_pay"
+        />
+
+        <BaseInput
+            v-model="form.due_type"
+            :type="number"        
+            :id="exampleFormControlInput3"
+            :label="'Days to pay'"           
+            :errors="errors.due_type"
+        />
 
         <button
             @click="store"
@@ -64,6 +58,7 @@
 </template>
 
 <script setup>
+import BaseInput from '../../components/base/BaseInput.vue'
 import useLoanTypes from '../../composable/loanType';
 import { reactive } from 'vue';
 
@@ -71,9 +66,11 @@ import { reactive } from 'vue';
   
 
     const form = reactive({
-        'type' : '',
-        'interest' : '',
-        'description' : ''
+        type : null,
+        interest : 0,
+        amount_to_pay : 0,
+        due_type : 0,
+        description : null,
     });
 
     const store = async () => {        

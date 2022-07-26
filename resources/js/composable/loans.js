@@ -5,12 +5,18 @@ import { ref } from 'vue'
 export default function useLoans() {
    
     const loans = ref([]);
+    const loan = ref();
     const errors = ref([]);
     const isSuccess = ref(false);
 
     const getLoans = async () => {
-       let response = await axios.get('/loans');
-       loans.value = response.data;
+        let response = await axios.get('/loans');
+        loans.value = response.data;
+    }
+
+    const getLoan = async (id) => {
+        let response = await axios.get(`/loans/${id}`);
+        loan.value = response.data;
     }
 
     const storeLoan =  async (data) => {
@@ -38,9 +44,11 @@ export default function useLoans() {
 
     return {
         getLoans,
+        getLoan,
         storeLoan,
         destroyLoan,
         loans,
+        loan,
         errors,
         isSuccess,
     }

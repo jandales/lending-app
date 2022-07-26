@@ -1,7 +1,13 @@
 <template>
     <div class="form-group mb-6">
         <label for="exampleFormControlInpu3" class="form-label inline-block mb-2 text-gray-700">{{props.label}}</label> 
+        <textarea 
+            v-if="props.type == 'textarea'"
+            id="exampleFormControlTextarea1"
+            rows="3">
+        </textarea>
         <input 
+            v-else
             :id="props.id"
             :type="props.type"
             :value="props.modelValue"

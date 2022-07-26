@@ -33,8 +33,10 @@ const pageTitle = computed(() => {
             return 'Loan Types';              
         case 'customers':
             return 'Customers';
-        case 'transactions':
-            return 'Transactions';  
+        case 'loans':
+            return 'Loans';
+        case 'payments':
+            return 'Payments'; 
         case 'reports':
             return 'Reports'; 
         case 'settings':

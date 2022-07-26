@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoanTypeStorRequest extends FormRequest
+class PaymentStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,9 @@ class LoanTypeStorRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required',           
-            'interest' => 'required:numeric',
-            'amount_to_pay' => 'required:numeric',
-            'due_type' => 'required:numeric'           
+            'amount' => 'required|numeric',
+            'customer_id' => 'required',
+            'loan_id' => 'required'            
         ];
     }
 }

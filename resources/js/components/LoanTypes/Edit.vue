@@ -2,32 +2,47 @@
     <div class="w-max border bg-white rounded-md p-4">     
         <hi class="block tracking-wider text-lg mb-8">Edit Type</hi>
         <div class="block  w-80">
-            <form v-if="loanType">
-                <div class="form-group mb-6">
-                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Name</label>
-                    <input type="text"
-                        v-model="loanType.type"
-                        id="exampleInputPassword1"
-                        placeholder="Name">
-                    <small class="text-alert-danger" v-for="error in errors.type" >{{ error }}</small>
-                </div>
+            <form v-if="loanType">         
+                <BaseInput
+                    :type="'text'"
+                    :id="'type'"
+                    :label="'Type Name'"
+                    :errors="errors.type"
+                    v-model="loanType.type"
+                />
 
-                <div class="form-group mb-6">
-                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Description</label>
-                    <input type="text"
-                        v-model="loanType.description"
-                        id="exampleInputPassword1"
-                        placeholder="Description">                        
-                </div>
+               <BaseInput
+                    :type="'text'"
+                    :id="'description'"
+                    :label="'Description'"                  
+                    v-model="loanType.description"
+                />
+                
+                <BaseInput
+                    :type="'text'"
+                    :id="'interest'"
+                    :label="'Interest (%)'"
+                    :errors="errors.interest"
+                    v-model="loanType.interest"
+                />  
+                
+                <BaseInput
+                    v-model="loanType.amount_to_pay"
+                    :type="number"        
+                    :id="exampleFormControlInput3"
+                    :label="'Amount to pay'"           
+                    :errors="errors.amount_to_pay"
+                />
+ 
+                <BaseInput
+                    v-model="loanType.due_type"
+                    :type="number"        
+                    :id="exampleFormControlInput3"
+                    :label="'Day to pay'"           
+                    :errors="errors.due_type"
+                />
 
-                <div class="form-group mb-6">
-                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Interest</label>
-                    <input type="text"
-                        v-model="loanType.interest"
-                        id="exampleInputPassword1"
-                        placeholder="Interest">
-                    <small class="text-alert-danger" v-for="error in errors.interest" >{{ error }}</small>
-                </div>
+     
 
                 <button        
                         @click="update"               
@@ -44,7 +59,9 @@
 </template>
 
 <script setup>
+import BaseInput from '../../components/base/BaseInput.vue'
 import useLoanTypes from '../../composable/loanType';
+
 import { reactive, onMounted } from 'vue';
 
     const {  getLoanType, updateLoanType , loanType , errors } = useLoanTypes();

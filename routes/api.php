@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoanTypeController;
 use App\Http\Controllers\Auth\LoginController;
@@ -53,9 +54,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/loans', [LoanController::class, 'index']);
 
-    Route::post('/loans/store', [LoanController::class, 'store']);
+    Route::get('/loans/{loan:id}', [LoanController::class, 'view']);
 
+    Route::post('/loans/store', [LoanController::class, 'store']);
+    
     Route::delete('/loans/destroy/{loan:id}', [LoanController::class, 'destroy']);
+
+    Route::get('/payments', [PaymentController::class, 'index']);
+    Route::get('/payments/{payment:id}', [PaymentController::class, 'view']);
+    Route::post('/payments/store', [PaymentController::class, 'store']);
+    Route::delete('/payments/destroy/{payment:id}', [PaymentController::class, 'destroy']);
 
    
 

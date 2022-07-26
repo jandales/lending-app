@@ -1,7 +1,7 @@
 <template>
 
 <div class="bg-white p-4 border rounded-md w-1/2 mx-auto">
-      <div class="block bg-white">   
+    <div class="block bg-white">   
 
         <div v-for="error in errors.message">
             <Alert :alert="'danger'" :message="error"/>
@@ -35,12 +35,20 @@
         />
 
         <BaseInput 
-            @input="calculateInterest"
+            @input="handlecalculateInterest"
             :id="'amount'"
             :type="'number'"
             :label="'Amount'"           
             :errors="errors.amount"
             v-model="form.amount" 
+        />
+
+        <BaseInput  
+            :id="'day-to-pay'"
+            :type="'number'"
+            :label="'Number to Pay'" 
+            :disabled="true"
+            v-model="form.count_to_pay" 
         />
 
         <BaseInput 
@@ -63,75 +71,76 @@
    
 </div>
 
-
 <CustomersModal @selectCustomer="selectedCustomer"></CustomersModal>
 
-
-
-
-  
 </template>
 
 <script setup>
 import CustomersModal from '../../components/Modal/CustomersModal.vue'
 import Alert from '../Alert.vue';
-import useLoanTypes from '../../composable/loanType';
-import useLoans from '../../composable/loans';
-import { reactive, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import BaseInput from '../Base/BaseInput.vue';
 import BaseInput1 from '../Base/BaseInput1.vue';
 
-    const { getLoanTypes, loanTypes } = useLoanTypes();
-    const { storeLoan, errors, isSuccess } = useLoans();
-    const  router = useRouter();
+import useLoanTypes from '../../composable/loanType';
+import useLoans from '../../composable/loans';
+import useCalculateInterest from '../../composable/helper/calculateInterest';
+import useCalculateNumbersToPay from '../../composable/helper/calculateNumberToPay';
+import { reactive, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-    const form = reactive({
-        customer_name : null,
-        customer_id : null,        
-        loan_type_id : null,
-        interest : 0,
-        amount: 0,
-        totalAmount : 0,  
-        user_id : null,
-    });
+const { getLoanTypes, loanTypes } = useLoanTypes();
+const { storeLoan, errors, isSuccess } = useLoans();
+const { calculateInterest } = useCalculateInterest();
+const { calculateNumbersToPay } = useCalculateNumbersToPay();
+const  router = useRouter();
 
-    const chooseLoanType =  () => {
-   
-        if(loanTypes.value.length === 0) return form.interest = 0;
-       
-        loanTypes.value.forEach(loanType => {     
-          if(form.loan_type_id == loanType.id){        
-            form.interest = loanType.interest;
-          }
-        })
+const form = reactive({
+    customer_name : null,
+    customer_id : null,        
+    loan_type_id : null,
+    interest : 0,
+    amount: 0,
+    totalAmount : 0,  
+    user_id : null,
+    count_to_pay : null,
+});
 
+const chooseLoanType =  () => {
+    if(loanTypes.value.length === 0) return form.interest = 0;
+    
+    loanTypes.value.forEach(loanType => {     
+        if(form.loan_type_id == loanType.id){        
+            form.interest = loanType.interest;        
+        }
+    })
+    handlecalculateInterest();
+}
 
-    console.log(form)
-        calculateInterest();
-         
-    }
+const handlecalculateInterest = () => {  
+    form.totalAmount = calculateInterest(parseInt(form.amount), form.interest);
+    handlecalculateNumberToPay();  
+}
 
-    const calculateInterest = () => {
-        const interest = form.amount * (form.interest / 100); 
-        form.totalAmount = parseInt(form.amount) + interest;
-    }
+const handlecalculateNumberToPay = () => {
+    loanTypes.value.forEach(loanType => {     
+        if(form.loan_type_id == loanType.id){    
+            form.count_to_pay = calculateNumbersToPay(form.amount, loanType.amount_to_pay);
+        }
+    })       
+}
 
-    const selectedCustomer = (customer) => {
-        form.customer_id = customer.id;
-        form.customer_name = `${customer.firstname} ${customer.lastname}`;
-    }
+const selectedCustomer = (customer) => {
+    form.customer_id = customer.id;
+    form.customer_name = `${customer.firstname} ${customer.lastname}`;
+}
 
-    const store = async () => {
-        await storeLoan(form) 
-        if(isSuccess.value === true){
-          router.push({name : 'loans'});
-        }     
-    }
+const store = async () => {
+    await storeLoan(form) 
+    if(isSuccess.value === true){
+        router.push({name : 'loans'});
+    }     
+}
 
-
-
-    onMounted(getLoanTypes)
-
+onMounted(getLoanTypes)
 
 </script>

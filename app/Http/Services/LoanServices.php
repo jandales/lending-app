@@ -12,6 +12,11 @@ class LoanServices {
         return Loan::with('customer','loanType')->get();
     }
 
+    public function getLoan(Loan $loan)
+    {  
+        return Loan::with('customer','loanType')->where('id', $loan->id)->first();
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validated();

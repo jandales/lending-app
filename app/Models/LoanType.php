@@ -13,6 +13,8 @@ class LoanType extends Model
         'type',
         'description',
         'interest',
+        'amount_to_pay',
+        'due_type',
         'user_id'
     ];
 

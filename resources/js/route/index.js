@@ -17,6 +17,8 @@ import ChangePassword from '../components/settings/ChangePassword.vue'
 import Profile from '../components/settings/Profile.vue'
 import LoanIndex from '../components/loans/Index.vue';
 import LoanCreate from '../components/loans/Create.vue';
+import PaymentIndex from '../components/payments/Index.vue';
+import PaymentCreate from '../components/payments/Create.vue';
 import middleware  from './middleware'
 
 
@@ -38,6 +40,9 @@ const router = createRouter({
             { path : 'customers', name : 'customers', component : customerIndex },
             { path : 'customers/create', name : 'customers.create', component : customerCreate },
             { path : 'customers/edit/:id', name : 'customers.edit', component : customerEdit },
+
+            { path: 'payments' , name : 'payments', component : PaymentIndex },
+            { path: 'payments/create/:loan_id?', name : 'payments.create', component : PaymentCreate },
 
             { path : 'settings', name: 'settings', component : Setting, beforeEnter : middleware.authenticated , children : [
                 {path : '', name : 'profile', component : Profile},

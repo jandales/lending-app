@@ -26,6 +26,12 @@ class LoanController extends Controller
         return $this->services->store($request);
     }
 
+    public function view(Loan $loan)
+    {       
+       
+        return $this->services->getLoan($loan);
+    }
+
     public function destroy(Loan $loan)
     {
         return $loan->delete();

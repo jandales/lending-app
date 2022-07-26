@@ -19,7 +19,8 @@ class LoanTypeController extends Controller
         return LoanType::findorfail($id);
     }
 
-    public function store(LoanTypeStorRequest $request){
+    public function store(LoanTypeStorRequest $request)
+    {        
         $validated = $request->validated();        
         $validated['user_id'] = $request->user()->id;
         $validated['description'] = $request->description;
@@ -33,6 +34,7 @@ class LoanTypeController extends Controller
         $type->type = $request->type;
         $type->description = $request->description;
         $type->interest = $request->interest;
+        $type->amount_to_pay = $request->amount_to_pay;       
         $type->save();        
         return $type;
     }

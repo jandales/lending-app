@@ -26,7 +26,8 @@ class LoanStoreRequest extends FormRequest
         return [
             'customer_id' => 'required',
             'loan_type_id' => 'required',
-            'amount' => 'required|numeric',            
+            'amount' => 'required|numeric',
+                  
         ];
     }
 }
