@@ -55,7 +55,7 @@
             :id="'amount'"
             :type="'number'"
             :label="'Total Amount'"
-            v-model="form.totalAmount"
+            v-model="form.total_amount"
         />
 
         <button  
@@ -100,7 +100,7 @@ const form = reactive({
     loan_type_id : null,
     interest : 0,
     amount: 0,
-    totalAmount : 0,  
+    total_amount : 0,  
     user_id : null,
     count_to_pay : null,
 });
@@ -117,7 +117,7 @@ const chooseLoanType =  () => {
 }
 
 const handlecalculateInterest = () => {  
-    form.totalAmount = calculateInterest(parseInt(form.amount), form.interest);
+    form.total_amount = calculateInterest(parseInt(form.amount), form.interest);
     handlecalculateNumberToPay();  
 }
 

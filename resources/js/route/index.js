@@ -19,6 +19,7 @@ import LoanIndex from '../components/loans/Index.vue';
 import LoanCreate from '../components/loans/Create.vue';
 import PaymentIndex from '../components/payments/Index.vue';
 import PaymentCreate from '../components/payments/Create.vue';
+import LoanDetails from '../components/loans/Details.vue';
 import middleware  from './middleware'
 
 
@@ -31,6 +32,7 @@ const router = createRouter({
             { path : 'Dashboard' , name : 'dashboard', component : Dashboard },
 
             { path : 'loans' , name : 'loans', component : LoanIndex },
+            { path : 'loans/details/:id' , name : 'loans.details', component : LoanDetails },
             { path : 'loans/create' , name : 'loans.create', component : LoanCreate },
 
             { path : 'loan-types' , name : 'loanTypes', component : LoanTypeIndex },
@@ -45,9 +47,12 @@ const router = createRouter({
             { path: 'payments/create/:loan_id?', name : 'payments.create', component : PaymentCreate },
 
             { path : 'settings', name: 'settings', component : Setting, beforeEnter : middleware.authenticated , children : [
+
                 {path : '', name : 'profile', component : Profile},
+
                 {path : '/change-password', name : 'change.password', component :ChangePassword}
-            ] },
+
+            ]},
 
         ]},
 

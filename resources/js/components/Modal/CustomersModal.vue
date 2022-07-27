@@ -76,7 +76,7 @@
 </div>
 </template>
 <script setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, computed } from 'vue';
     import useCustomers from '../../composable/customers';
 
     const { getCustomers, searchCustomers, customers} = useCustomers(); 
@@ -94,7 +94,17 @@
         emit('selectCustomer', selected.value);
     }
 
-
-
     onMounted(getCustomers);
+
+    // const listCustomers = computed(() => {
+    //     if(customers.value.length == 0) return [];
+    //     customers.value.filter(customer => {
+    //         if (customer.status == 'void' || customer.status == 'paid')
+    //         {
+    //             return customer;
+    //         }
+    //     })
+    // });
+
+
 </script>

@@ -19,6 +19,17 @@ class Payment extends Model
                 
     ];
 
+    protected $dates = [
+        'created_at',
+    ];
+
+    public function getCreatedFormatAttribute()
+    {  
+        return $this->created_at->format('Y-m-d H:i:s');
+    }
+    
+    protected $appends = ['created_format'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -37,6 +37,12 @@
                    Interest
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Balance
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left capitalize">
+                  Status
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                 
                 </th>
               </tr>
@@ -55,18 +61,25 @@
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ loan.loan_type.type }}
+                </td>  
+                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{ loan.loan_type.interest }}
                 </td>                
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.amount}}
-                </td>
+                  {{ loan.total_amount}}
+                </td>            
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.loan_type.interest }}
-                </td>         
+                  {{ loan.balance_amount }}
+                </td> 
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{ loan.status }}
+                </td>       
                 <td>
                   <div class="flex justify-end gap-4 mr-4 ">
-                      <router-link :to="{name : 'payments.create' , params : {loan_id : loan.id} }" type="button" class="btn-primary">Payment</router-link>
-                      <router-link :to="{name : 'customers.edit' , params : {id : loan.id} }" type="button" class="btn-info">Details</router-link>
-                      <button @click="destroy(loan.id)" type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Delete</button>
+                      <router-link :to="{name : 'payments.create' , params : {loan_id : loan.id} }" type="button" class="btn-primary" v-if="loan.balance_amount > 0">Payment</router-link>
+                       <button v-else type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out pointer-events-none opacity-60" disabled>Payment</button>
+                      <router-link :to="{name : 'loans.details' , params : {id : loan.id} }" type="button" class="btn-info">Details</router-link>
+                      <button @click="destroy(loan.id)" type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Void</button>
                   </div>
                 </td>
               </tr>

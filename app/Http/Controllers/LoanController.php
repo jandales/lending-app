@@ -27,14 +27,21 @@ class LoanController extends Controller
     }
 
     public function view(Loan $loan)
-    {       
+    {      
        
         return $this->services->getLoan($loan);
     }
 
+    public function getLoanByCustomer($id)
+    {
+        return $this->services->getLoanByCustomer($id);
+    }
+
     public function destroy(Loan $loan)
     {
-        return $loan->delete();
+        $loan->status = 'void';
+        $loan->save();
+        return;
     }
 
     

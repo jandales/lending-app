@@ -19,6 +19,11 @@ export default function useLoans() {
         loan.value = response.data;
     }
 
+    const getLoanByCustomer = async (id) => {
+        let response = await axios.get(`/loans/customer/${id}`);
+        loan.value = response.data;
+    }
+
     const storeLoan =  async (data) => {
         errors.value = [];
         isSuccess.value = false;
@@ -45,6 +50,7 @@ export default function useLoans() {
     return {
         getLoans,
         getLoan,
+        getLoanByCustomer,
         storeLoan,
         destroyLoan,
         loans,
