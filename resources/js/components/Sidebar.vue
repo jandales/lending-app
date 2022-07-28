@@ -4,8 +4,8 @@
     <a href="#!">
       <div class="flex items-center">
         <div class="shrink-0">
-          <img v-if="user" :src="user.avatar" class="rounded-full w-10" alt="Avatar">
-          <img v-else src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-full w-10" alt="Avatar">
+          <img v-if="user" :src="user.avatar" class="rounded-full border w-10 h-10" alt="Avatar">
+          <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-10 h-10" alt="Avatar">
         </div>
         <div class="grow ml-3">
           <p v-if="user" class="text-sm font-semibold text-blue-600">{{ `${user.firstname} ${user.lastname}`}}</p>
@@ -55,7 +55,7 @@
       </router-link>
     </li> 
     <li class="relative">
-      <router-link :to="{name : 'customers'}" class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+      <router-link :to="{name : 'reports'}" class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>

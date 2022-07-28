@@ -60,4 +60,35 @@ class Loan extends Model
         if($loan == null) return false;
         return true;
     }
+
+    public function scopeCapital($query)
+    {   
+        $capital = 0;
+        $loans =  $query->get();
+        if($loans == null) return 0;
+
+        forEach ($loans as $loan) {
+            $capital += $loan->amount;
+        }
+
+        return $capital;
+        
+        
+    }
+
+    public function scopeRevenue($query)
+    {   
+        $capital = 0; $interest = 0;        
+        $loans =  $query->with('loanType')->get();
+        if($loans == null) return 0;
+
+        forEach ($loans as $loan) {
+            $interest += $loan->loanType->interest;
+            $capital += $loan->amount;
+        }
+        $total = $capital + ($capital * ($interest / 100));
+        return $total;
+        
+        
+    }
 }

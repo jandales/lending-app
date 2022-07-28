@@ -20,6 +20,7 @@ import LoanCreate from '../components/loans/Create.vue';
 import PaymentIndex from '../components/payments/Index.vue';
 import PaymentCreate from '../components/payments/Create.vue';
 import LoanDetails from '../components/loans/Details.vue';
+import ReportIndex from '../components/reports/Index.vue';
 import middleware  from './middleware'
 
 
@@ -46,6 +47,8 @@ const router = createRouter({
             { path: 'payments' , name : 'payments', component : PaymentIndex },
             { path: 'payments/create/:loan_id?', name : 'payments.create', component : PaymentCreate },
 
+            { path : 'reports', name : 'reports', component : ReportIndex },
+
             { path : 'settings', name: 'settings', component : Setting, beforeEnter : middleware.authenticated , children : [
 
                 {path : '', name : 'profile', component : Profile},
@@ -64,7 +67,9 @@ const router = createRouter({
 
        
 
-        { path : '/page-not-found', name : 'page.not.found', component : Page404 }
+        { path : '/page-not-found', name : 'page.not.found', component : Page404 },
+
+       
     ],
    
 });

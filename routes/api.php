@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PaymentController;
@@ -33,6 +34,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [UserController::class, 'user']);
     Route::put('/user/update',[UserController::class, 'update']);
     Route::post('/user/upload-avatar',[UserController::class, 'upload']);
+
+    Route::get('/app/dashboard', [AppController::class, 'dashboard']);
     
     Route::get('/loan-types',[LoanTypeController::class, 'index']);
     Route::get('/loan-types/{loantype:id}',[LoanTypeController::class, 'show']);
@@ -46,19 +49,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/customers/update/{customer:id}', [CustomerController::class, 'update']);
     Route::delete('/customers/destroy/{customer:id}', [CustomerController::class, 'destroy']);
     Route::get('/customers/search/{keyword}', [CustomerController::class, 'search']);
+    Route::get('/customers/person/count', [CustomerController::class, 'count']);
 
     Route::delete('/logout', [LogoutController::class, 'logout']);
-
     Route::put('/change-password', [ChangePasswordController::class, 'update']);
 
 
     Route::get('/loans', [LoanController::class, 'index']);
-
     Route::get('/loans/{loan:id}', [LoanController::class, 'view']);
     Route::get('/loans/customer/{id}', [LoanController::class, 'getLoanByCustomer']);
-
-    Route::post('/loans/store', [LoanController::class, 'store']);
-    
+    Route::post('/loans/store', [LoanController::class, 'store']);    
     Route::delete('/loans/destroy/{loan:id}', [LoanController::class, 'destroy']);
 
     Route::get('/payments', [PaymentController::class, 'index']);

@@ -24,16 +24,16 @@
                         </div>
                       </div>
                   </th>           
-                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  <th scope="col">
                     Type
                   </th>
-                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  <th scope="col" >
                   Interest
                   </th>
-                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  <th scope="col">
                     Description
                   </th>
-                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  <th scope="col">
                    
                   </th>
                 </tr>

@@ -24,31 +24,31 @@
                       </div>
                     </div>
                 </th>           
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col">
                   Customer
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                    Loan Type
+                <th scope="col">
+                    Type
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col">
                     Amount
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col">
                    Interest
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col">
                   Balance
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left capitalize">
+                <th scope="col" >
                   Status
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col">
                 
                 </th>
               </tr>
             </thead>
             <tbody>  
-              <tr  v-for="loan in list" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
+              <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
                 <td>
                   <div class="flex justify-center">
                     <div class="form-check">
@@ -56,8 +56,11 @@
                     </div>
                   </div>  
                 </td>            
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.customer.name  }}
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
+                    <BaseAvatar
+                      :image="loan.customer.avatar"
+                      :name="`${loan.customer.firstname} ${loan.customer.lastname}`"
+                    />             
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ loan.loan_type.type }}
@@ -96,6 +99,7 @@
  
 </template>
 <script setup>
+import BaseAvatar from '../base/BaseAvatar.vue';
 import useCustomers from '../../composable/customers';
 import useLoans from '../../composable/loans'
 import { ref, onMounted, computed } from 'vue';
@@ -128,13 +132,6 @@ const destroy = async (id) => {
 }
 onMounted(getLoans);
 
-const list = computed(() => {
-      return loans.value.filter(loan => {  
-          loan.customer = { id: loan.customer.id, name : `${loan.customer.firstname} ${loan.customer.lastname}`};         
-          return loan;
-      })   
-     
-})
 
 
 

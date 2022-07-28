@@ -1,62 +1,95 @@
 <template>
-<h1>Dashboard</h1>
-<div class="">
-  <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModalXl">Extra large modal</button>
-  <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Large modal</button>
-  <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModalSm">Small modal</button>
+
+<div class="w-full flex gap-8"> 
+  <BaseCard :title="'Customers'"  :value="customerCount" :icon="'person'" />
+
+  <BaseCard :title="'Capital'"  :value="moneyFormatter(loanCapital)" :icon="'capital'" />
+
+  <BaseCard :title="'Revenue'"  :value="moneyFormatter(loanRevenue)" :icon="'revenue'"/> 
 </div>
 
-<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" aria-modal="true" role="dialog">
-  <div class="modal-dialog modal-xl relative w-auto pointer-events-none">
-    <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-      <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalXlLabel">
-          Extra large modal
-        </h5>
-        <button type="button"
-          class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-          data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body relative p-4">
-        ...
+
+  <div class="border   w-full bg-white rounded-md mt-8">
+    <div class="flex  p-4 justify-between items-center">
+    <h1 class="font-semibold text-gray-700">Recent Loans</h1> 
+    </div>
+    <div  class="border border-l-0 border-r-0 bg-white">
+  <div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full sm:px-6 lg:px-8">       
+        <div class="overflow-hidden">      
+          <table class="min-w-full">
+            <thead class="bg-white border-b">
+              <tr>                            
+                <th scope="col">
+                  Customer
+                </th>
+                <th scope="col">
+                  Type
+                </th>
+                <th scope="col">
+                  Amount
+                </th>             
+                <th scope="col">
+                  Balance
+                </th>
+                <th scope="col">
+                  Status
+                </th>                
+              </tr>
+            </thead>
+            <tbody>  
+              <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-">                      
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
+                    <BaseAvatar
+                      :image="loan.customer.avatar"
+                      :name="`${loan.customer.firstname} ${loan.customer.lastname}`"
+                    />             
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{ loan.loan_type.type }}
+                </td>                                
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{ loan.total_amount}}
+                </td>            
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{ loan.balance_amount }}
+                </td> 
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap capitalize">
+                  {{ loan.status }}
+                </td>               
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="exampleModalLg" tabindex="-1" aria-labelledby="exampleModalLgLabel" aria-modal="true" role="dialog">
-  <div class="modal-dialog modal-lg relative w-auto pointer-events-none">
-    <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-      <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLgLabel">
-          Large modal
-        </h5>
-        <button type="button"
-          class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-          data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body relative p-4">
-        ...
-      </div>
-    </div>
-  </div>
 </div>
+  </div>  
 
-<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="exampleModalSm" tabindex="-1" aria-labelledby="exampleModalSmLabel" aria-modal="true" role="dialog">
-  <div class="modal-dialog modal-sm relative w-auto pointer-events-none">
-    <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-      <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalSmLabel">
-          Small modal
-        </h5>
-        <button type="button"
-          class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-          data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body relative p-4">
-        ...
-      </div>
-    </div>
-  </div>
-</div>
+
 </template>
+<script setup>
+import BaseCard from '../components/base/BaseCard.vue';
+import BaseAvatar from '../components/base/BaseAvatar.vue';
+import useApp from '../composable/app'
+import useFormatter from '../composable/helper/formater'
+import { onMounted, ref} from 'vue';
+import useLoans from '../composable/loans'
+
+const { getLoans, loans} =  useLoans();
+
+const { moneyFormatter } = useFormatter();
+
+const { getDashboards ,customerCount, loanRevenue, loanCapital  } = useApp();
+
+const getData = () => {
+    getDashboards();
+}
+
+onMounted(getData);
+onMounted(getLoans);
+
+</script>

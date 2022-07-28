@@ -46,4 +46,9 @@ class CustomerController extends Controller
         return $this->services->search($keyword);
     }
 
+    public function count()
+    {       
+        return $this->services->count();
+    }
+
 }

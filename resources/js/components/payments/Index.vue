@@ -24,19 +24,19 @@
                         </div>
                       </div>
                   </th>           
-                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  <th scope="col">
                     Customer
                   </th>
-                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  <th scope="col" >
                     Amount
                   </th>
-                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  <th scope="col" >
                     Date of payment
                   </th>
-                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left ">
+                     <th scope="col" >
                     Status
                   </th>
-                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  <th scope="col">
                    
                   </th>
                 </tr>
@@ -50,16 +50,11 @@
                       </div>
                     </div>  
                   </td>            
-                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <img
-                        :src="payment.customer.avatar"
-                        class="rounded-full w-10"
-                        alt="Avatar"
-                      />
-                      <label for="customer_name" class="ml-2">{{`${payment.customer.firstname} ${payment.customer.lastname}`}}</label>
-                    </div>
-                    
+                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"> 
+                      <BaseAvatar
+                        :image="payment.customer.avatar"
+                        :name="`${payment.customer.firstname} ${payment.customer.lastname}`"
+                      />                    
                   </td>
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     {{ payment.amount}}
@@ -87,7 +82,7 @@
  
 </template>
 <script setup>
-
+  import BaseAvatar from '../base/BaseAvatar.vue'
   import usePayments from '../../composable/payments';
   import { onMounted, ref } from 'vue';
 

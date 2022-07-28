@@ -24,16 +24,16 @@
                       </div>
                     </div>
                 </th>           
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col">
                   Name
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col" >
                       Phone
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col" >
                   Email
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                <th scope="col">
                 
                 </th>
               </tr>
@@ -47,8 +47,8 @@
                     </div>
                   </div>  
                 </td>            
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{  `${customer.firstname} ${customer.lastname}`  }}
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">          
+                  <BaseAvatar :image="customer.avatar" :name="`${customer.firstname} ${customer.lastname}`" />
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ customer.phone }}
@@ -77,6 +77,7 @@
  
 </template>
 <script setup>
+import BaseAvatar from '../base/BaseAvatar.vue';
 import useCustomers from '../../composable/customers';
 import { ref, onMounted } from 'vue';
 

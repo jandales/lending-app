@@ -7,6 +7,7 @@ export default function useCustomers(){
     const router = useRouter();
 
     const customers = ref([]);
+    const customersCount =ref([]);
     const customer = ref();
     const errors =  ref([])
 
@@ -18,6 +19,11 @@ export default function useCustomers(){
     const getCustomer = async(id) => {
         let response = await axios.get(`/customers/${id}`);
         customer.value = response.data;
+    }
+
+    const getCustomersCount = async() => {
+        let response = await axios.get('/customers/person/count');
+        customersCount.value = response.data;
     }
 
     const searchCustomers = async(keyword) => {
@@ -66,6 +72,8 @@ export default function useCustomers(){
         destroyCustomer,
         updateCustomer,
         searchCustomers,
+        getCustomersCount,
+        customersCount,
         customers,
         customer,
         errors,

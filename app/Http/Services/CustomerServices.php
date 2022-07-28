@@ -61,4 +61,8 @@ class CustomerServices {
     {
         return Customer::search($keyword)->get();
     }
+    public function count()
+    {
+        return Customer::count();
+    }
 }
