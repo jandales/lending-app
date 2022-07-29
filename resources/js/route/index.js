@@ -21,6 +21,7 @@ import PaymentIndex from '../components/payments/Index.vue';
 import PaymentCreate from '../components/payments/Create.vue';
 import LoanDetails from '../components/loans/Details.vue';
 import ReportIndex from '../components/reports/Index.vue';
+import Interest from '../components/settings/Interest.vue';
 import middleware  from './middleware'
 
 
@@ -53,7 +54,9 @@ const router = createRouter({
 
                 {path : '', name : 'profile', component : Profile},
 
-                {path : '/change-password', name : 'change.password', component :ChangePassword}
+                {path : '/change-password', name : 'change.password', component :ChangePassword},
+
+                {path : '/interest', name : 'interest', component :Interest}
 
             ]},
 

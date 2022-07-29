@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('loans', function (Blueprint $table) {
-            $table->float('balance_amount')->default(0)->after('principal_amount');
-            $table->float('total_amount')->default(0)->after('balance_amount');
+            $table->integer('interest')->default(0)->after('principal_amount');
+            $table->timestamp('effective_at', $precision = 0)->nullable()->after('user_id');            
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('loans', function (Blueprint $table) {
-            $table->float('balance_amount')->default(0)->after('principal_amount');
-            $table->float('total_amount')->default(0)->after('balance_amount');
+            $table->integer('interest')->default(0)->after('amount');   
+            $table->timestamp('effective_at', $precision = 0)->nullable()->after('user_id');
         });
     }
 };

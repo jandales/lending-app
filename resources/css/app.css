@@ -2,7 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="text"], input[type="number"], input[type="email"], input[type="password"],textarea, select{
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+textarea,
+select{
     @apply form-control block w-full px-3 py-1.5 text-base 
     font-normal text-gray-700 bg-white bg-clip-padding
     border border-solid border-gray-300 rounded transition
@@ -33,4 +39,16 @@ input[type="checkbox"]{
 
 table tr th {
     @apply text-xs font-semibold text-gray-500 px-6 py-4 text-left;
+}
+
+.btn-icon-danger{
+    @apply inline-block p-2 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out
+}
+
+.btn-icon-info{
+    @apply inline-block p-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out
+}
+
+.btn-icon-primary{
+    @apply inline-block p-2 bg-sky-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-700 hover:shadow-lg focus:bg-sky-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-800 active:shadow-lg transition duration-150 ease-in-out
 }

@@ -13,12 +13,12 @@ export default function useCustomers(){
 
     const getCustomers = async() => {
         let response = await axios.get('/customers');
-        customers.value = response.data;
+        customers.value = response.data.data;
     }
 
     const getCustomer = async(id) => {
         let response = await axios.get(`/customers/${id}`);
-        customer.value = response.data;
+        customer.value = response.data.data;
     }
 
     const getCustomersCount = async() => {

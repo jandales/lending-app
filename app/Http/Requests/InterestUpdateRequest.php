@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoanStoreRequest extends FormRequest
+class InterestUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,15 +22,10 @@ class LoanStoreRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
-            'customer_id' => 'required',
-            'loan_type_id' => 'required',
-            'principal_amount' => 'required|numeric',
-            'interest' => 'required',
-            'effective_at' => 'required',            
-            'balance_amount' => 'required:numeric'                  
+            'value' => 'required|unique:interests,value,' . $request->id,
         ];
     }
 }

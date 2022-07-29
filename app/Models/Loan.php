@@ -12,7 +12,9 @@ class Loan extends Model
     protected $fillable = [
         'customer_id',
         'loan_type_id',
-        'amount',
+        'principal_amount',
+        'interest',
+        'effective_at',
         'total_amount',
         'balance_amount',
         'user_id',
@@ -29,8 +31,6 @@ class Loan extends Model
     }
     
     protected $appends = ['created_format'];
-
-
 
     public function customer()
     {
@@ -68,7 +68,7 @@ class Loan extends Model
         if($loans == null) return 0;
 
         forEach ($loans as $loan) {
-            $capital += $loan->amount;
+            $capital += $loan->principal_amount;
         }
 
         return $capital;
@@ -84,7 +84,7 @@ class Loan extends Model
 
         forEach ($loans as $loan) {
             $interest += $loan->loanType->interest;
-            $capital += $loan->amount;
+            $capital += $loan->principal_amount;
         }
         $total = $capital + ($capital * ($interest / 100));
         return $total;

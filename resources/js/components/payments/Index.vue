@@ -53,11 +53,11 @@
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"> 
                       <BaseAvatar
                         :image="payment.customer.avatar"
-                        :name="`${payment.customer.firstname} ${payment.customer.lastname}`"
+                        :name="payment.customer.name"
                       />                    
                   </td>
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    {{ payment.amount}}
+                    {{ moneyFormatter(payment.amount) }}
                   </td>
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     {{ payment.created_at }}
@@ -84,12 +84,14 @@
 <script setup>
   import BaseAvatar from '../base/BaseAvatar.vue'
   import usePayments from '../../composable/payments';
-  import { onMounted, ref } from 'vue';
+  import useFormatter from '../../composable/helper/formater'
+    import { onMounted, ref } from 'vue';
 
   const listId = ref([]);
   const selectAllState = ref(false);
 
   const { getPayments, removePayment, payments } = usePayments();
+  const { moneyFormatter } = useFormatter();
 
   const voidPayment = async(id)=>{
         await removePayment(id);

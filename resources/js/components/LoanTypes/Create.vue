@@ -1,5 +1,5 @@
 <template>
-<div class="bg-white p-4 border rounded-md w-max">
+<div class="bg-white p-4 border rounded-md w-max mx-auto">
       <div class="block bg-white w-80">     
         <hi class="block tracking-wider text-lg mb-6 ">Create new Type</hi>
 
@@ -34,13 +34,7 @@
             :errors="errors.amount_to_pay"
         />
 
-        <BaseInput
-            v-model="form.due_type"
-            :type="number"        
-            :id="exampleFormControlInput3"
-            :label="'Days to pay'"           
-            :errors="errors.due_type"
-        />
+
 
         <button
             @click="store"

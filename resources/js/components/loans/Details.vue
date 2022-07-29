@@ -10,7 +10,7 @@
     
             <div v-if="loan" class="w-full flex  items-center justify-between ml-4">
                <div>
-                    <label for="" class="block text-sm font-semibold text-gray-700">{{`${loan.customer.firstname} ${loan.customer.lastname}`}}</label>
+                    <label for="" class="block text-sm font-semibold text-gray-700">{{ loan.customer.name }}</label>
                     <label for="" class="block text-sm text-gray-700">{{loan.customer.phone}}</label>
                </div>  
                <span class="text-sky-500" data-bs-toggle="modal" data-bs-target="#exampleModalLg">
@@ -24,11 +24,11 @@
 
     <div v-if="loan" class="mt-4">
         <BaseLabelRow :name="'Loan Type :'" :value="loan.loan_type.type"/>
-        <BaseLabelRow :name="'Amount to pay'" :value="loan.loan_type.amount_to_pay"/>
-        <BaseLabelRow :name="'Loan Amount'" :value="loan.amount"/>
-        <BaseLabelRow :name="'Interest'" :value="loan.loan_type.interest"/>
-        <BaseLabelRow :name="'Total Amount'" :value="calculateInterest(loan.amount, loan.loan_type.interest)"/>        
-        <BaseLabelRow :name="'Balance'" :value="loan.balance_amount" />  
+        <BaseLabelRow :name="'Amount to pay'" :value="moneyFormatter(loan.loan_type.amount_to_pay)"/>
+        <BaseLabelRow :name="'Principal Amount'" :value="moneyFormatter(loan.principal_amount)"/>
+        <BaseLabelRow :name="'Interest'" :value="`${loan.loan_type.interest}%`"/>
+        <BaseLabelRow :name="'Total Amount'" :value="moneyFormatter(calculateInterest(loan.principal_amount, loan.loan_type.interest))"/>        
+        <BaseLabelRow :name="'Balance'" :value="moneyFormatter(loan.balance_amount)" />  
         <BaseLabelRow :name="'Status :'" :value="loan.status"  />  
     </div>        
     
@@ -70,7 +70,7 @@
                                 {{ payment.created_format }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ payment.amount }}
+                                {{ moneyFormatter(payment.amount) }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                <div class="px-2 py-1 text-white text-sm rounded-sm bg-green-500 text-center capitalize">
@@ -103,12 +103,16 @@ import useLoans from '../../composable/loans';
 import useCalculateInterest from '../../composable/helper/calculateInterest';
 import useCalculateNumbersToPay from '../../composable/helper/calculateNumberToPay';
 import usePayments from '../../composable/payments';
+import useFormatter from '../../composable/helper/formater'
+
+
 
 import { reactive, ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const {  getLoan, loan } = useLoans();
 const { calculateInterest } = useCalculateInterest();
+const { moneyFormatter } = useFormatter();
   
 const route = useRoute();
 const router =useRouter();

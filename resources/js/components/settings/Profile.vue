@@ -3,7 +3,7 @@
      <img v-if="profile.avatar" :src="profile.avatar" class="rounded-full border w-20 h-20"  alt="Avatar" />
      <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-20 h-20"  alt="Avatar" />
      <div class="ml-4">
-        <label for="" class="block">{{`${profile.firstname} ${profile.lastname}`}}</label>
+        <label for="" class="block">{{ profile.name }}</label>
         <label class="text-blue-600 cursor-pointer text-sm hover:underline hover:text-blue-700">
             <input @change="upload($event)"  v-on="profile.avatar" name="avatar" type="file" class="hidden" />
             Change Avatar
@@ -20,16 +20,16 @@
            
             <div class="grid grid-cols-2 mt-6 gap-4">
                 <div class="form-floating mb-6">
-                    <input type="text"  v-model="profile.firstname"  placeholder="First Name">
+                    <input type="text"  v-model="profile.name"  placeholder="First Name">
                     <label for="floatingInput"  class="text-gray-700">First Name</label>
-                     <small class="text-alert-danger" v-for="error in errors.firstname">{{ error }}</small>
+                     <small class="text-alert-danger" v-for="error in errors.name">{{ error }}</small>
                 </div>  
 
-                 <div class="form-floating mb-6">
+                 <!-- <div class="form-floating mb-6">
                     <input type="text"  v-model="profile.lastname"  placeholder="Last Name">
                     <label for="floatingInput"  class="text-gray-700">Last Name</label>
                       <small class="text-alert-danger" v-for="error in errors.lastname">{{ error }}</small>
-                </div>  
+                </div>   -->
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div class="form-floating mb-6">
@@ -77,8 +77,7 @@
     const profile = computed(()=> {
         if(user.value ==  null) return {};
         return  {
-            firstname : user.value.firstname,
-            lastname : user.value.lastname,
+            name : user.value.name,
             email : user.value.email,
             phone : user.value.phone,
             address : user.value.address, 

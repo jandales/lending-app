@@ -43,7 +43,7 @@
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
                     <BaseAvatar
                       :image="loan.customer.avatar"
-                      :name="`${loan.customer.firstname} ${loan.customer.lastname}`"
+                      :name="loan.customer.name"
                     />             
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

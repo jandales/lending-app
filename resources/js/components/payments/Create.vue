@@ -27,22 +27,22 @@
 
     <div v-if="loan" class="mt-4">
         <BaseLabelRow :name="'Loan Type :'" :value="loan.loan_type.type"/>
-        <BaseLabelRow :name="'Amount to pay'" :value="loan.loan_type.amount_to_pay"/>
-        <BaseLabelRow :name="'Loan Amount'" :value="loan.amount"/>
-        <BaseLabelRow :name="'Interest'" :value="loan.loan_type.interest"/>
-        <BaseLabelRow :name="'Total Amount'" :value="calculateInterest(loan.amount, loan.loan_type.interest)"/>        
-        <BaseLabelRow :name="'Balance'" :value="loan.balance_amount" />  
+         <BaseLabelRow :name="'Interest'" :value="`${loan.loan_type.interest}%`"/>
+        <BaseLabelRow :name="'Payment Amount'" :value="moneyFormatter(loan.loan_type.amount_to_pay)"/>
+        <BaseLabelRow :name="'Principal Amount'" :value="moneyFormatter(loan.principal_amount)"/>       
+        <BaseLabelRow :name="'Total Amount'" :value="calculateInterest(loan.principal_amount, loan.loan_type.interest)"/>        
+        <BaseLabelRow :name="'Balance'" :value="moneyFormatter(loan.balance_amount)" />  
         <BaseLabelRow :name="'Status :'" :value="loan.status"  />  
     </div>        
     
     </div>
 
-    <div class="bg-white p-4 border w-2/3 rounded-md mx-auto">
+    <div v-if="loan" class="bg-white p-4 border w-2/3 rounded-md mx-auto">
       <div class="block bg-white">     
         <hi class="block tracking-wider text-lg mb-6 ">Create  Payment</hi>
         <BaseInput    
             :label="`Amount`"
-            v-model="form.amount"
+            v-model="loan.loan_type.amount_to_pay"
             :type="textarea"        
             :id="typename"
             :errors="errors.amount"                
@@ -101,8 +101,10 @@ import BaseLabelRow from '../../components/base/BaseLabelRow.vue'
 
 import useLoans from '../../composable/loans';
 import useCalculateInterest from '../../composable/helper/calculateInterest';
-import useCalculateNumbersToPay from '../../composable/helper/calculateNumberToPay';
 import usePayments from '../../composable/payments';
+import useFormatter from '../../composable/helper/formater';
+
+const { moneyFormatter } = useFormatter();
 
 import { reactive, ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -123,6 +125,7 @@ const form = reactive({
 
 const store = async () => {    
     form.customer_id = loan.value.customer_id;
+    form.amount = loan.value.loan_type.amount_to_pay;
     form.loan_id = loan.value.id; 
     await addPayment({...form});   
     if(isSuccess.value === true){

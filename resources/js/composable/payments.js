@@ -9,12 +9,12 @@ export default function usePayments(){
 
     const getPayments = async () => {
         let response = await axios.get('/payments');
-        payments.value = response.data;
+        payments.value = response.data.data;
     }
 
     const getPayment = async (id) => {
         let response = await axios.get(`/payments/${id}`);
-        payment.value = response.data;
+        payment.value = response.data.data;
     }
 
     const addPayment = async (payment) => {

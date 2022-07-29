@@ -1,5 +1,5 @@
 <template>
-   <div class="bg-white p-4 border rounded-md w-max">
+   <div class="bg-white p-4 border rounded-md w-max mx-auto">
         <div class="flex justify-between items-center ">
       <h1 class="text-xl">Create Customer</h1> 
   </div>

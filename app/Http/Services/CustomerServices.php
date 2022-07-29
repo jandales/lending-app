@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Traits\UploadTrait;
+use App\Http\Resources\BorrowerResource;
 
 class CustomerServices {
 
@@ -12,7 +13,7 @@ class CustomerServices {
 
     public function getAll()
     {
-        return Customer::all();
+        return BorrowerResource::collection(Customer::all());
     }
 
     public function store(Request $request)
@@ -26,7 +27,7 @@ class CustomerServices {
 
     public function view(Customer $customer)
     {
-
+        return new BorrowerResource($customer);
     }
 
     public function update(Request $request, Customer  $customer)
@@ -48,7 +49,7 @@ class CustomerServices {
             $this->deleteImage($oldImagePath);
         }
 
-        return $customer;
+        return new BorrowerResource($customer);
     }
 
     public function destroy(Customer $customer)
@@ -59,7 +60,7 @@ class CustomerServices {
 
     public function search($keyword)
     {
-        return Customer::search($keyword)->get();
+        return BorrowerResource::collection(Customer::search($keyword)->get());
     }
     public function count()
     {

@@ -7,6 +7,14 @@
             rows="3">
         </textarea>
         <input 
+            v-if="props.type == 'date'"
+            :id="props.id"
+            :type="props.type"
+            :value="props.modelValue"
+            :disabled="props.disabled"
+            @input="updateInput" 
+        />
+        <input 
             v-else
             :id="props.id"
             :type="props.type"

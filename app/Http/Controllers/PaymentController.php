@@ -2,59 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Loan;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use App\Http\Services\PaymentServices;
+use App\Http\Resources\PaymentResource;
 use App\Http\Requests\PaymentStoreRequest;
 
 class PaymentController extends Controller
 {
-    public function index()
+    private $services;
+
+    public function __construct(PaymentServices $services)
     {
-        return Payment::with('customer', 'loan')->where('status', 'paid')->get();
+        $this->services = $services;
+    }
+
+    public function index()
+    {        
+        return $this->services->index();
     }
 
     public function store(PaymentStoreRequest $request)
     {
-        $loan = Loan::findOrfail($request->loan_id);
-
-        if($loan->balance_amount === 0) return response()->json(['message' => 'this transaction is already paid']);
-
-        $validated =$request->validated();
-        $validated['remark'] = $request->remark;
-        $validated['user_id'] = $request->user()->id;
-        $validated['status'] = 'paid';
-        $payment = Payment::create($validated);
-        
-        Self::updateLoanBalance($loan, $validated['amount']); 
-
-        return $payment;
+        $this->services->store($request);        
     }
 
     public function view(Payment $payment)
     {
-        return $payment;
+        return $this->services->view($payment);
     }
 
     public function destroy(Payment $payment)
     {
-        $payment->status = 'void';
-        $payment->save();
+        $this->services->destroy($payment); 
     }
 
-    private function updateLoanBalance(Loan $loan, $amount)
-    {       
-     
-        $balance = (float)$loan->balance_amount - (float)$amount;
-
-        if ($balance == 0) {
-            $loan->status = 'paid';
-        }
-
-        $loan->balance_amount = $balance;
-        $loan->save();
-
-        return $loan;
-    }
-    
+   
 }

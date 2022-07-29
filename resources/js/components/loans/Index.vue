@@ -17,7 +17,7 @@
           <table class="min-w-full">
             <thead class="bg-white border-b">
               <tr>  
-                <th>
+                <th class="w-[50px]">
                     <div class="flex justify-center">
                       <div class="form-check px-2">
                         <input   type="checkbox"  id="flexCheckIndeterminate" >
@@ -49,7 +49,7 @@
             </thead>
             <tbody>  
               <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
-                <td>
+                <td class="w-[50px]">
                   <div class="flex justify-center">
                     <div class="form-check">
                       <input  type="checkbox"  :value="loan.id" v-model="selected" id="flexCheckIndeterminate">
@@ -59,30 +59,48 @@
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
                     <BaseAvatar
                       :image="loan.customer.avatar"
-                      :name="`${loan.customer.firstname} ${loan.customer.lastname}`"
+                      :name="loan.customer.name"
                     />             
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ loan.loan_type.type }}
                 </td>  
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.loan_type.interest }}
+                  {{ `${loan.loan_type.interest}%` }}
                 </td>                
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.total_amount}}
+                  {{ moneyFormatter(loan.total_amount) }}
                 </td>            
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.balance_amount }}
+                  {{ moneyFormatter(loan.balance_amount) }}
                 </td> 
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ loan.status }}
                 </td>       
                 <td>
                   <div class="flex justify-end gap-4 mr-4 ">
-                      <router-link :to="{name : 'payments.create' , params : {loan_id : loan.id} }" type="button" class="btn-primary" v-if="loan.balance_amount > 0">Payment</router-link>
-                       <button v-else type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out pointer-events-none opacity-60" disabled>Payment</button>
-                      <router-link :to="{name : 'loans.details' , params : {id : loan.id} }" type="button" class="btn-info">Details</router-link>
-                      <button @click="destroy(loan.id)" type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Void</button>
+                      <router-link :to="{name : 'payments.create' , params : {loan_id : loan.id} }" type="button" class="btn-icon-info" v-if="loan.balance_amount > 0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                      </router-link>
+                      <button v-else type="button" class="btn-icon" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                      </button>
+                      <router-link :to="{name : 'loans.details' , params : {id : loan.id} }" type="button" class="btn-icon-info">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                      </router-link>
+                        <button @click="destroy(loan.id)" type="button" class="btn-icon-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+
+                      </button>
                   </div>
                 </td>
               </tr>
@@ -102,9 +120,13 @@
 import BaseAvatar from '../base/BaseAvatar.vue';
 import useCustomers from '../../composable/customers';
 import useLoans from '../../composable/loans'
+import useFormatter from '../../composable/helper/formater'
+
 import { ref, onMounted, computed } from 'vue';
 
 const { getLoans, destroyLoan, loans} =  useLoans();
+const { moneyFormatter } = useFormatter();
+
 const selected = ref([])
 const selectAllState = ref(false);
 

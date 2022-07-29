@@ -7,6 +7,7 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InterestController;
 use App\Http\Controllers\LoanTypeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -66,7 +67,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/payments/store', [PaymentController::class, 'store']);
     Route::delete('/payments/destroy/{payment:id}', [PaymentController::class, 'destroy']);
 
-   
+    Route::get('/interests', [InterestController::class, 'index']);
+    Route::get('/interests/{interest:id}', [InterestController::class, 'view']);
+    Route::post('/interests/store', [InterestController::class, 'store']);
+    Route::put('/interests/update/{interest:id}', [InterestController::class, 'update']);
+    Route::delete('/interests/destroy/{interest:id}', [InterestController::class, 'destroy']);
 
  
 

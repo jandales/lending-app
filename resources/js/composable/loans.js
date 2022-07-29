@@ -11,17 +11,17 @@ export default function useLoans() {
 
     const getLoans = async () => {
         let response = await axios.get('/loans');
-        loans.value = response.data;
+        loans.value = response.data.data;
     }
 
     const getLoan = async (id) => {
         let response = await axios.get(`/loans/${id}`);
-        loan.value = response.data;
+        loan.value = response.data.data;
     }
 
     const getLoanByCustomer = async (id) => {
         let response = await axios.get(`/loans/customer/${id}`);
-        loan.value = response.data;
+        loan.value = response.data.data;
     }
 
     const storeLoan =  async (data) => {
