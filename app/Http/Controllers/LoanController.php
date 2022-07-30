@@ -44,6 +44,17 @@ class LoanController extends Controller
         return;
     }
 
+    public function updateStatus(Request $request, Loan $loan)
+    {      
+       return  $this->services->updateStatus($loan, $request->status);
+    }
+
+    public function exist($id)
+    {
+        $exist = $this->services->existLoan($id);
+        return response()->json(['status' => $exist]); 
+    }
+
     
 
 }

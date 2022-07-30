@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use App\Http\Resources\PaymentResource;
+use App\Http\Resources\BorrowerResource;
+use App\Http\Resources\LoanTypeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LoanResource extends JsonResource
@@ -16,9 +18,8 @@ class LoanResource extends JsonResource
      */
     public function toArray($request)
     {
-        $payments = $this->whenLoaded('payments');
-        return [
-            
+       
+        return [            
             'id' => $this->id,                     
             'principal_amount' => $this->principal_amount,
             'total_amount' => $this->total_amount,
@@ -27,18 +28,9 @@ class LoanResource extends JsonResource
             'status' => $this->status,
             'effective_at' => Carbon::parse($this->effective_at)->format('M-d-Y'),
             'created_at' => $this->created_at->format('M-d-Y'), 
-            'customer' => [
-                'id' => $this->customer->id,
-                'name' => $this->customer->firstname . " " . $this->customer->lastname,
-                'avatar' => $this->customer->avatar,
-            ], 
-            'loan_type' => [
-                'id' => $this->loantype->id,
-                'type' => $this->loantype->type,
-                'interest' =>$this->loantype->interest,
-                'amount_to_pay' => $this->loantype->amount_to_pay,
-            ], 
-            'payments' => PaymentResource::collection($payments)
+            'customer' => BorrowerResource::make($this->whenLoaded('customer')), 
+            'loan_type' => LoanTypeResource::make($this->whenLoaded('loanType')),            
+            'payments' => PaymentResource::collection($this->whenLoaded('payments'))
         ];
     }
 }

@@ -28,13 +28,15 @@ class LoanTypeController extends Controller
     }
 
     public function update(LoanTypeUpdateRequest $request, $id)
-    {        
+    { 
        
         $type = LoanType::findorfail($id);
         $type->type = $request->type;
         $type->description = $request->description;
         $type->interest = $request->interest;
-        $type->amount_to_pay = $request->amount_to_pay;       
+        $type->amount_to_pay = $request->amount_to_pay;  
+        $type->value = $request->value; 
+        $type->user_id = $request->user()->id;    
         $type->save();        
         return $type;
     }

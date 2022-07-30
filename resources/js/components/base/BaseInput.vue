@@ -1,6 +1,7 @@
 <template>
     <div class="form-group mb-6">
-        <label for="exampleFormControlInpu3" class="form-label inline-block mb-2 text-gray-700">{{props.label}}</label> 
+        <div class="block" :class="{ 'flex items-center  gap-4 ' : inline}">
+               <label for="exampleFormControlInpu3" class="form-label inline-block mb-2 text-gray-700" :class="{'!mb-0' : inline}">{{props.label}}</label> 
         <textarea 
             v-if="props.type == 'textarea'"
             id="exampleFormControlTextarea1"
@@ -22,6 +23,7 @@
             :disabled="props.disabled"
             @input="updateInput" 
         />
+        </div>
         <small class="text-alert-danger" v-for="error in props.errors" >{{ error }}</small>
      </div>
 </template>
@@ -47,6 +49,10 @@
             disabled : {
                 type: Boolean,
                 default : false
+            },
+            inline : {
+                type: Boolean,
+                default: false,
             },
             errors : {
                 type: Array,

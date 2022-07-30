@@ -53,12 +53,14 @@ class Loan extends Model
     }
 
     public function scopeExistingLoan($query, $id)
-    {
-        $loan = $query->where('customer_id',$id)
-                      ->where('status', 'approved')                     
-                      ->first();
-        if($loan == null) return false;
-        return true;
+    {       
+        $loan = $query->where('customer_id', $id)->where(function ($q) {
+                        $q->where('status', 'approved')
+                        ->orWhere('status', 'pending')
+                        ->orWhere('status', 'released');
+                    })->first();
+
+        return  $loan === null ? false : true;
     }
 
     public function scopeCapital($query)

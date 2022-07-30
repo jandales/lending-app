@@ -6,8 +6,12 @@
 
         <div v-for="error in errors.message">
             <Alert :alert="'danger'" :message="error"/>
-        </div>       
+        </div>    
         
+        <div v-if="exist">
+            <Alert :alert="'danger'" :message="'This Customer has an exist loan'"/>
+        </div>  
+                
         <hi class="block tracking-wider text-lg mb-6 ">Create Loan</hi>
 
           <div class="flex items-center mb-6">
@@ -17,13 +21,14 @@
     
             <div v-if="form.customer" class="w-full flex  items-center justify-between ml-4">
                <div>
-                     <label for="" class="block text-sm font-semibold text-gray-700">{{`${form.customer.firstname} ${form.customer.lastname}`}}</label>
+                     <label for="" class="block text-sm font-semibold text-gray-700">{{ form.customer.name }}</label>
                     <label for="" class="block text-sm text-gray-700">{{form.customer.phone}}</label>
                </div>  
-               <span class="text-sky-500" data-bs-toggle="modal" data-bs-target="#exampleModalLg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+               <span class="text-sky-500 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModalLg">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
+                    </svg> -->
+                    Find Customer
                </span>   
             </div>
 
@@ -102,9 +107,21 @@
 
 
 
-       
+        <button 
+            v-if="exist"
+            type="button" 
+            class="inline-block px-6 py-2.5 bg-blue-600
+            text-white font-medium text-xs
+            leading-tight uppercase rounded
+            shadow-md focus:outline-none focus:ring-0
+            transition duration-150 ease-in-out
+            pointer-events-none opacity-60"
+            disabled>       
+            Save
+        </button>
 
-        <button  
+        <button 
+            v-else 
             @click="store"  
             type="button" 
             data-mdb-ripple="true"
@@ -112,6 +129,8 @@
             class="btn-primary">
             Save
         </button>
+
+ 
         
     </div>
    
@@ -136,7 +155,7 @@ import { reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const { getLoanTypes, loanTypes } = useLoanTypes();
-const { storeLoan, errors, isSuccess } = useLoans();
+const { storeLoan, errors, isSuccess, existLoan, exist} = useLoans();
 const { calculateInterest } = useCalculateInterest();
 const { calculateNumbersToPay } = useCalculateNumbersToPay();
 const  router = useRouter();
@@ -181,6 +200,7 @@ const handlecalculateNumberToPay = () => {
 const selectedCustomer = (customer) => {
     form.customer_id = customer.id;
     form.customer = customer;
+    existLoan(customer.id);    
 }
 
 const store = async () => {
@@ -189,6 +209,10 @@ const store = async () => {
         router.push({name : 'loans'});
     }     
 }
+
+
+
+
 
 onMounted(getLoanTypes)
 

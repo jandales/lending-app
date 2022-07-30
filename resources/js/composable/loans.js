@@ -8,25 +8,63 @@ export default function useLoans() {
     const loan = ref();
     const errors = ref([]);
     const isSuccess = ref(false);
+    const isLoading = ref(false);
+    const exist = ref(false);
 
     const getLoans = async () => {
-        let response = await axios.get('/loans');
-        loans.value = response.data.data;
+        isLoading.value = true;
+        try {
+            let response = await axios.get('/loans');
+            loans.value = response.data.data;
+        }catch (e) {
+            console.error(e);
+        }finally {
+            isLoading.value = false;
+        }
+       
     }
 
     const getLoan = async (id) => {
-        let response = await axios.get(`/loans/${id}`);
-        loan.value = response.data.data;
+        isLoading.value = true;
+        try {
+            let response = await axios.get(`/loans/${id}`);
+            loan.value = response.data.data;
+        }
+        catch (e){
+            console.error(e);
+        }
+        finally {
+            isLoading.value = false;
+        }
+
+       
+    }
+
+    const existLoan = async (id) => {    
+        exist.value = false; 
+        let response = await axios.get(`/loans/existing-loan/${id}`);
+        exist.value = response.data.status;                    
     }
 
     const getLoanByCustomer = async (id) => {
-        let response = await axios.get(`/loans/customer/${id}`);
-        loan.value = response.data.data;
+        isLoading.value = true;
+        try {  
+            let response = await axios.get(`/loans/customer/${id}`);
+            loan.value = response.data.data;
+        }
+        catch (e){
+            console.error(e);
+        }
+        finally {
+            isLoading.value = false;
+        }
+        
     }
 
     const storeLoan =  async (data) => {
         errors.value = [];
         isSuccess.value = false;
+        isLoading.value = true;
         try {
            let response =  await axios.post('/loans/store', data);
            if(response.data.status === 500){ 
@@ -40,12 +78,39 @@ export default function useLoans() {
                 errors.value = e.response.data.errors;
            } 
         }
+        finally {
+            isLoading.value = false;
+        }
        
     }
     
     const destroyLoan = async (id) => {
-        await axios.delete(`/loans/destroy/${id}`);    
+        try {
+            await axios.delete(`/loans/destroy/${id}`);  
+        }       
+        catch (e) {
+           console.log(e)
+        } 
+        finally {
+            isLoading.value = false;
+        } 
     }
+
+    const updateStatusLoan = async (id, body) => {
+        isLoading.value = true;
+        try {
+            let response = await axios.put(`/loans/update-status/${id}`, body);    
+            loan.value = response.data.data;
+        }catch (error) {
+            console.log(error)
+        }
+        finally {
+            isLoading.value = false;
+        }
+        
+    }
+
+
 
     return {
         getLoans,
@@ -53,9 +118,13 @@ export default function useLoans() {
         getLoanByCustomer,
         storeLoan,
         destroyLoan,
+        updateStatusLoan,
         loans,
         loan,
         errors,
         isSuccess,
+        isLoading,
+        exist,
+        existLoan
     }
 }

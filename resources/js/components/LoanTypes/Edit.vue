@@ -1,8 +1,9 @@
 <template>
-    <div class="w-max border bg-white rounded-md p-4">     
+    <div class="border bg-white rounded-md p-4 w-full md:w-1/2 md:mx-auto">     
         <hi class="block tracking-wider text-lg mb-8">Edit Type</hi>
-        <div class="block  w-80">
-            <form v-if="loanType">         
+        <div class="block">
+            <form v-if="loanType">  
+
                 <BaseInput
                     :type="'text'"
                     :id="'type'"
@@ -17,6 +18,13 @@
                     :label="'Description'"                  
                     v-model="loanType.description"
                 />
+
+                <BaseInput
+                    v-model="loanType.value"
+                    :type="`number`"        
+                    :id="'value'"
+                    :label="'Value'" 
+                /> 
                 
                 <BaseInput
                     :type="'text'"
@@ -34,15 +42,6 @@
                     :errors="errors.amount_to_pay"
                 />
  
-                <BaseInput
-                    v-model="loanType.due_type"
-                    :type="number"        
-                    :id="exampleFormControlInput3"
-                    :label="'Day to pay'"           
-                    :errors="errors.due_type"
-                />
-
-     
 
                 <button        
                         @click="update"               

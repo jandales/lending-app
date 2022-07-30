@@ -25,7 +25,9 @@ class LoanTypeUpdateRequest extends FormRequest
     {
         return [
             'type' => 'required',           
-            'interest' => 'required:numeric' 
+            'interest' => 'required:numeric',
+            'amount_to_pay' => 'required:numeric',
+            'value' => 'required:numeric'        
         ];
     }
 }

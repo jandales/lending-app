@@ -34,11 +34,26 @@ class LoanServices {
         $validated = $request->validated();
         $loan  = Loan::ExistingLoan($validated['customer_id']);       
         if($loan != null) return response()->json(['status' => 500, 'message' => 'This Customer has an exist loan' ]);   
-        $validated['status'] = 'approved';
+        $validated['status'] = 'pending';
         $validated['user_id'] = $request->user()->id;
         $validated['total_amount'] = $validated['balance_amount'];
         $loan = Loan::create($validated);
         return new LoanResource($loan);
-    }   
+    } 
+    
+    public function updateStatus(Loan $loan, $status)
+    {       
+        $loan->status = $status;
+        $loan->save();
+
+        return new LoanResource(Self::getLoan($loan));
+    }
+
+    public function existLoan($id)
+    {
+        $loan  = Loan::ExistingLoan($id);
+        if ($loan == null) return false;
+        return true;
+    }
 
 }

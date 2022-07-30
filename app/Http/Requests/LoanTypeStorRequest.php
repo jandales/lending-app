@@ -27,7 +27,7 @@ class LoanTypeStorRequest extends FormRequest
             'type' => 'required',           
             'interest' => 'required:numeric',
             'amount_to_pay' => 'required:numeric',
-            'due_type' => 'required:numeric'           
+            'value' => 'required:numeric'           
         ];
     }
 }

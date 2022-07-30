@@ -18,7 +18,9 @@ class LoanTypeResource extends JsonResource
             'id' => $this->id,
             'type' => $this->type,
             'description' => $this->description,
-            'interest' => $this->interest           
+            'interest' => $this->interest ,
+            'value' => $this->value,
+            'amount_to_pay' => $this->amount_to_pay,         
         ];
     }
 }
