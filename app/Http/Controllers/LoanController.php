@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Loan;
 use Illuminate\Http\Request;
 use App\Http\Services\LoanServices;
+use App\Http\Resources\LoanResource;
 use App\Http\Requests\LoanStoreRequest;
 
 class LoanController extends Controller
@@ -44,13 +45,18 @@ class LoanController extends Controller
         return;
     }
 
+    public function search($keyword)
+    {        
+        return LoanResource::collection(Loan::Search($keyword));
+    }
+
     public function updateStatus(Request $request, Loan $loan)
     {      
        return  $this->services->updateStatus($loan, $request->status);
     }
 
     public function exist($id)
-    {
+    {       
         $exist = $this->services->existLoan($id);
         return response()->json(['status' => $exist]); 
     }

@@ -31,7 +31,7 @@ const router = createRouter({
     routes : [
         { path : '/', name : 'home', component : Home, beforeEnter : middleware.authenticated , children : [
 
-            { path : 'Dashboard' , name : 'dashboard', component : Dashboard },
+            { path : '' , name : 'dashboard', component : Dashboard },
 
             { path : 'loans' , name : 'loans', component : LoanIndex },
             { path : 'loans/details/:id' , name : 'loans.details', component : LoanDetails },

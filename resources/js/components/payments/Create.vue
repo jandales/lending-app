@@ -1,10 +1,13 @@
 <template>
 <Alert v-if="isSuccess" :alert="'success'" :message="'Payment Successfully created'" />
-<div v-if="loan"  class="flex w-full gap-4">
+
+<Alert v-if="errors.message"  :alert="'danger'" :message="errors.message"/>
+       
+<div   class="flex w-full gap-4">
     <div  class="w-1/3 bg-white rounded-md border h-max p-4 mb-4">
         <div class="flex items-center">
             <div v-if="loan" class="w-16 h-16">
-                <img v-if="loan.customer.avatar" :src="loan.customer.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
+                <img v-if="loan" :src="loan.customer.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
                 <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-16 h-16"  alt="Avatar"/>    
             </div>
             <div v-else> 
@@ -29,22 +32,28 @@
 
         </div>
 
-    <div  class="mt-4">
-        <BaseLabelRow :name="'Loan Type :'" :value="loan.loan_type.type"/>
-         <BaseLabelRow :name="'Interest'" :value="`${loan.loan_type.interest}%`"/>
-        <BaseLabelRow :name="'Payment Amount'" :value="moneyFormatter(loan.loan_type.amount_to_pay)"/>
-        <BaseLabelRow :name="'Principal Amount'" :value="moneyFormatter(loan.principal_amount)"/>       
-        <BaseLabelRow :name="'Total Amount'" :value="calculateInterest(loan.principal_amount, loan.loan_type.interest)"/>        
+    <div v-if="loan" class="mt-4">
+        <BaseLabelRow :name="'Payment Term :'" :value="loan.loan_type.type"/> 
+        <BaseLabelRow :name="'Effective Date :'" :value="loan.effective_at"/>          
+        <BaseLabelRow :name="'Collection Amount'" :value="moneyFormatter(loan.loan_type.amount_to_pay)"/>
+        <BaseLabelRow :name="'Principal Amount'" :value="moneyFormatter(loan.principal_amount)"/>   
+        <BaseLabelRow :name="'Interest'" :value="`${loan.loan_type.interest}%`"/>    
+        <BaseLabelRow :name="'Total Amount'" :value="moneyFormatter(calculateInterest(loan.principal_amount, loan.loan_type.interest))"/>        
         <BaseLabelRow :name="'Balance'" :value="moneyFormatter(loan.balance_amount)" />  
-        <BaseLabelRow :name="'Status :'" :value="loan.status"  />  
+        
+        <BaseLabelRow v-if="loan.status == 'paid'" :name="'Status :'" :value="loan.status" :backgroundColor="success" />  
+        <BaseLabelRow v-else-if="loan.status == 'void' || loan.status == 'rejected'" :name="'Status :'" :value="loan.status" :backgroundColor="danger" /> 
+        <BaseLabelRow v-else :name="'Status :'" :value="loan.status" :backgroundColor="info" /> 
+
     </div>        
     
     </div>
 
     <div  class="bg-white p-4 border w-2/3 rounded-md mx-auto">
-      <div class="block bg-white">     
+      <div  class="block bg-white">     
         <hi class="block tracking-wider text-lg mb-6 ">Create  Payment</hi>
-        <BaseInput    
+        <BaseInput
+            v-if="loan"    
             :label="`Amount`"
             v-model="loan.loan_type.amount_to_pay"
             :type="textarea"        
@@ -52,16 +61,34 @@
             :errors="errors.amount"                
         />  
 
+        <BaseInput  
+            v-else  
+            :label="`Amount`"     
+            :type="textarea"        
+            :id="typename"
+            :errors="errors.amount"                
+        />
+
         <BaseInput           
             :label="`Remark`"
             v-model="form.remark"
             :type="'textarea'"        
             :id="typename"
             :errors="errors.remark"                
-        />       
+        />             
 
 
-         <button v-if="!loan || loan.status != 'release'" 
+        <button v-if="loan && loan.balance_amount > 0 && loan.status == 'released'"          
+            @click="store"
+            type="button"
+            data-mdb-ripple="true"
+            data-mdb-ripple-color="light"
+            class="btn-primary"          
+            >
+            Pay
+        </button>
+
+        <button v-else 
             type="button" 
             class="inline-block px-6 py-2.5 bg-blue-600
             text-white font-medium text-xs
@@ -73,23 +100,13 @@
             Pay
         </button>
 
-        <button v-else           
-            @click="store"
-            type="button"
-            data-mdb-ripple="true"
-            data-mdb-ripple-color="light"
-            class="btn-primary"          
-            >
-            Pay
-        </button>
-
        
 
 
     </div>
 </div>
 
-<CustomersModal @selectCustomer="selectedCustomer"></CustomersModal>
+<LoansModal @selectLoan="selectedLoan"/>
 
 </div>
 
@@ -101,6 +118,7 @@
 import Alert from '../../components/Alert.vue'
 import BaseInput from '../../components/base/BaseInput.vue'
 import CustomersModal from '../Modal/CustomersModal.vue';
+import LoansModal from '../Modal/LoansModal.vue';
 import BaseLabelRow from '../../components/base/BaseLabelRow.vue'
 
 import useLoans from '../../composable/loans';
@@ -110,12 +128,18 @@ import useFormatter from '../../composable/helper/formater';
 import { reactive, onMounted} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+
+
 const { moneyFormatter } = useFormatter();
-const { getLoan,getLoanByCustomer, loan } = useLoans();
+const { getLoan, exist, loan } = useLoans();
 const { addPayment, isSuccess, errors } = usePayments();
 const { calculateInterest } = useCalculateInterest();  
 const route = useRoute();
 const router = useRouter();
+
+const success = 'success';
+const danger = 'danger';
+const info = 'info';
 
 const form = reactive({
     amount : 0,
@@ -125,20 +149,24 @@ const form = reactive({
 })
 
 const store = async () => {    
-    form.customer_id = loan.value.customer_id;
+    form.customer_id = loan.value.customer.id;
     form.amount = loan.value.loan_type.amount_to_pay;
     form.loan_id = loan.value.id; 
-    await addPayment({...form});   
-    if(isSuccess.value === true){
-        router.push({name: 'payments'})
+    await addPayment({...form}); 
+    if(isSuccess.value === true){        // router.push({name: 'payments'})
+        await getLoan(route.params.loan_id);
     }  
 }
 
-const selectedCustomer = (customer) => {
-   getLoanByCustomer(customer.id);
-   router.push({name: 'payments.create', params : {loan_id : customer.id}})
+const selectedLoan = (loan) => {
+    console.log(loan)
+   router.push({name: 'payments.create', params : {loan_id : loan.id}})
+   getLoan(loan.id);  
 }
 
-onMounted(getLoan(route.params.loan_id));
+onMounted(() => {
+     if(route.params.loan_id == null) return;
+    getLoan(route.params.loan_id)
+});
 
 </script>

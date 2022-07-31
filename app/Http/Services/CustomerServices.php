@@ -32,9 +32,10 @@ class CustomerServices {
 
     public function update(Request $request, Customer  $customer)
     {      
-        $oldImagePath = $customer->avatar;
+        $oldImagePath = null;
 
         if ($request->hasFile('avatar')){
+            $oldImagePath = $customer->avatar;
             $customer->avatar = $this->upload($request, 'avatar');  
         } 
 
@@ -44,8 +45,9 @@ class CustomerServices {
         $customer->phone = $request->phone;
         $customer->address = $request->address;
         $customer->user_id = $request->user()->id;
+        $customer->save();
 
-        if($customer->save()){
+        if ($oldImagePath != null){
             $this->deleteImage($oldImagePath);
         }
 

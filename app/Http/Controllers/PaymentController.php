@@ -26,7 +26,7 @@ class PaymentController extends Controller
 
     public function store(PaymentStoreRequest $request)
     {
-        $this->services->store($request);        
+        return $this->services->store($request);        
     }
 
     public function view(Payment $payment)
@@ -35,7 +35,7 @@ class PaymentController extends Controller
     }
 
     public function destroy(Payment $payment)
-    {
+    {        
         $this->services->destroy($payment); 
     }
 

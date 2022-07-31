@@ -23,7 +23,7 @@ export default function usePayments(){
         try {
             let response = await axios.post('/payments/store', payment)
             if(response.data.status === 500){
-                errors.value = {  message: response.data.message }
+                errors.value = { message: response.data.message }
                 return;
             }
             isSuccess.value = true;

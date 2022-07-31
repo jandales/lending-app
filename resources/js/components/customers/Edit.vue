@@ -4,6 +4,7 @@
             <h1 class="text-xl">Edit Customer</h1> 
          </div>
          <div class="block bg-white">
+           
         <form v-if="customer">
             <div class="grid grid-cols-2 gap-4">
                 
@@ -76,8 +77,8 @@
                         ease-in-out
                         m-0
                         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile">  
-                        <img  v-if="!isImageChange" :src="customer.avatar" class="rounded-full w-32 mt-4" alt="" srcset=""> 
-                        <img  v-else  v-if="image" :src="image" class="rounded-full w-32 mt-4" alt="Avatar" />
+                        <img  v-if="!isImageChange" :src="customer.avatar" class="rounded-full w-32 h-32 mt-4" alt="" srcset=""> 
+                        <img  v-else  v-if="image" :src="image" class="rounded-full w-32 h-32 mt-4" alt="Avatar" />
                                                               
                     </div>
             </div>

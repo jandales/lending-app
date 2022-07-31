@@ -4,9 +4,9 @@
     <div  class="w-1/3 bg-white rounded-md border h-max p-4 mb-4">
         <div class="flex items-center">
             
-            <img v-if="loan" :src="loan.customer.avatar" class="rounded-full border w-16"  alt="Avatar" />
+            <img v-if="loan" :src="loan.customer.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
 
-            <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-16"  alt="Avatar"/>
+            <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-16 h-16"  alt="Avatar"/>
     
             <div v-if="loan" class="w-full flex  items-center justify-between ml-4">
                <div>
@@ -33,9 +33,10 @@
         <div class="flex items-center gap-4">
         <label for="exampleInputPassword1" class="form-label inline-block text-gray-700">Status</label>
         <select v-model="status" aria-label="Default select example"    placeholder="Select" class="py-[10px] w-full capitalize">     
-                <option value='approved'>Approved</option> 
+                <option value='approved'>Approved</option>
+                 <option value='released'>Release</option>  
                 <option value='reject'>Reject</option>
-                <option value='release'>Release</option> 
+               
         </select>
         </div>
         <!-- <small class="text-alert-danger" v-for="error in errors.loan_type_id">{{ error }}</small> -->

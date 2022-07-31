@@ -63,6 +63,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/loans/destroy/{loan:id}', [LoanController::class, 'destroy']);
     Route::put('/loans/update-status/{loan:id}', [LoanController::class, 'updateStatus']);
     Route::get('/loans/existing-loan/{id}', [LoanController::class, 'exist']);
+    Route::get('/loans/search/keyword={keyword}', [LoanController::class, 'search']);
 
     Route::get('/payments', [PaymentController::class, 'index']);
     Route::get('/payments/{payment:id}', [PaymentController::class, 'view']);

@@ -35,9 +35,21 @@ export default function useLoans() {
         }
         finally {
             isLoading.value = false;
-        }
+        }       
+    }
 
-       
+    const searchLoans = async (keyword) => {
+        isLoading.value = true;
+        try {
+            let response = await axios.get(`/loans/search/keyword=${keyword}`);
+            loans.value = response.data.data;
+        }
+        catch (e){
+            console.error(e);
+        }
+        finally {
+            isLoading.value = false;
+        }       
     }
 
     const existLoan = async (id) => {    
@@ -119,6 +131,7 @@ export default function useLoans() {
         storeLoan,
         destroyLoan,
         updateStatusLoan,
+        searchLoans,
         loans,
         loan,
         errors,

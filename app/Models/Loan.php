@@ -21,6 +21,13 @@ class Loan extends Model
         'status',
     ];
 
+    public static $STATUS_APPROVED = 'approved';
+    public static $STATUS_RELEASED = 'released';
+    public static $STATUS_PENDING = 'pending';
+    public static $STATUS_PAID = 'paid';
+    public static $STATUS_REJECT = 'rejected';
+    public static $STATUS_VOID = 'void';
+
     protected $dates = [
         'created_at',
     ];
@@ -53,11 +60,12 @@ class Loan extends Model
     }
 
     public function scopeExistingLoan($query, $id)
-    {       
+    {      
+        
         $loan = $query->where('customer_id', $id)->where(function ($q) {
-                        $q->where('status', 'approved')
-                        ->orWhere('status', 'pending')
-                        ->orWhere('status', 'released');
+                        $q->where('status', Self::$STATUS_APPROVED)
+                        ->orWhere('status', Self::$STATUS_PENDING)
+                        ->orWhere('status', Self::$STATUS_RELEASED);
                     })->first();
 
         return  $loan === null ? false : true;
@@ -92,5 +100,18 @@ class Loan extends Model
         return $total;
         
         
+    }
+
+    public function scopeSearch($query, $keyword)
+    {      
+        
+       return $query->with('customer')
+                    ->where('id', 'LIKE', '%' . $keyword . '%')
+                    ->where('status', '!=', 'void')                  
+                    ->orWhereHas('customer', function ($q) use ($keyword) {
+                        $q->where('firstname', 'LIKE', '%' . $keyword . '%')
+                          ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');                      
+                    })                                      
+                    ->get();
     }
 }

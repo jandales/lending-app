@@ -30,12 +30,12 @@
                 <th scope="col">
                     Type
                 </th>
-                <th scope="col">
-                    Amount
-                </th>
-                <th scope="col">
+                 <th scope="col">
                    Interest
                 </th>
+                <th scope="col">
+                   Total Amount
+                </th>               
                 <th scope="col">
                   Balance
                 </th>
@@ -57,7 +57,7 @@
                   </div>  
                 </td>            
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
-                    <BaseAvatar
+                  <BaseAvatar
                       :image="loan.customer.avatar"
                       :name="loan.customer.name"
                     />             
@@ -74,13 +74,22 @@
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ moneyFormatter(loan.balance_amount) }}
                 </td> 
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.status }}
+                <td class="text-gray-900 font-light text-center  whitespace-nowrap">
+                  <span v-if="loan.status == 'paid'" class="bg-green-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                     {{ loan.status }}
+                  </span>
+                   <span v-else-if="loan.status == 'void'"  class="bg-green-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                     {{ loan.status }}
+                  </span>
+                   <span v-else class="bg-blue-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                     {{ loan.status }}
+                  </span>
+                 
                 </td>       
                 <td>
                   <div class="flex justify-end gap-4 mr-4 ">
                       <router-link 
-                        v-if="loan.status == 'release'" 
+                        v-if="loan.status == 'released'" 
                         :to="{name : 'payments.create' , params : {loan_id : loan.id} }" 
                         type="button" 
                         class="btn-icon-primary" >

@@ -77,7 +77,7 @@
                         <img
                             v-if="avatar" 
                             :src="avatar"
-                            class="rounded-full w-32 mt-4"
+                            class="rounded-full w-32 h-32 mt-4"
                             alt="Avatar"
                         />
                     </div>
