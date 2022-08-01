@@ -15,12 +15,20 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id'); 
-            $table->unsignedBigInteger('loan_type_id');
+            $table->bigInteger('loan_number')->nullable();
+            $table->unsignedBigInteger('borrower_id'); 
+            $table->integer('terms')->default(0);
+            $table->integer('interest')->default(0);
+            $table->float('total_interest')->default(0);
+            $table->float('collection_amount')->default(0);       
             $table->float('principal_amount')->default(0);
+            $table->float('total_amount')->default(0);
+            $table->float('balance_amount')->default(0);              
+            $table->timestamp('effective_at')->nullable();
+            $table->string('status')->nullable();
             $table->unsignedBigInteger('user_id'); 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('borrower_id')->references('id')->on('borrowers');
             $table->timestamps();
         });
     }

@@ -25,10 +25,10 @@
                     </div>
                 </th>           
                 <th scope="col">
-                  Customer
+                  Borrower
                 </th>
                 <th scope="col">
-                    Type
+                    Terms
                 </th>
                  <th scope="col">
                    Interest
@@ -48,7 +48,7 @@
               </tr>
             </thead>
             <tbody>  
-              <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
+              <tr v-if="loans.length > 0" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
                 <td class="w-[50px]">
                   <div class="flex justify-center">
                     <div class="form-check">
@@ -58,15 +58,15 @@
                 </td>            
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
                   <BaseAvatar
-                      :image="loan.customer.avatar"
-                      :name="loan.customer.name"
+                      :image="loan.borrower.avatar"
+                      :name="loan.borrower.name"
                     />             
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.loan_type.type }}
+                     {{ `${loan.terms} Months` }}
                 </td>  
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ `${loan.loan_type.interest}%` }}
+                  {{ `${loan.interest}%` }}
                 </td>                
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ moneyFormatter(loan.total_amount) }}
@@ -111,6 +111,9 @@
                       </button>
                   </div>
                 </td>
+              </tr>
+              <tr v-else>
+                <td colspan="8" class="text-xl text-center text-gray-900 font-light px-6 py-4 whitespace-nowrap">No Record Found</td>
               </tr>
             </tbody>
           </table>

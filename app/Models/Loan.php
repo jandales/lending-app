@@ -2,16 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+use App\Models\PaymentDueDate;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Loan extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'customer_id',
-        'loan_type_id',
+        'loan_number',
+        'borrower_id', 
+        'terms',
+        'collection_amount',       
+        'total_interest', 
         'principal_amount',
         'interest',
         'effective_at',
@@ -26,22 +31,11 @@ class Loan extends Model
     public static $STATUS_PENDING = 'pending';
     public static $STATUS_PAID = 'paid';
     public static $STATUS_REJECT = 'rejected';
-    public static $STATUS_VOID = 'void';
+    public static $STATUS_VOID = 'void';  
 
-    protected $dates = [
-        'created_at',
-    ];
-
-    public function getCreatedFormatAttribute()
-    {  
-        return $this->created_at->format('d-m-Y');
-    }
-    
-    protected $appends = ['created_format'];
-
-    public function customer()
+    public function borrower()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Borrower::class);
     }
 
     public function user()
@@ -59,10 +53,20 @@ class Loan extends Model
         return $this->belongsTo(LoanType::class);
     }
 
+    public function dueDates()
+    {
+        return $this->hasMany(PaymentDueDate::class);
+    }
+
+    public function scopeGenerateNumber($query)
+    {
+        return;
+    }
+
     public function scopeExistingLoan($query, $id)
     {      
         
-        $loan = $query->where('customer_id', $id)->where(function ($q) {
+        $loan = $query->where('borrower_id', $id)->where(function ($q) {
                         $q->where('status', Self::$STATUS_APPROVED)
                         ->orWhere('status', Self::$STATUS_PENDING)
                         ->orWhere('status', Self::$STATUS_RELEASED);
@@ -103,12 +107,11 @@ class Loan extends Model
     }
 
     public function scopeSearch($query, $keyword)
-    {      
+    {    
         
-       return $query->with('customer')
-                    ->where('id', 'LIKE', '%' . $keyword . '%')
-                    ->where('status', '!=', 'void')                  
-                    ->orWhereHas('customer', function ($q) use ($keyword) {
+       return $query->with('borrower')
+                    ->where('loan_number', 'LIKE', '%' . $keyword . '%')                               
+                    ->orWhereHas('borrower', function ($q) use ($keyword) {
                         $q->where('firstname', 'LIKE', '%' . $keyword . '%')
                           ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');                      
                     })                                      

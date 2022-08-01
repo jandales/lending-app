@@ -1,31 +1,33 @@
 <template>
-<Alert v-if="isSuccess" :alert="'success'" :message="'Payment Successfully created'" />
+<Alert v-if="isSuccess" :alert="'success'" :message="'Loan status updated'" />
 <div v-if="loan"  class="flex w-full gap-8">
     <div  class="w-1/3 bg-white rounded-md border h-max p-4 mb-4">
         <div class="flex items-center">
             
-            <img v-if="loan" :src="loan.customer.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
+            <img v-if="loan" :src="loan.borrower.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
 
             <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-16 h-16"  alt="Avatar"/>
     
             <div v-if="loan" class="w-full flex  items-center justify-between ml-4">
                <div>
-                    <label for="" class="block text-sm font-semibold text-gray-700">{{ loan.customer.name }}</label>
-                    <label for="" class="block text-sm text-gray-700">{{loan.customer.phone}}</label>
+                    <label for="" class="block text-sm font-semibold text-gray-700">{{ loan.borrower.name }}</label>
+                    <label for="" class="block text-sm text-gray-700">{{loan.borrower.phone}}</label>
                </div> 
             </div>        
-
         </div>
 
     <div v-if="loan" class="mt-4">
-        <BaseLabelRow :name="'Loan Type :'" :value="loan.loan_type.type"/>
-        <BaseLabelRow :name="'Amount to pay'" :value="moneyFormatter(loan.loan_type.amount_to_pay)"/>
+        <BaseLabelRow :name="'Loan Number :'" :value="loan.loan_number"/>
+        <BaseLabelRow :name="'Terms :'" :value="`${loan.terms} Months`"/>
+        <BaseLabelRow :name="'Total Interest'" :value="moneyFormatter(loan.total_interest)"/>
+        <BaseLabelRow :name="'Collection Amount'" :value="moneyFormatter(loan.collection_amount)"/>
         <BaseLabelRow :name="'Principal Amount'" :value="moneyFormatter(loan.principal_amount)"/>
-        <BaseLabelRow :name="'Interest'" :value="`${loan.loan_type.interest}%`"/>
-        <BaseLabelRow :name="'Total Amount'" :value="moneyFormatter(calculateInterest(loan.principal_amount, loan.loan_type.interest))"/>        
+        <BaseLabelRow :name="'Interest'" :value="`${loan.interest}%`"/>
+        <BaseLabelRow :name="'Total Amount'" :value="moneyFormatter(loan.total_amount)"/>        
         <BaseLabelRow :name="'Balance'" :value="moneyFormatter(loan.balance_amount)" />  
-        <BaseLabelRow :name="'Status :'" :value="loan.status"  />  
-       
+        <BaseLabelRow v-if="loan.status == 'paid'" :name="'Status :'" :value="loan.status" :backgroundColor="success" />  
+        <BaseLabelRow v-else-if="loan.status == 'void' || loan.status == 'rejected'" :name="'Status :'" :value="loan.status" :backgroundColor="danger" /> 
+        <BaseLabelRow v-else :name="'Status :'" :value="loan.status" :backgroundColor="info" />
     </div>   
     
          
@@ -62,7 +64,7 @@
 
     <div class="bg-white p-4 border w-2/3 rounded-md mx-auto">
       <div class="block bg-white">     
-        <hi class="block tracking-wider text-lg mb-6 ">Payment History</hi>
+        <hi class="block tracking-wider text-lg mb-6 ">Payment Due Dates</hi>
 
         <div v-if="loan" class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -72,35 +74,48 @@
                     <thead class="bg-white border-b">
                         <tr>
                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                            #
+                            Due Date
                         </th>
                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                            Date
+                            Amount
+                        </th> 
+                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                            Interest
                         </th>
                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                            Payment Amount
-                        </th>
+                           Paid Date
+                        </th>  
                         <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                            Status
+                           Amount Paid
+                        </th>                     
+                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                            Balance
                         </th>
                         </tr>
                     </thead>
                     <tbody>
                        
-                        <tr  v-for="payment in loan.payments" class="border-b">                           
+                        <tr  v-for="item in loan.due_dates" class="border-b">                           
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{`000-${payment.id}`}}
+                                {{ item.due_date}}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ payment.created_at }}
+                                {{ moneyFormatter(item.collection_amount) }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{ moneyFormatter(payment.amount) }}
+                                {{ moneyFormatter(calculateInterest(loan.principal_amount,loan.interest)) }}
                             </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">                               
+                                 {{ '-- / -- / -- ' }}                            
+                            </td>  
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">                               
+                                 {{ moneyFormatter(item.amount_paid) }}                            
+                            </td>  
+
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                               <div class="px-2 py-1 text-white text-sm rounded-sm bg-green-500 text-center capitalize">
-                                 {{ payment.status }}
-                               </div>
+                               
+                                 {{ moneyFormatter(item.balance)  }}
+                            
                             </td>
                         </tr>          
                     </tbody>
@@ -122,15 +137,16 @@
 </template>
 
 <script setup>
+import Alert from '../Alert.vue';
 import BaseLabelRow from '../../components/base/BaseLabelRow.vue'
 import useLoans from '../../composable/loans';
-import useCalculateInterest from '../../composable/helper/calculateInterest';
+import useCalculation from '../../composable/helper/calculations';
 import useFormatter from '../../composable/helper/formater'
 import { reactive, ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-const { getLoan, updateStatusLoan , loan, isLoading } = useLoans();
-const { calculateInterest } = useCalculateInterest();
+const { getLoan, updateStatusLoan , loan, isLoading, isSuccess } = useLoans();
+const { calculateInterest } = useCalculation();
 const { moneyFormatter } = useFormatter(); 
 const route = useRoute();
 const status = ref();

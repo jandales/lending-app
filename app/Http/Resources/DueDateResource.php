@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PaymentResource extends JsonResource
+class DueDateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +17,13 @@ class PaymentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'borrower' => [
-                'id' => $this->borrower->id,
-                'name' => $this->borrower->firstname . " " . $this->borrower->lastname,
-                'avatar' => $this->borrower->avatar,
-            ], 
-            'amount' => $this->amount,
             'loan_id' => $this->loan_id,
+            'amount_paid' => $this->amount_paid,
+            'balance' => $this->balance,
+            'collection_amount' => $this->collection_amount,
+            'due_date' => Carbon::parse($this->due_date)->format('m-d-y'),
+            'paid_at' => Carbon::parse($this->paid_at)->format('m-d-y'),
             'status' => $this->status,
-            'created_at' => $this->created_at->format('M-d-Y'),           
         ];
     }
 }

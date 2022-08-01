@@ -35,9 +35,9 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function customer()
+    public function borrower()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Borrower::class);
     }
 
     public function loan()

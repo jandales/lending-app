@@ -1,6 +1,6 @@
 <template>
 <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="exampleModalLg" tabindex="-1" aria-labelledby="exampleModalLgLabel" aria-modal="true" role="dialog">
-  <div class="modal-dialog modal-lg relative w-auto pointer-events-none">
+  <div class="modal-dialog modal-xl relative w-auto pointer-events-none">
     <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
       <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
         <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLgLabel">
@@ -30,10 +30,10 @@
                                 #
                             </th>
                             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                Loan
+                                Ref No.
                             </th>
                             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                Borrower Name
+                                Borrower
                             </th>
                             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                 Total Amount
@@ -47,22 +47,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="loans.length === 0">
-                                <td colspan="4" class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">No customer found</td>
+                            <tr v-if="ListOfLoans.length === 0">
+                                <td colspan="4" class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">No borrower found</td>
                             </tr>
-                            <tr v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                            <tr v-for="loan in ListOfLoans" class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 <div class="form-check">
-                                    <input v-model="selected" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="customer" id="flexCheckChecked" :value="loan">                    
+                                    <input v-model="selected" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="borrower" id="flexCheckChecked" :value="loan">                    
                                 </div>
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{ `00${loan.id}` }}
+                            {{ loan.loan_number }}
                             </td>
                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
                                 <BaseAvatar
-                                :image="loan.customer.avatar"
-                                :name="loan.customer.name"
+                                :image="loan.borrower.avatar"
+                                :name="loan.borrower.name"
                                 />             
                             </td>                      
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -121,15 +121,13 @@
 
     onMounted(getLoans);
 
-    // const listCustomers = computed(() => {
-    //     if(customers.value.length == 0) return [];
-    //     customers.value.filter(customer => {
-    //         if (customer.status == 'void' || customer.status == 'paid')
-    //         {
-    //             return customer;
-    //         }
-    //     })
-    // });
+
+    const ListOfLoans =  computed(() => {
+        if(loans.value == null) return [];
+        return loans.value.filter((loan) => {
+                return loan.status == 'released';
+        });
+    });
 
 
 </script>

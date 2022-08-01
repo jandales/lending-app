@@ -1,5 +1,6 @@
 <template>
 <Alert v-if="isSuccess" :alert="'success'" :message="'Payment Successfully created'" />
+<Alert v-if="loan && loan.status == 'approved' " :alert="'danger'" :message="'You cant create payment for this loan, Because is not yet released'" />
 
 <Alert v-if="errors.message"  :alert="'danger'" :message="errors.message"/>
        
@@ -7,7 +8,7 @@
     <div  class="w-1/3 bg-white rounded-md border h-max p-4 mb-4">
         <div class="flex items-center">
             <div v-if="loan" class="w-16 h-16">
-                <img v-if="loan" :src="loan.customer.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
+                <img v-if="loan" :src="loan.borrower.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
                 <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-16 h-16"  alt="Avatar"/>    
             </div>
             <div v-else> 
@@ -16,8 +17,8 @@
            
             <div v-if="loan" class="w-[calc(100%_-_4rem)] flex  items-center justify-between ml-4">
                <div>
-                     <label for="" class="block text-sm font-semibold text-gray-700">{{loan.customer.name}}</label>
-                    <label for="" class="block text-sm text-gray-700">{{loan.customer.phone}}</label>
+                     <label for="" class="block text-sm font-semibold text-gray-700">{{loan.borrower.name}}</label>
+                    <label for="" class="block text-sm text-gray-700">{{loan.borrower.phone}}</label>
                </div>  
                <span class="text-sky-500" data-bs-toggle="modal" data-bs-target="#exampleModalLg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -27,24 +28,22 @@
             </div>
 
             <div v-else class="ml-4">
-                <label for=""  class="text-sky-500" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Select Customer</label>
+                <label for=""  class="text-sky-500" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Select borrower</label>
             </div>
 
         </div>
 
-    <div v-if="loan" class="mt-4">
-        <BaseLabelRow :name="'Payment Term :'" :value="loan.loan_type.type"/> 
-        <BaseLabelRow :name="'Effective Date :'" :value="loan.effective_at"/>          
-        <BaseLabelRow :name="'Collection Amount'" :value="moneyFormatter(loan.loan_type.amount_to_pay)"/>
-        <BaseLabelRow :name="'Principal Amount'" :value="moneyFormatter(loan.principal_amount)"/>   
-        <BaseLabelRow :name="'Interest'" :value="`${loan.loan_type.interest}%`"/>    
-        <BaseLabelRow :name="'Total Amount'" :value="moneyFormatter(calculateInterest(loan.principal_amount, loan.loan_type.interest))"/>        
+    <div v-if="loan" class="mt-4">     
+         <BaseLabelRow :name="'Loan Number :'" :value="loan.loan_number"/>
+        <BaseLabelRow :name="'Terms :'" :value="`${loan.terms}%`"/>
+        <BaseLabelRow :name="'Collection Amount'" :value="moneyFormatter(loan.collection_amount)"/>
+        <BaseLabelRow :name="'Principal Amount'" :value="moneyFormatter(loan.principal_amount)"/>
+        <BaseLabelRow :name="'Interest'" :value="`${loan.interest}%`"/>
+        <BaseLabelRow :name="'Total Amount'" :value="moneyFormatter(loan.total_amount)"/>        
         <BaseLabelRow :name="'Balance'" :value="moneyFormatter(loan.balance_amount)" />  
-        
         <BaseLabelRow v-if="loan.status == 'paid'" :name="'Status :'" :value="loan.status" :backgroundColor="success" />  
         <BaseLabelRow v-else-if="loan.status == 'void' || loan.status == 'rejected'" :name="'Status :'" :value="loan.status" :backgroundColor="danger" /> 
-        <BaseLabelRow v-else :name="'Status :'" :value="loan.status" :backgroundColor="info" /> 
-
+        <BaseLabelRow v-else :name="'Status :'" :value="loan.status" :backgroundColor="info" />
     </div>        
     
     </div>
@@ -55,7 +54,7 @@
         <BaseInput
             v-if="loan"    
             :label="`Amount`"
-            v-model="loan.loan_type.amount_to_pay"
+            v-model="loan.collection_amount"
             :type="textarea"        
             :id="typename"
             :errors="errors.amount"                
@@ -144,13 +143,13 @@ const info = 'info';
 const form = reactive({
     amount : 0,
     remark : null,
-    customer_id : null,
+    borrower_id : null,
     loan_id : null,
 })
 
 const store = async () => {    
-    form.customer_id = loan.value.customer.id;
-    form.amount = loan.value.loan_type.amount_to_pay;
+    form.borrower_id = loan.value.borrower.id;
+    form.amount = loan.value.collection_amount;
     form.loan_id = loan.value.id; 
     await addPayment({...form}); 
     if(isSuccess.value === true){        // router.push({name: 'payments'})
@@ -158,8 +157,7 @@ const store = async () => {
     }  
 }
 
-const selectedLoan = (loan) => {
-    console.log(loan)
+const selectedLoan = (loan) => { 
    router.push({name: 'payments.create', params : {loan_id : loan.id}})
    getLoan(loan.id);  
 }

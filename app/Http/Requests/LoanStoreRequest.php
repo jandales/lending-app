@@ -24,12 +24,14 @@ class LoanStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_id' => 'required',
-            'loan_type_id' => 'required',
+            'borrower_id' => 'required', 
+            'terms' => 'required',
+            'total_interest' => 'required',      
             'principal_amount' => 'required|numeric',
             'interest' => 'required',
-            'effective_at' => 'required',            
-            'balance_amount' => 'required:numeric'                  
+            'effective_at' => 'required',  
+            'total_amount' => 'required:numeric', 
+            'collection_amount' => 'required:numeric', 
         ];
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('customers', function (Blueprint $table) { 
+        Schema::table('borrowers', function (Blueprint $table) { 
             $table->string('status')->after('avatar')->nullable();
             $table->integer('user_id')->unsigned();
         });
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('customers', function (Blueprint $table) {
+        Schema::table('borrowers', function (Blueprint $table) {
             $table->integer('user_id');
             $table->integer('status');
         });

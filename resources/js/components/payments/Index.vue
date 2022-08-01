@@ -45,7 +45,7 @@
                 </tr>
               </thead>
               <tbody>  
-                <tr v-for="payment in payments" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
+                <tr v-if="payments.length > 0" v-for="payment in payments" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
                   <td>
                     <div class="flex justify-center">
                       <div class="form-check px-2">
@@ -88,6 +88,9 @@
                         </button>
                     </div>
                   </td>
+                </tr>
+                <tr v-else>
+                <td colspan="8" class="text-xl text-center text-gray-900 font-light px-6 py-4 whitespace-nowrap">No Record Found</td>
                 </tr>
               </tbody>
             </table>

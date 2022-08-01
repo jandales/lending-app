@@ -6,7 +6,7 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\BorrowerController;
 use App\Http\Controllers\InterestController;
 use App\Http\Controllers\LoanTypeController;
 use App\Http\Controllers\Auth\LoginController;
@@ -44,13 +44,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/loan-types/store',[LoanTypeController::class, 'store']);
     Route::delete('/loan-types/destroy/{id}', [LoanTypeController::class, 'destroy']);
 
-    Route::get('/customers', [CustomerController::class, 'index']);
-    Route::get('/customers/{customer:id}', [CustomerController::class, 'view']);
-    Route::post('/customers/store', [CustomerController::class, 'store']);
-    Route::post('/customers/update/{customer:id}', [CustomerController::class, 'update']);
-    Route::delete('/customers/destroy/{customer:id}', [CustomerController::class, 'destroy']);
-    Route::get('/customers/search/{keyword}', [CustomerController::class, 'search']);
-    Route::get('/customers/person/count', [CustomerController::class, 'count']);
+    Route::get('/customers', [BorrowerController::class, 'index']);
+    Route::get('/customers/{customer:id}', [BorrowerController::class, 'view']);
+    Route::post('/customers/store', [BorrowerController::class, 'store']);
+    Route::post('/customers/update/{customer:id}', [BorrowerController::class, 'update']);
+    Route::delete('/customers/destroy/{customer:id}', [BorrowerController::class, 'destroy']);
+    Route::get('/customers/search/{keyword}', [BorrowerController::class, 'search']);
+    Route::get('/customers/person/count', [BorrowerController::class, 'count']);
 
     Route::delete('/logout', [LogoutController::class, 'logout']);
     Route::put('/change-password', [ChangePasswordController::class, 'update']);
@@ -58,7 +58,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/loans', [LoanController::class, 'index']);
     Route::get('/loans/{loan:id}', [LoanController::class, 'view']);
-    Route::get('/loans/customer/{id}', [LoanController::class, 'getLoanByCustomer']);
+    Route::get('/loans/borrower/{id}', [LoanController::class, 'getLoanByCustomer']);
     Route::post('/loans/store', [LoanController::class, 'store']);    
     Route::delete('/loans/destroy/{loan:id}', [LoanController::class, 'destroy']);
     Route::put('/loans/update-status/{loan:id}', [LoanController::class, 'updateStatus']);

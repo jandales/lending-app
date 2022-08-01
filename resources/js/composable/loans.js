@@ -61,7 +61,7 @@ export default function useLoans() {
     const getLoanByCustomer = async (id) => {
         isLoading.value = true;
         try {  
-            let response = await axios.get(`/loans/customer/${id}`);
+            let response = await axios.get(`/loans/borrower/${id}`);
             loan.value = response.data.data;
         }
         catch (e){
@@ -83,6 +83,7 @@ export default function useLoans() {
                 errors.value = { message : [response.data.message]}
                 return;             
            }
+           loan.value = response.data.data;
            isSuccess.value =true;
 
         } catch (e) {
@@ -113,6 +114,7 @@ export default function useLoans() {
         try {
             let response = await axios.put(`/loans/update-status/${id}`, body);    
             loan.value = response.data.data;
+            isSuccess.value = true;
         }catch (error) {
             console.log(error)
         }

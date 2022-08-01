@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('interest', function (Blueprint $table) {
+        Schema::create('interests', function (Blueprint $table) {
             $table->id();
             $table->integer('value');
             $table->timestamps();

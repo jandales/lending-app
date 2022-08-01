@@ -149,7 +149,7 @@
           data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body relative p-4">
-        <Alert v-if="success" :alert="'success'" :message="success"/>
+        <!-- <Alert v-if="success" :alert="'success'" :message="success"/> -->
        <BaseInput
             v-if="interest" 
             :label="'Interest'"
@@ -176,7 +176,8 @@
           active:bg-purple-800 active:shadow-lg
           transition
           duration-150
-          ease-in-out" data-bs-dismiss="modal">Close</button>
+          ease-in-out" 
+          data-bs-dismiss="modal">Close</button>
         <button type="button" class="px-6
       py-2.5
       bg-blue-600
@@ -194,6 +195,7 @@
       duration-150
       ease-in-out
       ml-1"
+      data-bs-dismiss="modal"
       @click="update">Save changes</button>
       </div>
     </div>
@@ -220,6 +222,7 @@
   const store = async () => { 
      await storeInterest({value : parseInt(interestValue.value)});
      await getInterests();
+     interestValue.value = null;
   }
 
   const deleteSeleted  = () => {
@@ -236,7 +239,7 @@
   const edit = async (id) => {
        errors.value = [];
        success.value = null;
-       await getInterest(id);
+       await interestValugetInterest(id);
   }
 
   const update = async () => {
