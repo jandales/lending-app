@@ -24,9 +24,9 @@ class LoanServices {
         return LoanResource::collection($loans);
     }
 
-    public function getLoan(Loan $loan)
+    public function getLoan($id)
     {  
-        $loan = Loan::with('borrower', 'payments', 'dueDates')->where('id', $loan->id)->first();
+        $loan = Loan::with('borrower', 'payments', 'dueDates')->where('id', $id)->first();
         return new LoanResource($loan);
     }
 
@@ -39,7 +39,7 @@ class LoanServices {
  
 
     public function store(Request $request)
-    {     
+    {    
        
         $validated = $request->validated();
 
@@ -52,8 +52,7 @@ class LoanServices {
         $validated['user_id'] = $request->user()->id;
         $validated['balance_amount'] = $validated['total_amount'];
 
-        $loan = Loan::create($validated); 
-        Self::createPaymentDueDate($loan);
+        $loan = Loan::create($validated);
 
         return new LoanResource($loan);
     } 
@@ -62,6 +61,10 @@ class LoanServices {
     {       
         $loan->status = $status;
         $loan->save();
+
+        if ($status == Loan::$STATUS_RELEASED) {
+            Self::createPaymentDueDate($loan);
+        }
 
         return new LoanResource(Self::getLoan($loan));
     }
@@ -82,8 +85,7 @@ class LoanServices {
                 'loan_id' => $loan->id,
                 'due_date' => $due_date,
                 'collection_amount' => $loan->collection_amount,
-                'amount_paid' => 0,
-                'balance' => $loan->balance_amount,          
+                'amount_paid' => 0,                     
                 'user_id' => $loan->user_id,
             ]);
         } 

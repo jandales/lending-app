@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('loan_id');
             $table->unsignedBigInteger('user_id');
+            $table->timestamp('due_date')->nullable();
             $table->float('collection_amount')->default(0);
             $table->float('amount_paid')->default(0);
             $table->float('balance')->default(0);

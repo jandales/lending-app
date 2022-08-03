@@ -18,7 +18,7 @@ import { useRoute } from 'vue-router';
 import Sidebar from '../components/Sidebar.vue'   
 
 const route = useRoute();
-const listword = ['index', 'create', 'edit'];
+const listword = ['index', 'create', 'edit', 'details', 'show'];
 
 const pageTitle = computed(() => {     
     let name = route.name;     

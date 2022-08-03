@@ -57,7 +57,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     Route::get('/loans', [LoanController::class, 'index']);
-    Route::get('/loans/{loan:id}', [LoanController::class, 'view']);
+    Route::get('/loans/{id}', [LoanController::class, 'view']);
     Route::get('/loans/borrower/{id}', [LoanController::class, 'getLoanByCustomer']);
     Route::post('/loans/store', [LoanController::class, 'store']);    
     Route::delete('/loans/destroy/{loan:id}', [LoanController::class, 'destroy']);

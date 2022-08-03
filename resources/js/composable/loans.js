@@ -115,8 +115,10 @@ export default function useLoans() {
             let response = await axios.put(`/loans/update-status/${id}`, body);    
             loan.value = response.data.data;
             isSuccess.value = true;
-        }catch (error) {
-            console.log(error)
+        }catch (e) {
+            if(e.response.status === 422){
+                errors.value = e.response.data.errors;
+           } 
         }
         finally {
             isLoading.value = false;

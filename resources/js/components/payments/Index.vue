@@ -54,12 +54,12 @@
                     </div>  
                   </td>   
                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    {{ `00${payment.loan_id}` }}
+                    {{ payment.loan.number }}
                   </td>         
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"> 
                       <BaseAvatar
-                        :image="payment.customer.avatar"
-                        :name="payment.customer.name"
+                        :image="payment.borrower.avatar"
+                        :name="payment.borrower.name"
                       />                    
                   </td>
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

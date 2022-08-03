@@ -10,25 +10,15 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'due_date',
         'amount',
         'remark',
-        'customer_id',
+        'borrower_id',
         'loan_id',
         'user_id',
         'status'
                 
     ];
-
-    protected $dates = [
-        'created_at',
-    ];
-
-    public function getCreatedFormatAttribute()
-    {  
-        return $this->created_at->format('Y-m-d H:i:s');
-    }
-    
-    protected $appends = ['created_format'];
 
     public function user()
     {

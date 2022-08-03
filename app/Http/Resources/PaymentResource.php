@@ -15,16 +15,19 @@ class PaymentResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => $this->id,          
+            'amount' => $this->amount,            
+            'status' => $this->status,
+            'created_at' => $this->created_at->format('M-d-Y'),
             'borrower' => [
                 'id' => $this->borrower->id,
                 'name' => $this->borrower->firstname . " " . $this->borrower->lastname,
                 'avatar' => $this->borrower->avatar,
             ], 
-            'amount' => $this->amount,
-            'loan_id' => $this->loan_id,
-            'status' => $this->status,
-            'created_at' => $this->created_at->format('M-d-Y'),           
+            'loan'=> [
+                'id' => $this->loan->id,
+                'number' => $this->loan->loan_number,
+            ]           
         ];
     }
 }

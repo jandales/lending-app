@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Loan;
 use Illuminate\Http\Request;
 use App\Http\Services\LoanServices;
+use App\Http\Requests\StatusRequest;
 use App\Http\Resources\LoanResource;
 use App\Http\Requests\LoanStoreRequest;
 
@@ -27,10 +28,9 @@ class LoanController extends Controller
         return $this->services->store($request);
     }
 
-    public function view(Loan $loan)
-    {      
-       
-        return $this->services->getLoan($loan);
+    public function view($id)
+    { 
+        return $this->services->getLoan($id);
     }
 
     public function getLoanByCustomer($id)
@@ -50,7 +50,7 @@ class LoanController extends Controller
         return LoanResource::collection(Loan::Search($keyword));
     }
 
-    public function updateStatus(Request $request, Loan $loan)
+    public function updateStatus(StatusRequest $request, Loan $loan)
     {      
        return  $this->services->updateStatus($loan, $request->status);
     }
