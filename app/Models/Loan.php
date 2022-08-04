@@ -27,7 +27,7 @@ class Loan extends Model
     ];
 
     public static $STATUS_APPROVED = 'approved';
-    public static $STATUS_RELEASED = 'released';
+    public static $STATUS_ACTIVE = 'active';
     public static $STATUS_PENDING = 'pending';
     public static $STATUS_PAID = 'paid';
     public static $STATUS_REJECT = 'rejected';
@@ -35,32 +35,37 @@ class Loan extends Model
 
     public function borrower()
     {
+
         return $this->belongsTo(Borrower::class);
+
     }
 
     public function user()
     {
+
         return $this->belongsTo(User::class);
+
     }
 
     public function payments()
     {
+
         return $this->hasMany(Payment::class);
+
     }
 
     public function loanType()
     {
+
         return $this->belongsTo(LoanType::class);
+
     }
 
     public function dueDates()
     {
-        return $this->hasMany(PaymentDueDate::class);
-    }
 
-    public function scopeGenerateNumber($query)
-    {
-        return;
+        return $this->hasMany(PaymentDueDate::class);
+
     }
 
     public function scopeExistingLoan($query, $id)
@@ -69,20 +74,25 @@ class Loan extends Model
         $loan = $query->where('borrower_id', $id)->where(function ($q) {
                         $q->where('status', Self::$STATUS_APPROVED)
                         ->orWhere('status', Self::$STATUS_PENDING)
-                        ->orWhere('status', Self::$STATUS_RELEASED);
+                        ->orWhere('status', Self::$STATUS_ACTIVE);
                     })->first();
 
-        return  $loan === null ? false : true;
+        return $loan === null ? false : true;
     }
 
     public function scopeCapital($query)
     {   
+
         $capital = 0;
+
         $loans =  $query->get();
-        if($loans == null) return 0;
+
+        if (is_null($loans)) return 0;
 
         forEach ($loans as $loan) {
+
             $capital += $loan->principal_amount;
+
         }
 
         return $capital;
@@ -91,18 +101,27 @@ class Loan extends Model
     }
 
     public function scopeRevenue($query)
-    {   
-        $capital = 0; $interest = 0;        
-        $loans =  $query->with('loanType')->get();
-        if($loans == null) return 0;
+    {  
+
+        $capital = 0; 
+
+        $interest = 0;    
+
+        $loans =  $query->get();
+
+        if (is_null($loans)) return 0;
 
         forEach ($loans as $loan) {
-            $interest += $loan->loanType->interest;
+
+            $interest += $loan->interest;
+
             $capital += $loan->principal_amount;
+
         }
+
         $total = $capital + ($capital * ($interest / 100));
-        return $total;
-        
+
+        return $total;        
         
     }
 

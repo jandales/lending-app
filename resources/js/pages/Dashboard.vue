@@ -39,15 +39,15 @@
               </tr>
             </thead>
             <tbody>  
-              <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-">                      
+              <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0">                      
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
                     <BaseAvatar
-                      :image="loan.customer.avatar"
-                      :name="loan.customer.name"
+                      :image="loan.borrower.avatar"
+                      :name="loan.borrower.name"
                     />             
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.loan_type.type }}
+                  {{ `${loan.terms} Months` }}
                 </td>                                
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ loan.total_amount}}
@@ -56,7 +56,18 @@
                   {{ loan.balance_amount }}
                 </td> 
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap capitalize">
-                  {{ loan.status }}
+                  <span v-if="loan.status == 'paid'" class="bg-green-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                     {{ loan.status }}
+                  </span>
+                   <span v-else-if="loan.status == 'void'"  class="bg-rose-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                     {{ loan.status }}
+                  </span>
+                  <span v-else-if="loan.status == 'rejected'"  class="bg-rose-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                     {{ loan.status }}
+                  </span>
+                   <span v-else class="bg-blue-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                     {{ loan.status }}
+                  </span>  
                 </td>               
               </tr>
             </tbody>
@@ -76,20 +87,27 @@ import BaseCard from '../components/base/BaseCard.vue';
 import BaseAvatar from '../components/base/BaseAvatar.vue';
 import useApp from '../composable/app'
 import useFormatter from '../composable/helper/formater'
-import { onMounted, ref} from 'vue';
-import useLoans from '../composable/loans'
-
-const { getLoans, loans} =  useLoans();
+import { onMounted, computed} from 'vue';
 
 const { moneyFormatter } = useFormatter();
 
-const { getDashboards ,customerCount, loanRevenue, loanCapital  } = useApp();
+const { getDashboards ,customerCount, loanRevenue, loanCapital, recentLoans  } = useApp();
 
 const getData = () => {
+
     getDashboards();
+  
 }
 
 onMounted(getData);
-onMounted(getLoans);
 
+const loans = computed(() => {
+    if(recentLoans.value == null) return;
+    return recentLoans.value.map(loan => {
+        loan.total_amount = moneyFormatter(loan.total_amount);
+        loan.balance_amount = moneyFormatter(loan.balance_amount);
+        return loan;
+    });
+
+});
 </script>

@@ -23,9 +23,9 @@
                         <div class="flex items-center gap-4">
                             <label for="exampleInputPassword1"  class="form-label text-sm inline-block text-gray-700">Status</label>
                             <select v-model="status" aria-label="Default select example"  placeholder="Select" class="py-[10px] w-full capitalize text-sm">  
-                                <option v-if="loan.status == 'pending'" value='approved' :selected="status == loan.status">Approved</option>
-                                <option v-if="loan.status == 'approved'" value='released' :selected="status == loan.status">Release</option>  
-                                <option v-if="loan.status != 'paid'" value='reject'   :selected="status == loan.status">Reject</option>
+                                <option v-if="loan.status == 'pending'"  value='approved'  :selected="status == loan.status">Approved</option>
+                                <option v-if="loan.status == 'approved'" value='active'  :selected="status == loan.status">Release</option>  
+                                <option v-if="loan.status != 'paid'"     value='rejected'  :selected="status == loan.status">Reject</option>
                             </select>
                         </div> 
                     </div>    
@@ -58,6 +58,8 @@
                 <BaseLabelRow :name="'Total Amount :'" :value="moneyFormatter(loan.total_amount)"/>        
                 <BaseLabelRow :name="'Balance :'" :value="moneyFormatter(loan.balance_amount)" />  
                 <BaseLabelRow v-if="loan.status == 'paid'" :name="'Status :'" :value="loan.status" :backgroundColor="'success'" />  
+                <BaseLabelRow v-else-if="loan.status == 'approved'" :name="'Status :'" :value="loan.status" :backgroundColor="'info'" /> 
+                <BaseLabelRow v-else-if="loan.status == 'active'" :name="'Status :'" :value="loan.status" :backgroundColor="'info'" />  
                 <BaseLabelRow v-else-if="loan.status == 'void' || loan.status == 'rejected'" :name="'Status :'" :value="loan.status" :backgroundColor="'danger'" /> 
                 <BaseLabelRow v-else :name="'Status :'" :value="loan.status" :backgroundColor="info" />
            </div>
@@ -90,7 +92,7 @@
                         </tr>
                     </thead>
                     <tbody>                       
-                        <tr v-if="loan.due_dates.length > 0"  v-for="item in dueDateList" class="border-b">                           
+                        <tr v-if="loan.due_dates.length > 0"  v-for="item in dueDateList" class="last:border-b-0">                           
                             <td>
                                 {{ item.due_date}}
                             </td>
@@ -101,13 +103,13 @@
                                 {{ interestPerDueDate }}
                             </td>
                             <td>                   
-                                 {{ item.paid_at }}                            
+                                {{ item.paid_at }}                            
                             </td>  
                             <td>                               
-                                 {{ item.amount_paid }}                            
+                                {{ item.amount_paid }}                            
                             </td>  
                             <td>                               
-                                 {{ item.balance }}                            
+                                {{ item.balance }}                            
                             </td>
                             <td class="flex gap-2 items-center">                               
                                <button v-if="item.status == null" @click="createPayment(item)" class="btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -115,12 +117,7 @@
                                </button>  
                                <span v-else class="px-2 py-1 bg-green-400 text-white capitalize rounded-md text-center" :class="{ '!bg-rose-500': item.status == 'failed' , '!bg-rose-500' : item.status == 'void'}">
                                     {{item.status}}
-                               </span>  
-                               <button v-if="item.status == null" class="btn-icon-danger !py-[6px]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                               </button>                      
+                               </span>                                               
                             </td>
                         </tr> 
                         <tr v-else>
@@ -154,7 +151,7 @@ import useFormatter from '../../composable/helper/formater'
 import {  ref,  onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-const { getLoan, updateStatusLoan , loan, isLoading, isSuccess, errors } = useLoans();
+const { getLoan, updateStatusLoan, loan, isLoading, isSuccess, errors } = useLoans();
 
 const { calculateInterest } = useCalculation();
 

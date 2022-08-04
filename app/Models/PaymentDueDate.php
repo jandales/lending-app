@@ -19,4 +19,11 @@ class PaymentDueDate extends Model
         'paid_at',
         'user_id',     
     ];
+
+    public function loan()
+    {
+
+        return $this->belongsTo(Loan::class);
+
+    }
 }

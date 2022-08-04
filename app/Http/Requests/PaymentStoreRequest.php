@@ -27,7 +27,8 @@ class PaymentStoreRequest extends FormRequest
             'due_date' => 'required',
             'amount' => 'required|numeric',
             'borrower_id' => 'required',
-            'loan_id' => 'required'            
+            'loan_id' => 'required',
+            'due_date_id' => 'required'          
         ];
     }
 }

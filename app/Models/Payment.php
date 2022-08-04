@@ -16,6 +16,7 @@ class Payment extends Model
         'borrower_id',
         'loan_id',
         'user_id',
+        'due_date_id',
         'status'
                 
     ];
@@ -33,6 +34,13 @@ class Payment extends Model
     public function loan()
     {
         return $this->belongsTo(Loan::class);
+    }
+
+    public function dueDate()
+    {
+
+        return $this->belongsTo(PaymentDueDate::class, 'due_date_id', 'id');
+
     }
 
     

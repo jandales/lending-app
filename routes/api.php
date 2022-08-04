@@ -55,7 +55,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/logout', [LogoutController::class, 'logout']);
     Route::put('/change-password', [ChangePasswordController::class, 'update']);
 
-
     Route::get('/loans', [LoanController::class, 'index']);
     Route::get('/loans/{id}', [LoanController::class, 'view']);
     Route::get('/loans/borrower/{id}', [LoanController::class, 'getLoanByCustomer']);
@@ -68,7 +67,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/payments', [PaymentController::class, 'index']);
     Route::get('/payments/{payment:id}', [PaymentController::class, 'view']);
     Route::post('/payments/store', [PaymentController::class, 'store']);
-    Route::delete('/payments/destroy/{payment:id}', [PaymentController::class, 'destroy']);
+    Route::delete('/payments/destroy/{payment:id}', [PaymentController::class, 'destroy']);   
 
     Route::get('/interests', [InterestController::class, 'index']);
     Route::get('/interests/{interest:id}', [InterestController::class, 'view']);

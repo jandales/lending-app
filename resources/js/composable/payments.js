@@ -36,7 +36,15 @@ export default function usePayments(){
     }
 
     const removePayment = async (id) => {
+
         await axios.delete(`/payments/destroy/${id}`)
+        
+    }
+
+    const failedToPay = async (id) => {
+
+        await axios.delete(`/payments/due-date/failed-to-pay/${id}`);
+
     }
 
     return {
@@ -44,6 +52,7 @@ export default function usePayments(){
         getPayment,
         addPayment,
         removePayment,
+        failedToPay,
         payments,
         payment,
         errors,

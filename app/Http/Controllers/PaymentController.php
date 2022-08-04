@@ -16,28 +16,37 @@ class PaymentController extends Controller
 
     public function __construct(PaymentServices $services)
     {
+
         $this->services = $services;
+
     }
 
     public function index()
     {        
+
         return $this->services->index();
+
     }
 
     public function store(PaymentStoreRequest $request)
     {
-        return $this->services->store($request);        
+
+        return $this->services->store($request);  
+
     }
 
     public function view(Payment $payment)
     {
+
         return $this->services->view($payment);
+
     }
 
     public function destroy(Payment $payment)
-    {        
-        $this->services->destroy($payment); 
+    {  
+     
+        return $this->services->destroy($payment); 
+        
     }
-
    
 }

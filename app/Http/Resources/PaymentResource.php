@@ -27,6 +27,7 @@ class PaymentResource extends JsonResource
             'loan'=> [
                 'id' => $this->loan->id,
                 'number' => $this->loan->loan_number,
+                'status' => $this->status,
             ]           
         ];
     }
