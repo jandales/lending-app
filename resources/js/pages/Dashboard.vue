@@ -40,11 +40,13 @@
             </thead>
             <tbody>  
               <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0">                      
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">  
+                  <RouterLink :to="{name : 'customers.details' , params : {id : loan.borrower.id } }" class="text-sky-500">         
                     <BaseAvatar
                       :image="loan.borrower.avatar"
                       :name="loan.borrower.name"
-                    />             
+                    />      
+                  </RouterLink>       
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ `${loan.terms} Months` }}

@@ -17,8 +17,7 @@ class LoanResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
-    {
-       
+    {       
         return [            
             'id' => $this->id,   
             'loan_number' => $this->loan_number,                  
@@ -36,5 +35,6 @@ class LoanResource extends JsonResource
             'payments' => PaymentResource::collection($this->whenLoaded('payments')),
             'due_dates' => DueDateResource::collection($this->whenLoaded('dueDates')),
         ];
+
     }
 }

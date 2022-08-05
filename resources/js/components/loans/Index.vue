@@ -49,18 +49,21 @@
             </thead>
             <tbody>  
               <tr v-if="loans.length > 0" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
-                <td class="w-[50px]">
+                <td>
                   <div class="flex justify-center">
                     <div class="form-check">
                       <input  type="checkbox"  :value="loan.id" v-model="selected" id="flexCheckIndeterminate">
                     </div>
                   </div>  
                 </td>            
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">            
-                  <BaseAvatar
-                      :image="loan.borrower.avatar"
-                      :name="loan.borrower.name"
-                    />             
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">    
+                  <router-link :to="{name: 'customers.details', params : { id :  loan.borrower.id }}" class="text-sky-500">
+                      <BaseAvatar
+                        :image="loan.borrower.avatar"
+                        :name="loan.borrower.name"
+                      /> 
+                  </router-link>        
+                             
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                      {{ `${loan.terms} Months` }}
@@ -86,8 +89,7 @@
                   </span>
                    <span v-else class="bg-blue-500 text-xs px-2 py-1 rounded-md text-white capitalize">
                      {{ loan.status }}
-                  </span>
-                 
+                  </span>                 
                 </td>       
                 <td>
                   <div class="flex justify-end gap-4 mr-4 ">                                   
@@ -157,6 +159,8 @@ const destroy = async (id) => {
         await destroyLoan(id)
         await getLoans();
 }
+
+
 onMounted(getLoans);
 
 

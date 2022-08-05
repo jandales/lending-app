@@ -25,8 +25,9 @@ class BorrowerServices {
         return Borrower::create($validated);      
     }
 
-    public function view(Borrower $borrower)
+    public function getCustomerById($id)
     {
+        $borrower = Borrower::with('loans')->where('id', $id)->firstorFail();
         return new BorrowerResource($borrower);
     }
 
@@ -64,8 +65,11 @@ class BorrowerServices {
     {
         return BorrowerResource::collection(Borrower::search($keyword)->get());
     }
+
     public function count()
     {
         return Borrower::count();
     }
+
+    
 }

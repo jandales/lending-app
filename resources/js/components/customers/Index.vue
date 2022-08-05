@@ -43,12 +43,14 @@
                 <td>
                   <div class="flex justify-center">
                     <div class="form-check">
-                      <input  type="checkbox"  :value="customer.id" v-model="selected" id="flexCheckIndeterminate">
+                      <input  type="checkbox" :value="customer.id" v-model="selected" id="flexCheckIndeterminate">
                     </div>
                   </div>  
                 </td>            
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">          
-                  <BaseAvatar :image="customer.avatar" :name="customer.name" />
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">  
+                    <router-link :to="{name: 'customers.details', params : { id :  customer.id } }" class="text-sky-500">
+                        <BaseAvatar :image="customer.avatar" :name="customer.name" />
+                    </router-link>  
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ customer.phone }}

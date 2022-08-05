@@ -22,6 +22,7 @@ class BorrowerResource extends JsonResource
             'address' => $this->address,
             'avatar' => $this->avatar,
             'status' => $this->status,
+            'loans' => LoanResource::collection($this->whenLoaded('loans')),         
         ];
     }
 }

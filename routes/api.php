@@ -12,6 +12,7 @@ use App\Http\Controllers\LoanTypeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\PaymentDueDateController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
@@ -45,7 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/loan-types/destroy/{id}', [LoanTypeController::class, 'destroy']);
 
     Route::get('/customers', [BorrowerController::class, 'index']);
-    Route::get('/customers/{customer:id}', [BorrowerController::class, 'view']);
+    Route::get('/customers/{id}', [BorrowerController::class, 'view']);
     Route::post('/customers/store', [BorrowerController::class, 'store']);
     Route::post('/customers/update/{customer:id}', [BorrowerController::class, 'update']);
     Route::delete('/customers/destroy/{customer:id}', [BorrowerController::class, 'destroy']);
@@ -67,7 +68,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/payments', [PaymentController::class, 'index']);
     Route::get('/payments/{payment:id}', [PaymentController::class, 'view']);
     Route::post('/payments/store', [PaymentController::class, 'store']);
-    Route::delete('/payments/destroy/{payment:id}', [PaymentController::class, 'destroy']);   
+    Route::delete('/payments/destroy/{payment:id}', [PaymentController::class, 'destroy']);  
+    
+    Route::get('/payment-due-date/loans/{id}', [PaymentDueDateController::class, 'index']);
+    Route::get('/payment-due-date/{id}', [PaymentDueDateController::class, 'show']);
 
     Route::get('/interests', [InterestController::class, 'index']);
     Route::get('/interests/{interest:id}', [InterestController::class, 'view']);

@@ -131,7 +131,7 @@
         </div>
 
     </div>
-</div>
+    </div>
 
 <PaymentModal @loadLoan="loadLoan" :loan="loan" :data="dueDate"/>
 

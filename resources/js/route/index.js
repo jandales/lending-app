@@ -8,6 +8,7 @@ import EditType from '../components/LoanTypes/Edit.vue'
 import customerIndex from '../components/customers/Index.vue'
 import customerCreate from '../components/customers/Create.vue'
 import customerEdit from '../components/customers/Edit.vue'
+import CustomerDetails from '../components/customers/Details.vue';
 import Dashboard from '../pages/Dashboard.vue'
 import ForgotPassword from '../pages/ForgotPassword.vue'
 import ResetPassword  from '../pages/ResetPassword.vue'
@@ -44,6 +45,7 @@ const router = createRouter({
             { path : 'customers', name : 'customers', component : customerIndex },
             { path : 'customers/create', name : 'customers.create', component : customerCreate },
             { path : 'customers/edit/:id', name : 'customers.edit', component : customerEdit },
+            { path : 'customers/details/:id', name : 'customers.details', component : CustomerDetails },
 
             { path: 'payments' , name : 'payments', component : PaymentIndex },
             { path: 'payments/create/:loan_id?', name : 'payments.create', component : PaymentCreate },

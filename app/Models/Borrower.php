@@ -21,6 +21,14 @@ class Borrower extends Model
         'user_id'
     ];
 
+
+    public function loans()
+    {
+
+        return $this->hasMany(Loan::class)->orderBy('created_at', 'desc');
+
+    }
+
     public function scopeSearch($query, $keyword)
     {
         return $query->where('firstname','LIKE', '%' . $keyword . '%' )

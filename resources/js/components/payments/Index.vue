@@ -55,10 +55,12 @@
                       </RouterLink>                    
                   </td>         
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"> 
+                    <router-link :to="{name: 'customers.details', params : { id :  payment.borrower.id }}" class="text-sky-500">
                       <BaseAvatar
                         :image="payment.borrower.avatar"
                         :name="payment.borrower.name"
-                      />                    
+                      />              
+                    </router-link>      
                   </td>
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     {{ moneyFormatter(payment.amount) }}
@@ -112,25 +114,40 @@
   const { getPayments, removePayment, payments } = usePayments();
   const { moneyFormatter } = useFormatter();
 
-  const voidPayment = async(id)=>{
+  const voidPayment = async(id)=> {
+
         await removePayment(id);
+
         await getPayments();
+
   }
 
   const deleteSeleted  = () => {
+
       listId.value.forEach(id => { 
+
           removePayment(id);
-      })    
+
+      })  
+
   }
   
-  const selectAll = () => {       
+  const selectAll = () => {   
+
       selectAllState.value = selectAllState.value == true ? false : true;
+
       listId.value = []
-      if(selectAllState.value == true){  
+
+      if(selectAllState.value == true){ 
+
           payments.value.forEach(payment => {
+
               listId.value.push(payment.id)
+
           })        
+
           return;
+          
       }
 
       listId.value = []
