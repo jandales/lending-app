@@ -1,11 +1,11 @@
 <template>
-   <div class="bg-white p-4 border rounded-md w-max">
+   <div v-if="customer"  class="bg-white p-4 border rounded-md w-max">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-xl">Edit Customer</h1> 
          </div>
          <div class="block bg-white">
            
-        <form v-if="customer">
+        <form>
             <div class="grid grid-cols-2 gap-4">
                 
                 <div class="form-group mb-6">

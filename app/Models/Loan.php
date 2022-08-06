@@ -68,16 +68,28 @@ class Loan extends Model
 
     }
 
+    public function scopeActive($query)
+    {
+
+        return $query->where('status', Self::$STATUS_ACTIVE)->latest('created_at');
+
+    }
+
     public function scopeExistingLoan($query, $id)
     {      
         
         $loan = $query->where('borrower_id', $id)->where(function ($q) {
+
                         $q->where('status', Self::$STATUS_APPROVED)
+
                         ->orWhere('status', Self::$STATUS_PENDING)
+
                         ->orWhere('status', Self::$STATUS_ACTIVE);
-                    })->first();
+
+                })->first();
 
         return $loan === null ? false : true;
+
     }
 
     public function scopeCapital($query)
@@ -129,11 +141,19 @@ class Loan extends Model
     {    
         
        return $query->with('borrower')
-                    ->where('loan_number', 'LIKE', '%' . $keyword . '%')                               
+
+                    ->where('loan_number', 'LIKE', '%' . $keyword . '%')  
+
                     ->orWhereHas('borrower', function ($q) use ($keyword) {
+
                         $q->where('firstname', 'LIKE', '%' . $keyword . '%')
-                          ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');                      
-                    })                                      
+
+                         ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');  
+
+                    })  
+
                     ->get();
+
     }
+
 }

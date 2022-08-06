@@ -54,7 +54,7 @@ class LoanServices {
 
         $exist  = Loan::ExistingLoan($validated['borrower_id']); 
 
-        if (! $exist ) return response()->json(['status' => 500, 'message' => 'This Customer has an exist loan' ]);   
+        if ($exist) return response()->json(['status' => 500, 'message' => 'This Customer has an exist loan' ]);   
 
         $validated['loan_number'] = Self::LoanNumber();
 

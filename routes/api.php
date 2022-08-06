@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/customers/destroy/{customer:id}', [BorrowerController::class, 'destroy']);
     Route::get('/customers/search/{keyword}', [BorrowerController::class, 'search']);
     Route::get('/customers/person/count', [BorrowerController::class, 'count']);
+   
 
     Route::delete('/logout', [LogoutController::class, 'logout']);
     Route::put('/change-password', [ChangePasswordController::class, 'update']);
@@ -64,6 +65,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/loans/update-status/{loan:id}', [LoanController::class, 'updateStatus']);
     Route::get('/loans/existing-loan/{id}', [LoanController::class, 'exist']);
     Route::get('/loans/search/keyword={keyword}', [LoanController::class, 'search']);
+    Route::get('/loans/customers/{id}/active-loan', [LoanController::class, 'activeLoan']);
+   
 
     Route::get('/payments', [PaymentController::class, 'index']);
     Route::get('/payments/{payment:id}', [PaymentController::class, 'view']);

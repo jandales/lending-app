@@ -27,7 +27,7 @@ class BorrowerServices {
 
     public function getCustomerById($id)
     {
-        $borrower = Borrower::with('loans')->where('id', $id)->firstorFail();
+        $borrower = Borrower::with('loans', 'loans.dueDates')->where('id', $id)->firstorFail();
         return new BorrowerResource($borrower);
     }
 

@@ -38,6 +38,8 @@ export default function useLoans() {
         }       
     }
 
+   
+
     const searchLoans = async (keyword) => {
         isLoading.value = true;
         try {
@@ -126,6 +128,32 @@ export default function useLoans() {
         
     }
 
+    const getActiveLoan = async (id) => {
+
+        isLoading.value = true;
+
+        try {
+
+            let response = await axios.get(`/loans/customers/${id}/active-loan`);
+
+            loan.value = response.data.data;
+
+        }
+
+        catch (e){
+
+            console.error(e);
+
+        }
+
+        finally {
+
+            isLoading.value = false;
+
+        }   
+
+    }
+
 
 
     return {
@@ -136,6 +164,7 @@ export default function useLoans() {
         destroyLoan,
         updateStatusLoan,
         searchLoans,
+        getActiveLoan,
         loans,
         loan,
         errors,

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Loan;
 use App\Models\Borrower;
+use App\Http\Resources\LoanResource;
 use App\Http\Requests\BorrowerRequest;
 use App\Http\Services\BorrowerServices;
 
@@ -65,5 +67,7 @@ class BorrowerController extends Controller
         return $this->services->count();
         
     }
+
+   
 
 }
