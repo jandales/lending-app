@@ -116,7 +116,6 @@
 <script setup>
 import Alert from '../../components/Alert.vue'
 import BaseInput from '../../components/base/BaseInput.vue'
-import CustomersModal from '../Modal/CustomersModal.vue';
 import LoansModal from '../Modal/LoansModal.vue';
 import BaseLabelRow from '../../components/base/BaseLabelRow.vue'
 

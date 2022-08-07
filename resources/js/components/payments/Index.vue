@@ -55,7 +55,7 @@
                       </RouterLink>                    
                   </td>         
                   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"> 
-                    <router-link :to="{name: 'customers.details', params : { id :  payment.borrower.id }}" class="text-sky-500">
+                    <router-link :to="{name: 'borrowers.details', params : { id :  payment.borrower.id }}" class="text-sky-500">
                       <BaseAvatar
                         :image="payment.borrower.avatar"
                         :name="payment.borrower.name"

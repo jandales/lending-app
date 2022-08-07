@@ -4,7 +4,7 @@
     <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
       <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
         <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLgLabel">
-          Find Customers
+          Find Borrower
         </h5>
         <button type="button"
           class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
@@ -41,23 +41,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="customers.length === 0">
-                                <td colspan="4" class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">No customer found</td>
+                            <tr v-if="borrowers.length === 0">
+                                <td colspan="4" class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">No borrower found</td>
                             </tr>
-                            <tr v-for="customer in customers" class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                            <tr v-for="borrower in borrowers" class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 <div class="form-check">
-                                    <input v-model="selected" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="customer" id="flexCheckChecked" :value="customer">                    
+                                    <input v-model="selected" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="borrower" id="flexCheckChecked" :value="borrower">                    
                                 </div>
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{ customer.name }}
+                            {{ borrower.name }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{ customer.address}}
+                            {{ borrower.address}}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{ customer.phone}}
+                            {{ borrower.phone}}
                             </td>             
                             </tr>           
                         </tbody>
@@ -68,7 +68,7 @@
             </div>
            <div class="flex gap-4 justify-end mt-4">
                 <button type="button" class="btn-danger" data-bs-dismiss="modal">Cancel</button>
-                <button @click="selectCustomer" data-bs-dismiss="modal" class="btn-primary">Select</button>
+                <button @click="selectBorrower" data-bs-dismiss="modal" class="btn-primary">Select</button>
            </div>
       </div>
     </div>
@@ -77,31 +77,31 @@
 </template>
 <script setup>
     import { onMounted, ref, computed } from 'vue';
-    import useCustomers from '../../composable/customers';
+    import useBorrowers from '../../composable/borrowers';
 
-    const { getCustomers, searchCustomers, customers} = useCustomers(); 
-    const emit = defineEmits(['selectCustomer']);
+    const { getBorrowers, searchborrowers, borrowers} = useBorrowers(); 
+    const emit = defineEmits(['selectBorrower']);
     const selected  = ref();
 
 
     const search = (event) => {
         let keyword = event.target.value; 
         if(keyword == null) return;   
-        searchCustomers(keyword);
+        searchborrowers(keyword);
     }
 
-    const selectCustomer = () => {      
-        emit('selectCustomer', selected.value);
+    const selectBorrower = () => {      
+        emit('selectBorrower', selected.value);
     }
 
-    onMounted(getCustomers);
+    onMounted(getBorrowers);
 
-    // const listCustomers = computed(() => {
-    //     if(customers.value.length == 0) return [];
-    //     customers.value.filter(customer => {
-    //         if (customer.status == 'void' || customer.status == 'paid')
+    // const listborrowers = computed(() => {
+    //     if(borrowers.value.length == 0) return [];
+    //     borrowers.value.filter(borrower => {
+    //         if (borrower.status == 'void' || borrower.status == 'paid')
     //         {
-    //             return customer;
+    //             return borrower;
     //         }
     //     })
     // });

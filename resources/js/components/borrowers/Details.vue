@@ -1,16 +1,16 @@
 <template >
-    <div v-if="customer" class="flex w-full  gap-4">
+    <div v-if="borrower" class="flex w-full  gap-4">
         <div class=" flex flex-col gap-4 w-1/3">
             <div  class="w-full bg-white rounded-md border h-max py-4 px-8 mb-4">
             <hi class="block tracking-wider text-lg mb-4">Borrower Info</hi>
             <div class="flex justify-between items-center mb-4">
                     <div class="flex items-center  w-full">                
-                        <img v-if="customer && customer.avatar" :src="customer.avatar" class="rounded-full border w-20 h-20"  alt="Avatar" />
+                        <img v-if="borrower && borrower.avatar" :src="borrower.avatar" class="rounded-full border w-20 h-20"  alt="Avatar" />
                         <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-20 h-20"  alt="Avatar"/>        
                         <div class="w-full flex  items-center justify-between ml-4">
                             <div>
-                                <label for="" class="block text-xl capitalize font-semibold text-gray-700 mb-1">{{ customer.name }} 
-                                    <router-link :to="{name: 'customers.edit', params : { id :  customer.id } }" class="ml-2 text-xs text-sky-500">Edit</router-link>
+                                <label for="" class="block text-xl capitalize font-semibold text-gray-700 mb-1">{{ borrower.name }} 
+                                    <router-link :to="{name: 'borrowers.edit', params : { id :  borrower.id } }" class="ml-2 text-xs text-sky-500">Edit</router-link>
                                 </label>  
                             </div>  
                         </div> 
@@ -20,17 +20,17 @@
                 <div  class="flex flex-col w-full">
                     <div class="flex gap-2 mb-1">
                         <div for="" class="block min-w-[100px] text-sm text-gray-700 break-words">Phone Number :</div>
-                        <label for="" class="block text-sm text-gray-500">{{customer.phone}}</label>
+                        <label for="" class="block text-sm text-gray-500">{{borrower.phone}}</label>
                     </div>
 
                     <div class="flex gap-2 mb-1">
                         <div for="" class="block min-w-[100px] text-sm text-gray-700 break-words">Email :</div>
-                        <label for="" class="block text-sm text-gray-500">{{customer.email}}</label>    
+                        <label for="" class="block text-sm text-gray-500">{{borrower.email}}</label>    
                     </div>  
                     
                     <div class="flex gap-2 mb-1">
                         <div  for="" class="block min-w-[100px] text-sm text-gray-700">Address :</div>
-                        <label for="" class="block text-sm text-gray-500 break-all">{{customer.address}}</label>    
+                        <label for="" class="block text-sm text-gray-500 break-all">{{borrower.address}}</label>    
                     </div>
 
                 </div>
@@ -40,10 +40,11 @@
             <div  class="w-full bg-white rounded-md border h-max py-4 px-8 mb-4">
                 <hi class="block tracking-wider text-lg mb-4">List of Loans</hi>
                 <ul>              
-                        <li v-for="loan in customer.loans"  
+                        <li v-for="loan in borrower.loans"  
                             @click="selectLoan(loan.id)"  
-                            class="w-full flex items-center justify-between text-sky-500 py-1 cursor-pointer">
-                                <label for="">{{ loan.loan_number }}</label>
+                            class="w-full flex items-center justify-between  py-1 cursor-pointer">
+                                <label class="text-sky-500" for="">{{ loan.loan_number }}</label>
+                                <label for="">{{ moneyFormatter(loan.total_amount) }}</label>
                                 <label v-if="loan.status == 'pending'" for=""  class="bg-sky-500 text-xs capitalize text-white p-1 px-2 rounded-md">
                                     {{ loan.status }}
                                 </label>
@@ -159,7 +160,7 @@
 
 <script setup>
 
-import useCustomers from '../../composable/customers.js';
+import useBorrowers from '../../composable/borrowers.js';
 
 import useLoans from '../../composable/loans';
 
@@ -175,7 +176,7 @@ import { useRoute } from 'vue-router';
 
 const { moneyFormatter } = useFormatter(); 
 
-const {  getCustomer, customer, } = useCustomers();
+const {  getBorrower, borrower, } = useBorrowers();
 
 const { calculateInterest } = useCalculation();
 
@@ -188,7 +189,7 @@ const selectLoan = async (id) => {
     await getLoan(id);
 }
 
-onMounted(getCustomer(route.params.id));
+onMounted(getBorrower(route.params.id));
 
 onMounted(getActiveLoan(route.params.id));
 
@@ -215,17 +216,5 @@ const dueDateList = computed(() => {
     });
 
 });
-
-const selectedLoan = computed(() => {
-
-    
-
-});
-
-
-
-
-
-
 
 </script>

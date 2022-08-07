@@ -7,6 +7,7 @@ use App\Models\Borrower;
 use App\Http\Resources\LoanResource;
 use App\Http\Requests\BorrowerRequest;
 use App\Http\Services\BorrowerServices;
+use App\Http\Resources\BorrowerResource;
 
 class BorrowerController extends Controller
 {    
@@ -26,10 +27,17 @@ class BorrowerController extends Controller
 
     }
 
-    public function view($id)
+    public function show(Borrower $borrower)
     {
 
-        return $this->services->getCustomerById($id); 
+        return BorrowerResource::make($borrower->load('loans', 'loans.dueDates'));
+
+    }
+
+    public function edit(Borrower $borrower)
+    {
+
+        return $borrower;
 
     }
 

@@ -27,62 +27,125 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 |
 */
 Route::post('/login', [LoginController::class, 'attempt']);
+
 Route::post('/forgot-password', [ForgotPasswordController::class, 'index']);
-Route::get('/reset-password/{token}', [ResetPasswordController::class, 'index']);
-Route::put('/reset-password', [ResetPasswordController::class, 'reset']);
+
+Route::controller(ResetPasswordController::class)->prefix('reset-password')->group(function () {
+
+    Route::get('/{token}',  'index');
+
+    Route::put('/',  'reset');
+
+});
+
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::get('/user', [UserController::class, 'user']);
-    Route::put('/user/update',[UserController::class, 'update']);
-    Route::post('/user/upload-avatar',[UserController::class, 'upload']);
-
     Route::get('/app/dashboard', [AppController::class, 'dashboard']);
-    
-    Route::get('/loan-types',[LoanTypeController::class, 'index']);
-    Route::get('/loan-types/{loantype:id}',[LoanTypeController::class, 'show']);
-    Route::put('/loan-types/update/{id}',[LoanTypeController::class, 'update']);
-    Route::post('/loan-types/store',[LoanTypeController::class, 'store']);
-    Route::delete('/loan-types/destroy/{id}', [LoanTypeController::class, 'destroy']);
-
-    Route::get('/customers', [BorrowerController::class, 'index']);
-    Route::get('/customers/{id}', [BorrowerController::class, 'view']);
-    Route::post('/customers/store', [BorrowerController::class, 'store']);
-    Route::post('/customers/update/{customer:id}', [BorrowerController::class, 'update']);
-    Route::delete('/customers/destroy/{customer:id}', [BorrowerController::class, 'destroy']);
-    Route::get('/customers/search/{keyword}', [BorrowerController::class, 'search']);
-    Route::get('/customers/person/count', [BorrowerController::class, 'count']);
-   
 
     Route::delete('/logout', [LogoutController::class, 'logout']);
+
     Route::put('/change-password', [ChangePasswordController::class, 'update']);
 
-    Route::get('/loans', [LoanController::class, 'index']);
-    Route::get('/loans/{id}', [LoanController::class, 'view']);
-    Route::get('/loans/borrower/{id}', [LoanController::class, 'getLoanByCustomer']);
-    Route::post('/loans/store', [LoanController::class, 'store']);    
-    Route::delete('/loans/destroy/{loan:id}', [LoanController::class, 'destroy']);
-    Route::put('/loans/update-status/{loan:id}', [LoanController::class, 'updateStatus']);
-    Route::get('/loans/existing-loan/{id}', [LoanController::class, 'exist']);
-    Route::get('/loans/search/keyword={keyword}', [LoanController::class, 'search']);
-    Route::get('/loans/customers/{id}/active-loan', [LoanController::class, 'activeLoan']);
-   
+    Route::controller(UserController::class)->prefix('user')->group(function () {
 
-    Route::get('/payments', [PaymentController::class, 'index']);
-    Route::get('/payments/{payment:id}', [PaymentController::class, 'view']);
-    Route::post('/payments/store', [PaymentController::class, 'store']);
-    Route::delete('/payments/destroy/{payment:id}', [PaymentController::class, 'destroy']);  
+        Route::get('/', 'user');
+
+        Route::put('/update', 'update');
+
+        Route::post('/upload-avatar', 'upload');
+
+    });  
     
-    Route::get('/payment-due-date/loans/{id}', [PaymentDueDateController::class, 'index']);
-    Route::get('/payment-due-date/{id}', [PaymentDueDateController::class, 'show']);
+    Route::controller(LoanTypeController::class)->prefix('loan-types')->group(function () {
 
-    Route::get('/interests', [InterestController::class, 'index']);
-    Route::get('/interests/{interest:id}', [InterestController::class, 'view']);
-    Route::post('/interests/store', [InterestController::class, 'store']);
-    Route::put('/interests/update/{interest:id}', [InterestController::class, 'update']);
-    Route::delete('/interests/destroy/{interest:id}', [InterestController::class, 'destroy']);
+        Route::get('/', 'index');
 
- 
+        Route::get('/{loantype:id}','show');
 
+        Route::put('/update/{id}', 'update');
+
+        Route::post('/store', 'store');
+
+        Route::delete('/destroy/{id}', 'destroy');
+
+    });
+  
+    Route::controller(BorrowerController::class)->prefix('borrowers')->group(function () {
+
+        Route::get('/', 'index');
+
+        Route::get('/show/{borrower:id}', 'show');
+
+        Route::get('/{borrower:id}/edit', 'edit');
+
+        Route::post('/store','store');
+
+        Route::post('/update/{borrower:id}', 'update');
+
+        Route::delete('/destroy/{borrower:id}', 'destroy');
+
+        Route::get('/search/{keyword}',  'search');
+
+        Route::get('/person/count',  'count');
+
+    });
+   
+    Route::controller(LoanController::class)->prefix('loans')->group(function () {  
+
+        Route::get('/', 'index');
+
+        Route::get('/{id}', 'view');
+
+        Route::get('/borrower/{id}', 'getLoanByCustomer');
+
+        Route::post('/store','store');   
+
+        Route::delete('/destroy/{loan:id}',  'destroy');
+
+        Route::put('/update-status/{loan:id}',  'updateStatus');
+
+        Route::get('/existing-loan/{id}', 'exist');
+
+        Route::get('/search/keyword={keyword}',  'search');
+
+        Route::get('/customers/{id}/active-loan', 'activeLoan');
+
+    });
+
+    Route::controller(PaymentController::class)->prefix('payments')->group(function () {  
+
+        Route::get('/', 'index');
+
+        Route::get('/{payment:id}',  'view');
+
+        Route::post('/store',  'store');
+
+        Route::delete('/destroy/{payment:id}',  'destroy'); 
+
+    });
+
+    Route::controller(PaymentDueDateController::class)->prefix('payment-due-date')->group(function () {  
+
+        Route::get('/loans/{id}',  'index');
+
+        Route::get('/{id}', 'show');
+
+    });
+
+    Route::controller(InterestController::class)->prefix('interests')->group(function () { 
+
+        Route::get('/', 'index');
+
+        Route::get('/{interest:id}', 'view');
+
+        Route::post('/store',  'store');
+
+        Route::put('/update/{interest:id}', 'update');
+
+        Route::delete('/destroy/{interest:id}', 'destroy');        
+
+     });
 
 });

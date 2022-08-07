@@ -1,7 +1,7 @@
 <template>
-   <div v-if="customer"  class="bg-white p-4 border rounded-md w-max">
+   <div v-if="borrower"  class="bg-white p-4 border rounded-md w-max mx-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-xl">Edit Customer</h1> 
+            <h1 class="text-xl">Edit Borrower</h1> 
          </div>
          <div class="block bg-white">
            
@@ -11,7 +11,7 @@
                 <div class="form-group mb-6">
                     <label for="exampleInputPassword1" class="text-gray-700">First Name</label>
                     <input type="text"
-                        v-model="customer.firstname"
+                        v-model="borrower.firstname"
                         name="firstname"
                         id="exampleInput123"
                         aria-describedby="emailHelp123" placeholder="First name">
@@ -20,7 +20,7 @@
                 <div class="form-group mb-6">
                     <label for="exampleInputPassword1" class="text-gray-700">Last Name</label>
                     <input type="text" 
-                        v-model="customer.lastname" 
+                        v-model="borrower.lastname" 
                          name="lastname"
                         id="exampleInput124"
                         aria-describedby="emailHelp124" placeholder="Last name">
@@ -31,7 +31,7 @@
                 <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Email</label>
                 <input type="email" 
                     name="email"
-                    v-model="customer.email"                      
+                    v-model="borrower.email"                      
                     id="exampleInputPassword1"
                     placeholder="Email">                        
             </div>
@@ -40,7 +40,7 @@
                 <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Phone Number</label>
                 <input type="number"  
                     name="phone_number"
-                    v-model="customer.phone"                      
+                    v-model="borrower.phone"                      
                     id="exampleInputPassword1"
                     placeholder="Phone Number">
                 <small class="text-alert-danger" v-for="error in errors.phone">{{ error }}</small>
@@ -50,7 +50,7 @@
                 <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Address</label>
                 <input type="text"
                 name="address"
-                    v-model="customer.address"
+                    v-model="borrower.address"
                     id="exampleInputPassword1"
                     placeholder="address">
                 <small class="text-alert-danger" v-for="error in errors.address">{{ error }}</small>
@@ -61,7 +61,7 @@
                         <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Image</label>
                         <input 
                         @change="onChangeFile($event)"
-                        v-on="customer.avatar"
+                        v-on="borrower.avatar"
                         class="form-control
                         block
                         w-full
@@ -77,8 +77,9 @@
                         ease-in-out
                         m-0
                         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile">  
-                        <img  v-if="!isImageChange" :src="customer.avatar" class="rounded-full w-32 h-32 mt-4" alt="" srcset=""> 
-                        <img  v-else  v-if="image" :src="image" class="rounded-full w-32 h-32 mt-4" alt="Avatar" />
+                        <img  v-if="isImageChange"  :src="image" class="rounded-full w-32 h-32 mt-4" alt="Avatar" />
+                        <img  v-else-if="borrower.avatar" :src="borrower.avatar" class="rounded-full w-32 h-32 mt-4" alt=""/>                         
+                        <img v-else src="/img/avatar/avatar.png" class="rounded-full w-32 h-32 mt-4">
                                                               
                     </div>
             </div>
@@ -101,33 +102,45 @@
     
 </template>
 <script setup>
-
-import useCustomers from '../../composable/customers';
-import { reactive, ref, onMounted, computed} from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import useBorrowers from '../../composable/borrowers';
+import {  ref, onMounted} from 'vue';
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-const { updateCustomer, getCustomer, errors, customer } = useCustomers();
+const { updateBorrower, editBorrower, errors, borrower } = useBorrowers();
+
 const isImageChange = ref(false);
-const image = ref();
+
+const image = ref('/img/avatar/avatar.png');
 
 const onChangeFile = (event) => {
+
     const file = event.target.files[0];
-    customer.value.avatar = file;
+
+    borrower.value.avatar = file;
+
     const reader = new FileReader();
+
     reader.onload = (e) => {     
-       image.value = e.target.result;       
+
+       image.value = e.target.result;  
+
     }
+
     reader.readAsDataURL(file);  
+
     isImageChange.value = true;
+
 }
 
 const update = async() => {  
-    await updateCustomer(route.params.id, {... customer.value})
+
+    await updateBorrower(route.params.id, {... borrower.value})
+
 }
 
-onMounted(getCustomer(route.params.id));
+onMounted(editBorrower(route.params.id));
 
 
 

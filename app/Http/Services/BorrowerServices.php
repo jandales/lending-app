@@ -25,11 +25,7 @@ class BorrowerServices {
         return Borrower::create($validated);      
     }
 
-    public function getCustomerById($id)
-    {
-        $borrower = Borrower::with('loans', 'loans.dueDates')->where('id', $id)->firstorFail();
-        return new BorrowerResource($borrower);
-    }
+
 
     public function update(Request $request, Borrower  $borrower)
     {      

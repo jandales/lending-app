@@ -20,7 +20,7 @@
                 <th class="w-[50px]">
                     <div class="flex justify-center">
                       <div class="form-check px-2">
-                        <input   type="checkbox"  id="flexCheckIndeterminate" >
+                        <input  @change="selectAll()"  type="checkbox"  id="flexCheckIndeterminate" >
                       </div>
                     </div>
                 </th>           
@@ -57,7 +57,7 @@
                   </div>  
                 </td>            
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">    
-                  <router-link :to="{name: 'customers.details', params : { id :  loan.borrower.id }}" class="text-sky-500">
+                  <router-link :to="{name: 'borrowers.details', params : { id :  loan.borrower.id }}" class="text-sky-500">
                       <BaseAvatar
                         :image="loan.borrower.avatar"
                         :name="loan.borrower.name"
@@ -125,39 +125,53 @@
 </template>
 <script setup>
 import BaseAvatar from '../base/BaseAvatar.vue';
-import useCustomers from '../../composable/customers';
 import useLoans from '../../composable/loans'
 import useFormatter from '../../composable/helper/formater'
 
 import { ref, onMounted, computed } from 'vue';
 
 const { getLoans, destroyLoan, loans} =  useLoans();
+
 const { moneyFormatter } = useFormatter();
 
 const selected = ref([])
+
 const selectAllState = ref(false);
 
+const selectAll = () => {   
 
-const selectAll = () => {       
       selectAllState.value = selectAllState.value == true ? false : true;
+
       selected.value = []
+
       if(selectAllState.value == true){  
+
           loans.value.forEach(type => {
+
               selected.value.push(type.id)
+
           })        
+
           return;
       }
+
       selected.value = []      
 }
 
 const deleteSeleted  =  () => {
+
     selected.value.forEach(id => { 
+
         destroy(id);
+
     })    
 }
 const destroy = async (id) => {
-        await destroyLoan(id)
-        await getLoans();
+
+    await destroyLoan(id)
+
+    await getLoans();
+
 }
 
 

@@ -3,9 +3,13 @@
 <div class="w-full flex gap-8"> 
   <BaseCard :title="'Customers'"  :value="customerCount" :icon="'person'" />
 
+   <BaseCard :title="'Active Loan'"  :value="activeLoansCount" :icon="'activeLoanCount'" />
+
   <BaseCard :title="'Capital'"  :value="moneyFormatter(loanCapital)" :icon="'capital'" />
 
   <BaseCard :title="'Revenue'"  :value="moneyFormatter(loanRevenue)" :icon="'revenue'"/> 
+
+  
 </div>
 
 
@@ -25,7 +29,7 @@
                   Customer
                 </th>
                 <th scope="col">
-                  Type
+                  Terms
                 </th>
                 <th scope="col">
                   Amount
@@ -41,7 +45,7 @@
             <tbody>  
               <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0">                      
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">  
-                  <RouterLink :to="{name : 'customers.details' , params : {id : loan.borrower.id } }" class="text-sky-500">         
+                  <RouterLink :to="{name : 'borrowers.details' , params : {id : loan.borrower.id } }" class="text-sky-500">         
                     <BaseAvatar
                       :image="loan.borrower.avatar"
                       :name="loan.borrower.name"
@@ -93,7 +97,7 @@ import { onMounted, computed} from 'vue';
 
 const { moneyFormatter } = useFormatter();
 
-const { getDashboards ,customerCount, loanRevenue, loanCapital, recentLoans  } = useApp();
+const { getDashboards ,customerCount, loanRevenue, loanCapital,activeLoansCount, recentLoans  } = useApp();
 
 const getData = () => {
 
@@ -104,12 +108,19 @@ const getData = () => {
 onMounted(getData);
 
 const loans = computed(() => {
+
     if(recentLoans.value == null) return;
+
     return recentLoans.value.map(loan => {
+
         loan.total_amount = moneyFormatter(loan.total_amount);
+
         loan.balance_amount = moneyFormatter(loan.balance_amount);
+
         return loan;
+
     });
 
 });
+
 </script>

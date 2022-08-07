@@ -30,7 +30,7 @@
         <NavItem  :route="{name : 'payments'}" :label="'payments'"  />  
     </li>  
     <li class="relative">
-      <NavItem :to="{name : 'customers'}" :label="'borrowers'"/>
+      <NavItem :to="{name : 'borrowers'}" :label="'borrowers'"/>
     </li> 
     <li class="relative">
       <NavItem :to="{name : 'reports'}" :label="'reports'"/>

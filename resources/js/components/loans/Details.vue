@@ -13,7 +13,7 @@
                     <div v-if="loan" class="w-full flex  items-center justify-between ml-4">
                         <div>
                             <label for="" class="block text-xl capitalize font-semibold text-gray-700 mb-1">{{ loan.borrower.name }}</label>
-                            <label for="" class="block text-base text-gray-400">{{loan.borrower.phone}}</label>
+                            <label for="" class="block text-base text-gray-400">{{ loan.borrower.phone }}</label>
                         </div> 
                     </div>        
                 </div>
@@ -25,7 +25,7 @@
                             <select v-model="status" aria-label="Default select example"  placeholder="Select" class="py-[10px] w-full capitalize text-sm">  
                                 <option v-if="loan.status == 'pending'"  value='approved'  :selected="status == loan.status">Approved</option>
                                 <option v-if="loan.status == 'approved'" value='active'  :selected="status == loan.status">Release</option>  
-                                <option v-if="loan.status != 'paid'"     value='rejected'  :selected="status == loan.status">Reject</option>
+                                <option v-if="loan.status != 'paid' || loan.status != 'active' "     value='rejected'  :selected="status == loan.status">Reject</option>
                             </select>
                         </div> 
                     </div>    

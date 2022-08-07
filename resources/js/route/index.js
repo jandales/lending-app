@@ -5,10 +5,10 @@ import Home from '../pages/Home.vue'
 import LoanTypeIndex from '../components/LoanTypes/Index.vue'
 import CreateType from '../components/LoanTypes/Create.vue'
 import EditType from '../components/LoanTypes/Edit.vue'
-import customerIndex from '../components/customers/Index.vue'
-import customerCreate from '../components/customers/Create.vue'
-import customerEdit from '../components/customers/Edit.vue'
-import CustomerDetails from '../components/customers/Details.vue';
+import borrowerIndex from '../components/borrowers/Index.vue'
+import borrowerCreate from '../components/borrowers/Create.vue'
+import borrowerEdit from '../components/borrowers/Edit.vue'
+import borrowerDetails from '../components/borrowers/Details.vue';
 import Dashboard from '../pages/Dashboard.vue'
 import ForgotPassword from '../pages/ForgotPassword.vue'
 import ResetPassword  from '../pages/ResetPassword.vue'
@@ -42,10 +42,10 @@ const router = createRouter({
             { path : 'loan-types/create' , name : 'loanTypes.create',  component : CreateType  },
             { path : 'loan-types/edit/:id', name : 'loanTypes.edit',  component : EditType  },
 
-            { path : 'customers', name : 'customers', component : customerIndex },
-            { path : 'customers/create', name : 'customers.create', component : customerCreate },
-            { path : 'customers/edit/:id', name : 'customers.edit', component : customerEdit },
-            { path : 'customers/details/:id', name : 'customers.details', component : CustomerDetails },
+            { path : 'borrowers', name : 'borrowers', component : borrowerIndex },
+            { path : 'borrowers/create', name : 'borrowers.create', component : borrowerCreate },
+            { path : 'borrowers/edit/:id', name : 'borrowers.edit', component : borrowerEdit },
+            { path : 'borrowers/details/:id', name : 'borrowers.details', component : borrowerDetails },
 
             { path: 'payments' , name : 'payments', component : PaymentIndex },
             { path: 'payments/create/:loan_id?', name : 'payments.create', component : PaymentCreate },

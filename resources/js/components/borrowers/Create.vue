@@ -1,7 +1,7 @@
 <template>
    <div class="bg-white p-4 border rounded-md w-max mx-auto">
         <div class="flex justify-between items-center ">
-      <h1 class="text-xl">Create Customer</h1> 
+      <h1 class="text-xl">Create Borrower</h1> 
   </div>
   
    <div class="block bg-white  rounded-md max-w-2xl mt-6">
@@ -98,10 +98,12 @@
    </div>  
 </template>
 <script setup>
-import useCustomers from '../../composable/customers';
+
+import useBorrowers from '../../composable/borrowers';
+
 import { reactive, ref } from 'vue';
 
-const { storeCustomer, errors, } = useCustomers();
+const { storeBorrower, errors, } = useBorrowers();
 
 const form =  reactive({
     firstname : '',
@@ -115,14 +117,18 @@ const form =  reactive({
 const avatar = ref();
 
 
-const onChangeFile = (event) => {      
-    form.avatar = event.target.files[0]; 
-    console.log(form.avatar);   
+const onChangeFile = (event) => {   
+
+    form.avatar = event.target.files[0];     
+
     avatar.value  = URL.createObjectURL(event.target.files[0]);
+
 }
 
 const store = async() => {
-    await storeCustomer({...form});
+
+    await storeBorrower({...form});
+
 }
 
 </script>

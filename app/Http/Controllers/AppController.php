@@ -18,9 +18,23 @@ class AppController extends Controller
 
         $revenue = Loan::Revenue();
 
+        $activeLoan =  Loan::Active()->count();
+
         $loans = LoanResource::collection(Loan::with('borrower')->latest('created_at')->limit(10)->get());
 
-        return response()->json(['loans' => $loans,'customersCount' => $customersCount, 'capital' => $capital, 'revenue' => $revenue]);
+        return response()->json([
+
+            'loans' => $loans,
+
+            'customersCount' => $customersCount,
+
+            'capital' => $capital,
+
+            'revenue' => $revenue,
+
+            'activeLoan' => $activeLoan,
+
+        ]);
         
     }
 

@@ -171,19 +171,17 @@
 
 
 
-<CustomersModal @selectCustomer="selectBorrower"></CustomersModal>
+<BorrowersModal @selectBorrower="selectBorrower"></BorrowersModal>
 
 </template>
 
 <script setup>
-import CustomersModal from '../../components/Modal/CustomersModal.vue'
+import BorrowersModal from '../../components/Modal/BorrowersModal.vue'
 import Alert from '../Alert.vue';
 import BaseInput from '../Base/BaseInput.vue';
-
 import useLoans from '../../composable/loans';
 import useInterests from '../../composable/interest';
 import useCalculation from '../../composable/helper/calculations'
-
 import { reactive,ref, toRefs, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -192,7 +190,9 @@ const { storeLoan, existLoan, loan, errors, isSuccess, exist} = useLoans();
 const { calculateTotalInterest, calculateTotalAmount, calculateCollectionAmount } =  useCalculation();
 
 const router = useRouter();
+
 const borrower = ref();
+
 const form = reactive({ 
     borrower_id : null, 
     terms : 0,
@@ -220,6 +220,7 @@ const paymentTerms = [
 ]
 
 const handleTotalInterest = () => { 
+
     const { principal_amount, interest, terms } = toRefs(form)
     
     let total= calculateTotalInterest(parseFloat(principal_amount.value), interest.value, terms.value);    
@@ -229,23 +230,29 @@ const handleTotalInterest = () => {
     form.total_amount = total_amount;
 
     form.collection_amount = calculateCollectionAmount(total_amount, terms.value);
+
 }
 
 const selectBorrower = (person) => {
+
     form.borrower_id = person.id;
+
     borrower.value = person;
+
     existLoan(person.id); 
+
 }
 
 const store = async () => {
+
     await storeLoan(form) 
+
     if(isSuccess.value === true){
+
         router.push({name : 'loans.details', params : { id : loan.value.id }});
+
     }     
 }
-
-
-
 
 onMounted(getInterests);
 
