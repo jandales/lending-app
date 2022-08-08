@@ -7,6 +7,10 @@
   "resources/css/app.css": {
     "file": "assets/app.b18827c9.css",
     "src": "resources/css\\app.css",
+<<<<<<< HEAD
     "isEntry": true
+=======
+     "isEntry": true
+>>>>>>> fe11595d7b306c6b812b5faa720db999b751b692
   }
 }
