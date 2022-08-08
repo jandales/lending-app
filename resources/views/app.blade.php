@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <script src="./TW-ELEMENTS-PATH/dist/js/index.min.js"></script>
 
-          <!-- @production
+          {{-- <!-- @production
             @php
                 $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);               
             @endphp
@@ -18,7 +18,7 @@
              <script type="module" src="{{asset("build/".$manifest['resources/js/app.js']['file'])}}" ></script>           
         @else 
             @vite(['resources/css/app.css','resources/js/app.js'])
-        @endproduction -->
+        @endproduction --> --}}
 
          @vite('resources/css/app.css')
     </head>
