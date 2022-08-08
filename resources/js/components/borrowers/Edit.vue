@@ -79,7 +79,7 @@
                         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile">  
                         <img v-if="isImageChange"  :src="image" class="rounded-full w-32 h-32 mt-4" alt="Avatar" />
                         <img v-else-if="borrower.avatar" :src="borrower.avatar" class="rounded-full w-32 h-32 mt-4" alt=""/>                         
-                        <img v-else src="/img/avatar/avatar.png" class="rounded-full w-32 h-32 mt-4">
+                        <img v-else :src="imagesrc" class="rounded-full w-32 h-32 mt-4">
                                                               
                     </div>
             </div>
@@ -113,6 +113,8 @@ const { updateBorrower, editBorrower, errors, borrower } = useBorrowers();
 const isImageChange = ref(false);
 
 const image = ref();
+
+const imagesrc = '/img/avatar/avatar.png'
 
 const onChangeFile = (event) => {
 
