@@ -85,6 +85,7 @@ class LoanController extends Controller
     public function activeLoan($id) 
     {
         $loan = Loan::with('dueDates')->where(['borrower_id' => $id, 'status' => 'active'])->first();
+        
         return  LoanResource::make($loan);
 
     }

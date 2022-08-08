@@ -29,6 +29,8 @@ class Borrower extends Model
 
     }
 
+   
+
     public function scopeSearch($query, $keyword)
     {
         return $query->where('firstname','LIKE', '%' . $keyword . '%' )

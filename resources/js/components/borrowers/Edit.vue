@@ -112,7 +112,7 @@ const { updateBorrower, editBorrower, errors, borrower } = useBorrowers();
 
 const isImageChange = ref(false);
 
-const image = ref('/img/avatar/avatar.png');
+const image = ref();
 
 const onChangeFile = (event) => {
 

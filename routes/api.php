@@ -13,8 +13,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\PaymentDueDateController;
+use App\Http\Controllers\Report\LoanReportController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Report\PaymentReportController;
+use App\Http\Controllers\Report\BorrowerReportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -147,5 +151,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/destroy/{interest:id}', 'destroy');        
 
      });
+
+     Route::post('/reports/loans', [LoanReportController::class, 'index']);
+
+     Route::post('/reports/borrowers',[BorrowerReportController::class, 'index']);
+
+     Route::post('/reports/payments',[PaymentReportController::class, 'index']);
 
 });
