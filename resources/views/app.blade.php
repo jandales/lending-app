@@ -14,8 +14,8 @@
                 $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
                
             @endphp
-             <link href="{{assets("build/".$manifest['resources/css/app.css']['file'])}}" rel="stylesheet">
-             <script type="module" src="{{assets("build/".$manifest['resources/js/app.js']['file'])}}" ></script>
+             <link href="{{asset("build/".$manifest['resources/css/app.css']['file'])}}" rel="stylesheet">
+             <script type="module" src="{{asset("build/".$manifest['resources/js/app.js']['file'])}}" ></script>
       
                 
         @else
