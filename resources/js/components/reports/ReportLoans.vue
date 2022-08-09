@@ -1,22 +1,11 @@
 <template>
   <div class="w-full bg-white">
       <div class="flex flex-col  p-4">
-      <h1>Reports</h1> 
+      <h1 class="block tracking-wider text-lg mb-6 ">Loans Reports</h1> 
       
   
       
-     <div class="flex w-full gap-4">
-
-        <div class="flex items-center  w-full">
-
-                <label for="exampleInputPassword1" class="form-label min-w-[100px]  text-gray-700">Report </label>
-                <select aria-label="Default select example"  placeholder="Select" v-model="form.filter" class="py-[10px] capitalize">     
-                      <option value="loans" selected>Loans</option>  
-                      <option value="borrowers" selected>Borrowers</option>  
-                      <option value="Payments" selected>Payments</option>                      
-                </select>
-                <!-- <small class="text-alert-danger" v-for="error in errors.loan_type_id">{{ error }}</small> -->
-        </div>
+     <div class="flex w-full gap-4">       
 
          <div class="flex items-center w-full">
 

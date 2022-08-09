@@ -3,13 +3,11 @@
 <div class="w-full flex gap-8"> 
   <BaseCard :title="'Customers'"  :value="customerCount" :icon="'person'" />
 
-   <BaseCard :title="'Active Loan'"  :value="activeLoansCount" :icon="'activeLoanCount'" />
+  <BaseCard :title="'Active Loan'"  :value="activeLoansCount" :icon="'activeLoanCount'" />
 
   <BaseCard :title="'Capital'"  :value="moneyFormatter(loanCapital)" :icon="'capital'" />
 
   <BaseCard :title="'Revenue'"  :value="moneyFormatter(loanRevenue)" :icon="'revenue'"/> 
-
-  
 </div>
 
 
@@ -89,6 +87,7 @@
 
 </template>
 <script setup>
+
 import BaseCard from '../components/base/BaseCard.vue';
 import BaseAvatar from '../components/base/BaseAvatar.vue';
 import useApp from '../composable/app'

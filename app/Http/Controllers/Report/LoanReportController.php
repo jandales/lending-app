@@ -2,25 +2,30 @@
 
 namespace App\Http\Controllers\Report;
 
-use Carbon\Carbon;
+
 use Illuminate\Http\Request;
+use App\Http\Reports\LoanReports;
 use App\Http\Controllers\Controller;
-use App\Models\Loan;
 use App\Http\Resources\LoanResource;
+use App\Http\Requests\ReportDateRequest;
 
 class LoanReportController extends Controller
 {
-  
-    public function index(Request $request)
-    {      
+    private $report;
 
-        $startdate = Carbon::parse($request->start_date);
+    public function __construct(LoanReports $report)
+    {
 
-        $endDate = Carbon::parse($request->end_date);
+        $this->report = $report;
 
-        $loans =  Loan::with('borrower')->whereBetween('created_at', [$startdate,$endDate])->latest('created_at')->get();
+    }
+
+    public function index(ReportDateRequest $request)
+    {  
+
+        $loans =  $this->report->generate($request->start_date, $request->end_date);
         
-        return  LoanResource::collection($loans);
+        return LoanResource::collection($loans);
 
     }
 }
