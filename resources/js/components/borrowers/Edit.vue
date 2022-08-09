@@ -79,7 +79,7 @@
                         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile">  
                         <img v-if="isImageChange"  :src="image" class="rounded-full w-32 h-32 mt-4" alt="Avatar" />
                         <img v-else-if="borrower.avatar" :src="borrower.avatar" class="rounded-full w-32 h-32 mt-4" alt=""/>                         
-                        <img v-else src="/img/avatar/avatar.png" class="rounded-full w-32 h-32 mt-4">
+                        <img v-else :src="$defaultAvatarSrc" class="rounded-full w-32 h-32 mt-4">
                                                               
                     </div>
             </div>
@@ -94,7 +94,7 @@
             </button>
                
         </form>
-   
+
     </div> 
    </div>
 
@@ -129,6 +129,8 @@ const onChangeFile = (event) => {
     }
 
     reader.readAsDataURL(file);  
+
+    console.log(defaultImageAvatar);
 
     isImageChange.value = true;
 

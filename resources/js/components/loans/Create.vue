@@ -17,10 +17,10 @@
           <div class="flex items-center mb-6">
             <div v-if="borrower" class="w-20">
                  <img v-if="borrower.avatar" :src="borrower.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
-                 <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-16 h-16"  alt="Avatar"/>
+                 <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-16 h-16"  alt="Avatar"/>
             </div>
             <div v-else class="w-16 h-16">
-                <img  src="/img/avatar/avatar.png" class="rounded-full border w-16 h-16"  alt="Avatar"/>
+                <img  :src="$defaultAvatarSrc" class="rounded-full border w-16 h-16"  alt="Avatar"/>
             </div>
          
            

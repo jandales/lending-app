@@ -8,7 +8,7 @@
         />
         <img
         v-else
-        src="/img/avatar/avatar.png"
+        :src="$defaultAvatarSrc"
         class="rounded-full w-9 h-9 border"
         alt="Avatar"
         />

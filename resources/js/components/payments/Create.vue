@@ -9,10 +9,10 @@
         <div class="flex items-center">
             <div v-if="loan" class="w-16 h-16">
                 <img v-if="loan" :src="loan.borrower.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
-                <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-16 h-16"  alt="Avatar"/>    
+                <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-16 h-16"  alt="Avatar"/>    
             </div>
             <div v-else> 
-                <img  src="/img/avatar/avatar.png" class="rounded-full border w-16 h-16"  alt="Avatar"/>    
+                <img  :src="$defaultAvatarSrc" class="rounded-full border w-16 h-16"  alt="Avatar"/>    
             </div>
            
             <div v-if="loan" class="w-[calc(100%_-_4rem)] flex  items-center justify-between ml-4">
