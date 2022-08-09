@@ -1,7 +1,7 @@
 <template>
    <div class="w-full flex items-center bg-white rounded-md border p-4 mb-4">
      <img v-if="profile.avatar" :src="profile.avatar" class="rounded-full border w-20 h-20"  alt="Avatar" />
-     <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-20 h-20"  alt="Avatar" />
+     <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-20 h-20"  alt="Avatar" />
      <div class="ml-4">
         <label for="" class="block">{{ profile.name }}</label>
         <label class="text-blue-600 cursor-pointer text-sm hover:underline hover:text-blue-700">
