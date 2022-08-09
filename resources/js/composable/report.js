@@ -8,6 +8,8 @@ export default function useReport()  {
 
     const borrowerReports = ref([]);
 
+    const paymentReports = ref([]);
+
     const getLoanReports = async(body) => {
    
         const response = await axios.post(`/reports/loans`, body);
@@ -16,22 +18,30 @@ export default function useReport()  {
 
     }
 
-    const getBorrowersReports = async(body) => {
+    const getBorrowerReports = async(body) => {
    
         const response = await axios.post(`/reports/borrowers`, body);   
 
-        loanReports.value = response.data;
+        borrowerReports.value = response.data;
+
+    }
+
+    const getPaymentReports = async (body) => {
+
+        const response = await axios.post(`/reports/payments`, body);   
+
+        paymentReports.value = response.data;
 
     }
 
 
-    return {
-
+    return {        
         getLoanReports,
-        getBorrowersReports,
+        getBorrowerReports,
+        getPaymentReports,
+        paymentReports,
         borrowerReports,
         loanReports,
-
     }
 
 }

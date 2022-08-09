@@ -118,8 +118,6 @@ const isImageChange = ref(false);
 
 const image = ref();
 
-const imagesrc = '/img/avatar/avatar.png'
-
 const onChangeFile = (event) => {
 
     const file = event.target.files[0];
@@ -136,7 +134,7 @@ const onChangeFile = (event) => {
 
     reader.readAsDataURL(file);  
 
-    console.log(defaultImageAvatar);
+
 
     isImageChange.value = true;
 
