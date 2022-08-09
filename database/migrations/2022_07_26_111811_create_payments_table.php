@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('loan_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('due_date_id');
-            $table->date('due_date');
+            $table->timestamp('due_date')->nullable();
             $table->float('amount')->default(0);
             $table->string('remark')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
