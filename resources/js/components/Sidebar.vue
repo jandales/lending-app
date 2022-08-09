@@ -5,10 +5,10 @@
       <div class="flex items-center">
         <div v-if="user" class="shrink-0">        
           <img v-if="user.avatar" :src="user.avatar" class="rounded-full border w-10 h-10" alt="Avatar">
-          <img v-else src="/img/avatar/avatar.png" class="rounded-full border w-10 h-10" alt="Avatar">
+          <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-10 h-10" alt="Avatar">
         </div>
         <div v-else class="shrink-0"> 
-            <img  src="/img/avatar/avatar.png" class="rounded-full border w-10 h-10" alt="Avatar">
+            <img  :src="$defaultAvatarSrc" class="rounded-full border w-10 h-10" alt="Avatar">
         </div>
         <div class="grow ml-3">
           <p v-if="user" class="text-sm font-semibold text-blue-600">{{ `${user.name}`}}</p>
