@@ -21,7 +21,8 @@ return new class extends Migration
             $table->float('collection_amount')->default(0);
             $table->float('amount_paid')->default(0);
             $table->float('balance')->default(0);
-            $table->string('status')->nullable();            
+            $table->string('status')->nullable();   
+            $table->timestamp('paid_at')->nullable();        
             $table->foreign('loan_id')->references('id')->on('loans'); 
             $table->foreign('user_id')->references('id')->on('users'); 
             $table->timestamps();

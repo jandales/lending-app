@@ -9,7 +9,7 @@
 
                 <div class="flex items-center">                
                     <img v-if="loan && loan.borrower.avatar" :src="loan.borrower.avatar" class="rounded-full border w-20 h-20"  alt="Avatar" />
-                    <img v-else :accesskey="$defaultAvatarSrc" class="rounded-full border w-20 h-20"  alt="Avatar"/>        
+                    <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-20 h-20"  alt="Avatar"/>        
                     <div v-if="loan" class="w-full flex  items-center justify-between ml-4">
                         <div>
                             <label for="" class="block text-xl capitalize font-semibold text-gray-700 mb-1">{{ loan.borrower.name }}</label>

@@ -39,17 +39,19 @@ class PaymentServices
 
     public function store(Request $request)
     {
-       
-        $validated = $request->validated(); 
 
+        $validated = $request->validated();   
+       
         $loan = Loan::findOrfail($validated['loan_id']);             
 
         $validated['remark'] = $request->remark;
 
         $validated['user_id'] = $request->user()->id;
 
-        $validated['status'] = $this->status_paid;       
+        $validated['status'] = $this->status_paid;  
 
+        $validated['due_date'] = date("Y-m-d", strtotime($validated['due_date'])); 
+        
         $balance = $loan->balance_amount;
 
         if ($balance < (float)$validated['amount']) {
