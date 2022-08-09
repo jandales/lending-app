@@ -178,7 +178,7 @@
 <script setup>
 import BorrowersModal from '../../components/Modal/BorrowersModal.vue'
 import Alert from '../Alert.vue';
-import BaseInput from '../Base/BaseInput.vue';
+import BaseInput from '../base/BaseInput.vue';
 import useLoans from '../../composable/loans';
 import useInterests from '../../composable/interest';
 import useCalculation from '../../composable/helper/calculations'
