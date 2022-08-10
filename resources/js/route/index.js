@@ -25,6 +25,9 @@ import ReportLoans from '../components/reports/ReportLoans.vue';
 import ReportBorrower from '../components/reports/ReportBorrower.vue';
 import ReportPayments from '../components/reports/ReportPayments.vue';
 import Interest from '../components/settings/Interest.vue';
+import UserIndex from '../components/users/Index.vue';
+import UserCreate from '../components/users/Create.vue';
+import UserEdit from '../components/users/Edit.vue';
 import middleware  from './middleware'
 
 
@@ -69,6 +72,12 @@ const router = createRouter({
                 { path: 'reports/payments', name : 'report.payments', component : ReportPayments },
 
                 { path : 'reports/customers', name : 'report.customers', component : ReportBorrower },
+
+                { path : 'users', name : 'users', component : UserIndex },
+
+                { path : 'users/create', name : 'users.create', component : UserCreate },
+
+                { path : 'users/edit/:id', name : 'users.edit', component : UserEdit },
 
                 { path : 'settings', name: 'settings', component : Setting, beforeEnter : middleware.authenticated , children : [
 

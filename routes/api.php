@@ -54,13 +54,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(UserController::class)->prefix('user')->group(function () {
 
-        Route::get('/', 'user');
-
-        Route::put('/update', 'update');
-
-        Route::post('/upload-avatar', 'upload');
+        Route::get('/', 'user');       
 
     });  
+
+    Route::controller(UserController::class)->prefix('users')->group(function () {
+
+        Route::get('/', 'index');
+
+        Route::post('/store', 'store');
+
+        Route::get('/{user:id}/edit', 'edit');
+
+        Route::put('/{user:id}/update', 'updateUser');  
+        
+        Route::delete('/{user:id}/destroy', 'destroy');
+         
+    });
     
     Route::controller(LoanTypeController::class)->prefix('loan-types')->group(function () {
 
