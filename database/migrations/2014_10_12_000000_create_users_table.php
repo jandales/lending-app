@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('role')->default(0);
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-            $table->string('avatar')->nullable()->nullable();            
+            $table->string('avatar')->nullable();            
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->softDeletes();
