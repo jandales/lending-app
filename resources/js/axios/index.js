@@ -1,19 +1,13 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api',
-    // baseURL : 'https://etto-lending-app.herokuapp.com/api',
+    //baseURL: 'http://127.0.0.1:8000/api',
+    baseURL : 'https://etto-lending-app.herokuapp.com/api',
     withCredentials: true,
 });
 
 instance.interceptors.request.use(request => {
-<<<<<<< HEAD
-    request.headers.common['Accept']       = 'application/json';   
-=======
-    request.headers.common['Accept']       = 'application/json';
-    // request.headers.common['Content-type'] = 'application/json'; 
-    // request.headers.common['Content-type'] = 'application/json'; 
->>>>>>> 17a0dfd7fe404d0479ef1eab9bdc812bc498c00f
+    request.headers.common['Accept']       = 'application/json'; 
     request.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
     return request;
 }) 
