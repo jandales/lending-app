@@ -54,9 +54,9 @@
         </li>
       </ul>
     </li>
-    <!-- <li class="relative">
-      <NavItem :to="{name : 'reports'}" :label="'reports'"/>
-    </li>     -->
+    <li class="relative">
+      <NavItem :to="{name : 'users'}" :label="'users'"/>
+    </li>    
    
   </ul>
   <hr class="my-2"> 
