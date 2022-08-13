@@ -46,6 +46,10 @@ Route::controller(ResetPasswordController::class)->prefix('reset-password')->gro
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
+    Route::get('/setcookie', [AppController::class, 'setcookie']);
+
+    Route::get('/getCookie', [AppController::class, 'getCookie']);
+
     Route::get('/app/dashboard', [AppController::class, 'dashboard']);
 
     Route::delete('/logout', [LogoutController::class, 'logout']);
