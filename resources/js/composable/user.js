@@ -14,7 +14,7 @@ export default function useUser()  {
 
        let response = await axios.get('/user');  
 
-       user.value = response.data;     
+       user.value = response.data;  
 
     }
 
