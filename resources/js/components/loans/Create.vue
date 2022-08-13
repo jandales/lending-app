@@ -40,7 +40,7 @@
 
             <div v-else class="ml-4">
                 <label for=""  class="text-sky-500" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Select borrower</label>
-                 <small class="text-alert-danger" v-for="error in errors.customer_id" >{{ error }}</small>
+                 <small class="text-alert-danger" v-for="error in errors.borrower_id" >{{ error }}</small>
             </div>
         </div>         
 

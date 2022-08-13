@@ -8,6 +8,7 @@ export default function useUser()  {
     const user = ref();
     const errors = ref([]);
     const success = ref();
+    const isLoading = ref(false);
 
     const getUser = async() => {
 
@@ -44,25 +45,38 @@ export default function useUser()  {
 
     const userlogin = async(data) => {
 
-        await axios.post('/login',data)
+        errors.value = []
 
-        .then(res => {    
+        isLoading.value = true;
 
-            localStorage.setItem('user', JSON.stringify(res.data.user))
+        try {
 
-            localStorage.setItem('token', res.data.token)
+           let response =  await axios.post('/login',data)
 
-            location.reload();
+           localStorage.setItem('user', JSON.stringify(response.data.user))
 
-        })
-        .catch(e => {
+           localStorage.setItem('token', response.data.token)
 
-            if (e.response.status === 422){
+           location.reload();
+
+        }  catch (e) {
+
+            if (e.response.status === 422) {
 
                 errors.value = e.response.data.errors;
 
             }
-        })
+            
+        } finally {
+
+            isLoading.value = false;
+
+        }
+
+       
+
+      
+       
     }
 
     const uploadAvatar = async(data) => {
@@ -99,19 +113,20 @@ export default function useUser()  {
         location.reload();
     }
 
-    const changePassword=  async(data) => {
+    const changePassword = async(data) => {
 
         errors.value = []
 
         success.value = null;
 
         try {
+
             let response = await axios.put('/change-password', data)  
 
-            if(response.data.status === 500){    
+            if (response.data.status === 500) {    
 
                 errors.value = { message : [response.data.message]}              
-                return;
+             
 
             }  
 
@@ -119,7 +134,7 @@ export default function useUser()  {
 
         } catch (e) {  
 
-            if(e.response.status === 422){
+            if (e.response.status === 422) {
 
                 errors.value = e.response.data.errors;
 
@@ -135,6 +150,7 @@ export default function useUser()  {
         changePassword,
         updateUser,
         uploadAvatar,
+        isLoading,
         user,
         success,
         errors,        

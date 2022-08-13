@@ -54,7 +54,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(UserController::class)->prefix('user')->group(function () {
 
-        Route::get('/', 'user');       
+        Route::get('/', 'user');  
+        
+        Route::put('/update', 'update');
 
     });  
 
@@ -62,7 +64,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', 'index');
 
-        Route::post('/store', 'store');
+        Route::post('/store', 'store');       
 
         Route::get('/{user:id}/edit', 'edit');
 
