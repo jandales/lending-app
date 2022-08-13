@@ -25,13 +25,25 @@ class UserController extends Controller
 
     public function index()
     {
-       
+        if (auth()->user()->cannot('viewAny', User::class)) {
+
+            abort(403);
+
+        }
+
+
         return $this->services->getUsers();
 
     }
 
     public function edit(User $user) 
     {
+
+        if (auth()->user()->cannot('view', $user)) {
+
+            abort(403);
+
+        }
 
         return UserEditResource::make($user);
 
@@ -40,6 +52,12 @@ class UserController extends Controller
     public function updateUser(User $user,UserEditRequest  $request)
     {
 
+        if ($request->user()->cannot('update', $user)) {
+
+            abort(403);
+
+        }
+
         return $this->services->updateUser($user, $request);
 
     }
@@ -47,9 +65,29 @@ class UserController extends Controller
     public function store(UserStoreRequest  $request)
     { 
 
+        if ($request->user()->cannot('create',  User::class)) {
+
+            abort(403);
+
+        }
+
         return $this->services->store($request);
 
-    }   
+    }  
+    
+    public function destroy(User $user)
+    {
+        if ($request->user()->cannot('delete', $user)) {
+
+            abort(403);
+
+        }
+        
+        return $user->delete();
+
+    }
+
+
 
     public function user(Request $request)
     {
@@ -60,7 +98,7 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request)
     {
-       
+     
         return $this->services->update($request);
 
     }
@@ -72,12 +110,7 @@ class UserController extends Controller
 
     }
 
-    public function destroy(User $user)
-    {
 
-        return $user->delete();
-
-    }
 
     
 }

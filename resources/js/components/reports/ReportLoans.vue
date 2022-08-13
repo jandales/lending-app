@@ -92,10 +92,12 @@
                   {{ loan.interest }}
                 </td>    
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.total_amount }}
+                 
+                    {{ loan.collection_amount }}
                 </td>  
+                
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.collection_amount }}
+                   {{ loan.total_amount }}
                 </td>           
                        
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

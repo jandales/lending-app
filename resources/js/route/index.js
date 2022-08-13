@@ -28,6 +28,7 @@ import Interest from '../components/settings/Interest.vue';
 import UserIndex from '../components/users/Index.vue';
 import UserCreate from '../components/users/Create.vue';
 import UserEdit from '../components/users/Edit.vue';
+import UserProfile from '../components/settings/profile.vue'
 import middleware  from './middleware'
 
 
@@ -73,11 +74,11 @@ const router = createRouter({
 
                 { path : 'reports/customers', name : 'report.customers', component : ReportBorrower },
 
-                { path : 'users', name : 'users', component : UserIndex },
+                { path : 'users', name : 'users', component : UserIndex,  beforeEnter : middleware.role  },
 
-                { path : 'users/create', name : 'users.create', component : UserCreate },
+                { path : 'users/create', name : 'users.create', component : UserCreate,  beforeEnter : middleware.role },
 
-                { path : 'users/edit/:id', name : 'users.edit', component : UserEdit },
+                { path : 'users/edit/:id', name : 'users.edit', component : UserEdit,  beforeEnter : middleware.role  },
 
                 { path : 'settings', name: 'settings', component : Setting, beforeEnter : middleware.authenticated , children : [
 
@@ -85,9 +86,10 @@ const router = createRouter({
 
                     {path : '/change-password', name : 'change.password', component :ChangePassword},
 
-                    {path : '/interest', name : 'interest', component :Interest}
+                    {path : '/interest', name : 'interest', component :Interest, beforeEnter : middleware.role}
 
                 ]},
+                               
             ]
         },
 

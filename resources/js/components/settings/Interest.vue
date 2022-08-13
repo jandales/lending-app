@@ -213,48 +213,75 @@
   import { onMounted, ref } from 'vue';
 
   const listId = ref([]);
+  
   const selectAllState = ref(false);
 
   const interestValue = ref(0)
 
-  const { getInterests, getInterest, destroyInterest, storeInterest,updateInterest, interests, interest, errors, success } = useInterests();
+  const { getInterests, destroyInterest, storeInterest, updateInterest, interests, interest, errors, success } = useInterests();
 
   const store = async () => { 
+
      await storeInterest({value : parseInt(interestValue.value)});
+
      await getInterests();
+
      interestValue.value = null;
+
   }
 
   const deleteSeleted  = () => {
+
       listId.value.forEach(id => { 
+
           destroy(id);
+
       })    
+
   }
 
   const destroy = async (id) => {
+
       await destroyInterest(id);
-       await getInterests();
+
+      await getInterests();
+
   }
   
   const edit = async (id) => {
+
        errors.value = [];
+
        success.value = null;
+
        await interestValugetInterest(id);
+
   }
 
   const update = async () => {
+
         await updateInterest(interest.value.id, interest.value)
+
         await getInterests();
+
   }
   
-  const selectAll = () => {       
+  const selectAll = () => {    
+
       selectAllState.value = selectAllState.value == true ? false : true;
+
       listId.value = []
+
       if(selectAllState.value == true){  
+
           interests.value.forEach(interest => {
-            listId.value = [...listId.value, interest.id];          
-          })        
+
+            listId.value = [...listId.value, interest.id];
+
+          })     
+
           return;
+
       }
 
       listId.value = []

@@ -13,21 +13,35 @@ class LoginController extends Controller
     public function attempt(LoginRequest $request)
     {
         $validated = $request->validated(); 
+
         $user = User::where('email', $validated['email'])->first();
-        if(!$user || !Hash::check($validated['password'],$user->password))
-        {        
-            return response()->json([
-                'errors' => [
-                    'message' => "Your credetials is invalid",
-                ],
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        if (!$user || !Hash::check($validated['password'],$user->password)) {  
+
+            return response()->json(
+                    [
+
+                        'errors' => [
+
+                            'message' => "Your credetials is invalid",
+
+                        ],
+
+                    ],
+
+                 Response::HTTP_UNPROCESSABLE_ENTITY
+
+             );
         }
 
         $token = $user->createToken($user->id);
                  
         return response()->json([
+
             'user' => $user,
+
             'token' => $token->plainTextToken
+            
         ]);          
     }
 }

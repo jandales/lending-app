@@ -10,7 +10,7 @@
                         <span>Profile</span>
                     </router-link>
                 </li> 
-                <li class="relative">
+                <li v-if="role < 2" class="relative">
                     <router-link :to="{name : 'interest'}" class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
@@ -34,3 +34,17 @@
         </div>
     </div>
 </template>
+
+<script setup>
+    import { ref, onMounted } from 'vue';
+    const role = ref();
+
+    const getUser = () =>  {
+         role.value =  JSON.parse(localStorage.getItem('user')).role;
+    }
+
+    onMounted(() => {
+        getUser();
+    })
+  
+</script>

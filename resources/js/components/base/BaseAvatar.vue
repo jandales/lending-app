@@ -13,7 +13,7 @@
         alt="Avatar"
         />
 
-        <label for="customer_name" class="ml-2">{{props.name}}</label>
+        <label for="customer_name" class="capitalize ml-2">{{props.name}}</label>
     </div>
 </template>
 <script setup>

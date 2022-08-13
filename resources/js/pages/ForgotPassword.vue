@@ -21,14 +21,29 @@
             <small class="text-alert-danger" v-for="error in errors.email">{{ error }}</small>
             </div>
           
-          <div class="text-center lg:text-left">
+          <div class="text-center lg:text-left mb-6">
             <button
             @click.prevent="forgotPassword"
               type="button"
-              class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              class="inline-block w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
             >
               Submit
             </button>          
+          </div>
+            <div class="flex justify-between items-center mb-6">
+            <!-- <div class="form-group form-check">
+              <input
+              
+                type="checkbox"
+                class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                id="exampleCheck2"
+              />
+             
+              <label class="form-check-label inline-block text-gray-800" for="exampleCheck2"
+                >Remember me</label
+              >
+            </div> -->
+            <router-link :to="{name : 'login' }" class="text-gray-800 text-sm cursor-pointer hover:text-sky-500">Back to Login</router-link>
           </div>
         </form>
       </div>  
