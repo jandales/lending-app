@@ -8,7 +8,7 @@ export default (to, from, next) => {
 
     if (role > 1) {
 
-        next({name: 'dashboard'});
+        next({name: 'page.not.found'});
 
     } else  next() 
     

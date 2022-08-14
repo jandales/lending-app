@@ -50,6 +50,11 @@ class LoanController extends Controller
 
     public function destroy(Loan $loan)
     {
+        if (auth()->user()->cannot('delete', $loan)) {
+
+            abort(403);
+
+        }
 
         $loan->status = 'void';
 
@@ -68,6 +73,12 @@ class LoanController extends Controller
 
     public function updateStatus(StatusRequest $request, Loan $loan)
     {    
+
+        if ($request->user()->cannot('update', $loan)) {
+
+            abort(403);
+
+        }
 
        return  $this->services->updateStatus($loan, $request->status);
 

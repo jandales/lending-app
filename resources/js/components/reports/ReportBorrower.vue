@@ -31,7 +31,7 @@
  
   </div>
 
-  <div  class="mt-4 border border-l-0 border-r-0 bg-white">
+  <div v-if="borrowers.length > 0" class="mt-4 border border-l-0 border-r-0 bg-white">
   <div class="flex flex-col">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full sm:px-6 lg:px-8">       

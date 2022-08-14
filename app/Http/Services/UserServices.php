@@ -4,12 +4,11 @@ namespace App\Http\Services;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Traits\UploadTrait;
 use Illuminate\Support\Facades\Hash;
 
 class UserServices
 {
-    use UploadTrait;
+
 
     public function getUsers()
     {
@@ -40,7 +39,7 @@ class UserServices
 
 
 
-    public function updateUser(User $user, Request $request)
+    public function update(User $user, Request $request)
     {
         
         $password = $request->password;
@@ -62,38 +61,7 @@ class UserServices
         return $user;
 
     }
-
-
-    public function update(Request $request)
-    {
-        $user = $request->user();  
-
-        $user->name = $request->name;
-
-        $user->phone = $request->phone;
-
-        $user->address = $request->address;
-
-        $user->save();
-
-        return $user;
-    }
-
-    public function uploadAvatar(Request $request)
-    {
-        $user = $request->user();
-
-        $oldAvatar = $user->avatar;
-
-        $user->avatar = $this->upload($request, 'avatar');
-
-        $user->save();
-
-        $this->deleteImage($oldAvatar);
-
-        return $user;
-
-    }
+   
     
 
     public function store(Request $request)
