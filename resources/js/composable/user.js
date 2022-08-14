@@ -9,6 +9,7 @@ export default function useUser()  {
     const errors = ref([]);
     const success = ref();
     const isLoading = ref(false);
+    const isAdmin = ref(false);
 
     const getUser = async() => {
 
@@ -143,6 +144,14 @@ export default function useUser()  {
        
     };
 
+    const checkUserRole = ()  => {
+
+      const role = JSON.parse(localStorage.getItem('user')).role;
+    
+      isAdmin.value =  parseInt(role) < 2 ? true : false;
+
+    }
+
     return {
         getUser,
         logout,
@@ -150,6 +159,8 @@ export default function useUser()  {
         changePassword,
         updateUser,
         uploadAvatar,
+        checkUserRole,
+        isAdmin,
         isLoading,
         user,
         success,

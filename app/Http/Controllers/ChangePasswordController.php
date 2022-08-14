@@ -13,15 +13,19 @@ class ChangePasswordController extends Controller
     {
         
         $user = $request->user(); 
+
         $current_password = $request->current_password;  
 
         if (!Hash::check($current_password, $user->password)) {           
+
             return response()->json(["status" => 500 , 'message' => "Wrong password"]);
         } 
         
         $user->password = Hash::make($request->password);
+
         $user->save();
       
         return response()->json("Successfully password updated");
+        
     }
 }

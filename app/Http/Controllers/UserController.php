@@ -49,7 +49,7 @@ class UserController extends Controller
 
     }
 
-    public function updateUser(User $user,UserEditRequest  $request)
+    public function update(User $user, UserEditRequest $request)
     {
 
         if ($request->user()->cannot('update', $user)) {
@@ -58,7 +58,7 @@ class UserController extends Controller
 
         }
 
-        return $this->services->updateUser($user, $request);
+        return $this->services->update($user, $request);
 
     }
 
@@ -86,31 +86,6 @@ class UserController extends Controller
         return $user->delete();
 
     }
-
-
-
-    public function user(Request $request)
-    {
-
-        return $request->user();
-
-    }
-
-    public function update(UserUpdateRequest $request)
-    {
-     
-        return $this->services->update($request);
-
-    }
-
-    public function upload(Request $request)
-    {       
-
-        return  $this->services->uploadAvatar($request);
-
-    }
-
-
 
     
 }

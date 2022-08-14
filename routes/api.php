@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BorrowerController;
 use App\Http\Controllers\InterestController;
@@ -56,11 +57,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::put('/change-password', [ChangePasswordController::class, 'update']);
 
-    Route::controller(UserController::class)->prefix('user')->group(function () {
+    Route::controller(AccountController::class)->prefix('user')->group(function () {
 
         Route::get('/', 'user');  
         
         Route::put('/update', 'update');
+
+        Route::post('/upload-avatar', 'upload');
 
     });  
 
@@ -72,7 +75,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/{user:id}/edit', 'edit');
 
-        Route::put('/{user:id}/update', 'updateUser');  
+        Route::put('/{user:id}/update', 'update');  
         
         Route::delete('/{user:id}/destroy', 'destroy');
          
@@ -158,7 +161,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', 'index');
 
-        Route::get('/{interest:id}', 'view');
+        Route::get('/{interest:id}', 'show');
 
         Route::post('/store',  'store');
 

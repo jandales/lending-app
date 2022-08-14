@@ -77,15 +77,15 @@ const router = createRouter({
 
                 { path : 'users/edit/:id', name : 'users.edit', component : UserEdit,  beforeEnter : middleware.role  },
 
-                { path : 'settings', name: 'settings', component : Setting, beforeEnter : middleware.authenticated , children : [
+                { path : 'settings', name: 'settings', component : Setting,  children : [
+      
+                    {path : 'profile', name : 'settings.profile', component : Profile},
 
-                    {path : '', name : 'profile', component : Profile},
+                    {path : 'change-password', name : 'settings.change.password', component :ChangePassword},
 
-                    {path : '/change-password', name : 'change.password', component :ChangePassword},
+                    {path : 'interest', name : 'settings.interest', component : Interest, beforeEnter : middleware.role}
 
-                    {path : '/interest', name : 'interest', component :Interest, beforeEnter : middleware.role}
-
-                ]},
+                ], beforeEnter : middleware.authenticated},
                                
             ]
         },
@@ -99,6 +99,7 @@ const router = createRouter({
         { path : '/page-not-found', name : 'page.not.found', component : Page404 },
        
     ],
+    linkActiveClass: "active"
    
 });
 

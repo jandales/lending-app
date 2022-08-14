@@ -11,7 +11,10 @@
             <img  :src="$defaultAvatarSrc" class="rounded-full border w-10 h-10" alt="Avatar">
         </div>
         <div class="grow ml-3">
-          <p v-if="user" class="text-sm font-semibold text-blue-600">{{ `${user.name}`}}</p>
+          <router-link v-if="user" :to="{name : 'settings.profile'}">
+            <p  class="text-sm font-semibold text-blue-600">{{ `${user.name}`}}</p>
+          </router-link>
+         
         </div>
       </div>
     </a>
@@ -66,7 +69,7 @@
     <ul class="relative px-1">
         
           <li  class="relative">
-            <NavItem :route="{name : 'settings'}" :label="'settings'"/>             
+            <NavItem :route="{name : 'settings.profile'}" :label="'settings'"/>             
           </li> 
          <li class="relative">
             <div @click="signOut" class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">

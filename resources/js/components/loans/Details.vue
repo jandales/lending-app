@@ -18,7 +18,7 @@
                     </div>        
                 </div>
 
-                <div v-if="loan && loan.status != 'paid'" class="flex items-center gap-4">
+                <div v-if="isAdmin && loan && loan.status != 'paid'" class="flex items-center gap-4">
                     <div  class="form-group w-60 mb-6 mt-6">
                         <div class="flex items-center gap-4">
                             <label for="exampleInputPassword1"  class="form-label text-sm inline-block text-gray-700">Status</label>
@@ -148,6 +148,7 @@ import BaseLabelRow from '../../components/base/BaseLabelRow.vue'
 import useLoans from '../../composable/loans';
 import useCalculation from '../../composable/helper/calculations';
 import useFormatter from '../../composable/helper/formater'
+import useUser from '../../composable/user';
 import {  ref,  onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -156,6 +157,8 @@ const { getLoan, updateStatusLoan, loan, isLoading, isSuccess, errors } = useLoa
 const { calculateInterest } = useCalculation();
 
 const { moneyFormatter } = useFormatter(); 
+
+const { checkUserRole, isAdmin} = useUser();
 
 const route = useRoute();
 
@@ -186,6 +189,8 @@ const loadLoan = async() => {
 }
 
 onMounted(loadLoan);
+
+onMounted(checkUserRole);
 
 const dueDateList = computed(() => {
 
