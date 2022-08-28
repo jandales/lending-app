@@ -72,8 +72,8 @@ import useUser from '../composable/user';
 
 const { userlogin,isLoading,  errors } = useUser();
 
-const email = ref()
-const password = ref()
+const email = ref('admin@gmail.com')
+const password = ref('password')
 
 const login = async() => {
   await userlogin({email : email.value, password : password.value })   

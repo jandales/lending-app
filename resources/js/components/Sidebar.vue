@@ -68,9 +68,9 @@
    
     <ul class="relative px-1">
         
-          <li  class="relative">
+          <!-- <li  class="relative">
             <NavItem :route="{name : 'settings.profile'}" :label="'settings'"/>             
-          </li> 
+          </li>  -->
          <li class="relative">
             <div @click="signOut" class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
