@@ -58,7 +58,7 @@
                 >Remember me</label
               >
             </div> -->
-            <router-link :to="{name : 'forgot.password' }" class="text-gray-800 text-sm cursor-pointer hover:text-sky-500">Forgot password?</router-link>
+            <!-- <router-link :to="{name : 'forgot.password' }" class="text-gray-800 text-sm cursor-pointer hover:text-sky-500">Forgot password?</router-link> -->
           </div>
         </form>
       </div>  
@@ -72,8 +72,8 @@ import useUser from '../composable/user';
 
 const { userlogin,isLoading,  errors } = useUser();
 
-const email = ref()
-const password = ref()
+const email = ref('admin@gmail.com')
+const password = ref('password')
 
 const login = async() => {
   await userlogin({email : email.value, password : password.value })   

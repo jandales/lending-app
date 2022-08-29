@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Etto Lending Managenent System</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <script src="./TW-ELEMENTS-PATH/dist/js/index.min.js"></script>
-
+        <script src="/node_modules/dist/js/index.min.js"></script>
+        <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
           {{-- <!-- @production
             @php
                 $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);               
