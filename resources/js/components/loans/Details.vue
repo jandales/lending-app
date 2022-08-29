@@ -97,7 +97,7 @@
                                 {{ item.due_date}}
                             </td>
                             <td>
-                                {{ item.collection_amount }}
+                                {{ moneyFormatter(item.collection_amount) }}
                             </td>
                             <td>
                                 {{ interestPerDueDate }}
@@ -200,9 +200,7 @@ const dueDateList = computed(() => {
 
         due.paid_at = due.paid_at == null ? '-- / -- / --' : due.paid_at;
 
-        due.amount_paid = moneyFormatter(due.amount_paid);
-
-        due.collection_amount = moneyFormatter(due.collection_amount);
+        due.amount_paid = moneyFormatter(due.amount_paid);    
 
         due.balance = moneyFormatter(due.balance);
 

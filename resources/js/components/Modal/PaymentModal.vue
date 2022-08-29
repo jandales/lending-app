@@ -17,14 +17,21 @@
        <div class="flex flex-col gap-2 mb-4">    
             <label for="" class="block text-sm font-semibold text-gray-700 mb-2">{{`Reference Number :`}} <span class="font-normal">{{loan.loan_number}}</span></label>      
             <label for="" class="block text-sm font-semibold text-gray-700 mb-2">{{`Due Date :`}} <span class="font-normal">{{data.due_date}}</span></label> 
-            <label for="" class="block text-sm font-semibold text-gray-700 mb-2">{{`Collection Amount :`}} <span class="font-normal">{{data.collection_amount}}</span></label>                           
+            <label for="" class="block text-sm font-semibold text-gray-700 mb-2">{{`Collection Amount :`}} <span class="font-normal">{{moneyFormatter(data.collection_amount)}}</span></label>                           
         </div>
-         <BaseInput           
+         <!-- <BaseInput           
             :label="`Amount`"
-            v-model="collection_amount"
+            :modelValue="data.collection_amount"
             :type="'number'"        
             :id="'typename'"                         
-        />      
+        />    -->
+        
+        <input type="number" 
+                    name="amount"
+                    v-model="data.collection_amount"                      
+                    id="exampleInputPassword1"
+                 >        
+                      
      
 
       
@@ -72,10 +79,14 @@
 </div>
 </template>
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import BaseInput from '../../components/base/BaseInput.vue'
 import usePayments from '../../composable/payments';
+import useFormatter from '../../composable/helper/formater'
+
 const { addPayment, isSuccess, errors } = usePayments();
+
+const { moneyFormatter } = useFormatter(); 
 
 const props = defineProps({
 
@@ -129,7 +140,7 @@ const store = async () => {
 
     form.borrower_id = props.loan.borrower.id; 
 
-    form.amount = collection_amount.value; 
+    form.amount = props.data.collection_amount; 
 
     form.loan_id = props.loan.id; 
 
@@ -142,6 +153,8 @@ const store = async () => {
     loadLoan();
 
 }
+
+
 
 
 </script>
