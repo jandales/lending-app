@@ -8,7 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <script src="./TW-ELEMENTS-PATH/dist/js/index.min.js"></script>
+        <script src="/node_modules/dist/js/index.min.js"></script>
 
           {{-- <!-- @production
             @php

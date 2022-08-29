@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-start content-start ">
         <div class="w-60 border rounded-md bg-white shadow flex p-2">
-            <ul class="relative px-1">
+            <ul class="w-full relative px-1">
                 <li class="relative">
                     <router-link :to="{name : 'settings.profile'}" class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
@@ -18,14 +18,14 @@
                         <span>Interest</span>
                     </router-link>
                 </li>
-                <li class="relative">
+                <!-- <li class="relative">
                     <router-link :to="{name : 'settings.change.password'}" class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
                         <span>Change Password</span>
                     </router-link>
-                </li>
+                </li> -->
                 
             </ul>
         </div>
