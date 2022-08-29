@@ -81,7 +81,7 @@ const router = createRouter({
       
                     {path : 'profile', name : 'settings.profile', component : Profile},
 
-                    {path : 'change-password', name : 'settings.change.password', component :ChangePassword},
+                    // {path : 'change-password', name : 'settings.change.password', component :ChangePassword},
 
                     {path : 'interest', name : 'settings.interest', component : Interest, beforeEnter : middleware.role}
 

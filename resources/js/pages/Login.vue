@@ -58,7 +58,7 @@
                 >Remember me</label
               >
             </div> -->
-            <router-link :to="{name : 'forgot.password' }" class="text-gray-800 text-sm cursor-pointer hover:text-sky-500">Forgot password?</router-link>
+            <!-- <router-link :to="{name : 'forgot.password' }" class="text-gray-800 text-sm cursor-pointer hover:text-sky-500">Forgot password?</router-link> -->
           </div>
         </form>
       </div>  
