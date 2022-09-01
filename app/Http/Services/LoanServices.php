@@ -10,6 +10,13 @@ use App\Http\Resources\LoanResource;
 
 class LoanServices {
 
+    private $PaymentTypes = [
+        'daily' => 1,
+        'weekly' => 7,
+        '15days' => 15,
+        'monthly' => 30,
+    ];
+
     private function LoanNumber()
     {
         $id = Loan::max('id');    
@@ -49,7 +56,7 @@ class LoanServices {
 
     public function store(Request $request)
     { 
-        
+      
         $validated = $request->validated();
 
         $exist  = Loan::ExistingLoan($validated['borrower_id']); 
@@ -65,6 +72,8 @@ class LoanServices {
         $validated['balance_amount'] = $validated['total_amount'];
         
         $loan = Loan::create($validated);
+      
+        Self::createPaymentDueDate($loan, $loan->type);
 
         return new LoanResource($loan);
 
@@ -74,15 +83,11 @@ class LoanServices {
     {       
 
         $loan->status = $status;
+        
 
         $loan->save();
 
-        if ($status == Loan::$STATUS_ACTIVE) {
-
-            Self::createPaymentDueDate($loan);
-
-        }
-
+       
         return new LoanResource(Self::getLoan($loan));
 
     }
@@ -94,14 +99,18 @@ class LoanServices {
 
     }
 
-    public function createPaymentDueDate($loan)
+    public function createPaymentDueDate($loan, $payment_type)
     {
-        
+      
         $due_date = $loan->effective_at;
 
-        for ($i=0; $i < (int)$loan->terms; $i++) { 
+        $days = (int)$this->PaymentTypes[$payment_type];
 
-            $due_date = Carbon::parse($due_date)->addDays(30);
+        $daysToPay = ((int)$loan->terms * 30) /  (int)$days;
+
+        for ($i = 0; $i < $daysToPay; $i++) { 
+
+            $due_date = Carbon::parse($due_date)->addDays($days);
 
             PaymentDueDate::create([
 

@@ -18,7 +18,7 @@
                     </div>        
                 </div>
 
-                <div v-if="isAdmin && loan && loan.status != 'paid'" class="flex items-center gap-4">
+                <div v-if="isAdmin && loan && loan.status != 'paid' && loan.status != 'active'" class="flex items-center gap-4">
                     <div  class="form-group w-60 mb-6 mt-6">
                         <div class="flex items-center gap-4">
                             <label for="exampleInputPassword1"  class="form-label text-sm inline-block text-gray-700">Status</label>
@@ -29,7 +29,7 @@
                             </select>
                         </div> 
                     </div>    
-                    <button  
+                    <button                         
                         @click="update"  
                         type="button" 
                         data-mdb-ripple="true"
@@ -49,12 +49,14 @@
            <div  class="w-1/2 flex flex-col">
                 <BaseLabelRow :name="'Loan Number :'" :value="loan.loan_number"/>
                 <BaseLabelRow :name="'Terms :'" :value="`${loan.terms} Months`"/>
+                <BaseLabelRow :name="'Type :'" :value="loan.type"/>
                 <BaseLabelRow :name="'Total Interest :'" :value="moneyFormatter(loan.total_interest)"/>
                 <BaseLabelRow :name="'Collection Amount :'" :value="moneyFormatter(loan.collection_amount)"/>
-                <BaseLabelRow :name="'Principal Amount :'" :value="moneyFormatter(loan.principal_amount)"/>
+               
            </div>
            <div class="w-1/2">                
                 <BaseLabelRow :name="'Interest :'" :value="`${loan.interest}%`"/>
+                <BaseLabelRow :name="'Principal Amount :'" :value="moneyFormatter(loan.principal_amount)"/>
                 <BaseLabelRow :name="'Total Amount :'" :value="moneyFormatter(loan.total_amount)"/>        
                 <BaseLabelRow :name="'Balance :'" :value="moneyFormatter(loan.balance_amount)" />  
                 <BaseLabelRow v-if="loan.status == 'paid'" :name="'Status :'" :value="loan.status" :backgroundColor="'success'" />  
@@ -84,8 +86,7 @@
                     <thead class="bg-white border-b">
                         <tr>
                             <th scope="col">Due Date</th>
-                            <th scope="col">Amount</th> 
-                            <th scope="col">Interest</th>
+                            <th scope="col">Amount</th>                           
                             <th scope="col">Paid Date</th>  
                             <th scope="col">Amount Paid</th>                     
                             <th scope="col">Balance</th>
@@ -98,10 +99,7 @@
                             </td>
                             <td>
                                 {{ moneyFormatter(item.collection_amount) }}
-                            </td>
-                            <td>
-                                {{ interestPerDueDate }}
-                            </td>
+                            </td>                           
                             <td>                   
                                 {{ item.paid_at }}                            
                             </td>  
@@ -112,10 +110,10 @@
                                 {{ item.balance }}                            
                             </td>
                             <td class="flex gap-2 items-center">                               
-                               <button v-if="item.status == null" @click="createPayment(item)" class="btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                               <button v-if="item.status == null" @click="createPayment(item)" class="btn-primary" :class="{'!bg-slate-400 cursor-not-allowed' : loan.status != 'active' }" :disabled="loan.status != 'active'"  data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Pay
                                </button>  
-                               <span v-else class="px-2 py-1 bg-green-400 text-white capitalize rounded-md text-center" :class="{ '!bg-rose-500': item.status == 'failed' , '!bg-rose-500' : item.status == 'void'}">
+                               <span v-else class="px-2 py-1 bg-green-400 text-white capitalize rounded-md text-center " :class="{ '!bg-rose-500': item.status == 'failed' , '!bg-rose-500' : item.status == 'void'}">
                                     {{item.status}}
                                </span>                                               
                             </td>

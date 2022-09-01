@@ -26,6 +26,7 @@ class LoanStoreRequest extends FormRequest
         return [
             'borrower_id' => 'required', 
             'terms' => 'required',
+            'type' => 'required',
             'total_interest' => 'required',      
             'principal_amount' => 'required|numeric',
             'interest' => 'required',
