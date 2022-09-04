@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\PaymentDueDateController;
+use App\Http\Controllers\Export\LoanExportController;
 use App\Http\Controllers\Report\LoanReportController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -176,5 +177,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
      Route::post('/reports/borrowers',[BorrowerReportController::class, 'index']);
 
      Route::post('/reports/payments',[PaymentReportController::class, 'index']);
+
+     Route::post('/report/export/loan', [LoanExportController::class, 'index']);
 
 });
