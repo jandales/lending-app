@@ -2,28 +2,26 @@
 
 namespace App\Http\Controllers\Export;
 
-
 use Illuminate\Http\Request;
-use App\Http\Exports\LoanExport;
-use App\Http\Reports\LoanReports;
 use App\Http\Controllers\Controller;
+use App\Http\Exports\BorrowerExport;
+use App\Http\Reports\BorrowersReport;
 
-class LoanExportController extends Controller
+
+class BorrowerExportController extends Controller
 {
-  
-
     private $report;
 
-    public function __construct(LoanReports $report)
+    public function __construct(BorrowersReport $report)
     {
         $this->report = $report;
     }
 
     public function index(Request $request)
-    {   
+    {  
 
-        $export  = new LoanExport($request, $this->report);
-
+        $export  = new BorrowerExport($request, $this->report);
+        
         return $export->handleExport();
 
     }

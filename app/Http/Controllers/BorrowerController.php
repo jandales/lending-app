@@ -8,9 +8,12 @@ use App\Http\Resources\LoanResource;
 use App\Http\Requests\BorrowerRequest;
 use App\Http\Services\BorrowerServices;
 use App\Http\Resources\BorrowerResource;
+use PDF;
 
 class BorrowerController extends Controller
 {    
+    
+    
     private $services;
 
     public function __construct(BorrowerServices $services)
@@ -75,6 +78,20 @@ class BorrowerController extends Controller
         return $this->services->count();
         
     }
+
+    public function createPDF() {
+        // retreive all records from db
+        $borrowers = Borrower::all(); 
+
+        view()->share('borrowers', $borrowers);
+        $pdf = PDF::loadView('borrower', $borrowers->toArray());
+        // download PDF file with download method
+        // return $pdf->download('pdf_file.pdf');
+
+        // $pdf = Pdf::loadView('pdf.borrower', $borrowers->toArray());
+
+        return $pdf->output();
+      }
 
    
 

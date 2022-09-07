@@ -150,7 +150,7 @@
  
 </template>
 <script setup>
-  import BaseAvatar from '../base/BaseAvatar.vue'  
+   import BaseAvatar from '../base/BaseAvatar.vue'  
 
   import { reactive, computed } from 'vue';
   import useReport from '../../composable/report';
@@ -159,7 +159,7 @@
 
   const { getLoanReports, loanReports } = useReport();
 
-  const { exportLoan } = useExport();
+  const { exportLoans } = useExport();
 
   const { moneyFormatter } = useFormater();  
 
@@ -180,9 +180,7 @@
   }
 
   const exportHandle = async () => {
-    let response = await exportLoan({...form});
-        
-        
+     await exportLoans({...form});
   }
 
   

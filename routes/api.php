@@ -18,7 +18,9 @@ use App\Http\Controllers\Export\LoanExportController;
 use App\Http\Controllers\Report\LoanReportController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Export\PaymentExportController;
 use App\Http\Controllers\Report\PaymentReportController;
+use App\Http\Controllers\Export\BorrowerExportController;
 use App\Http\Controllers\Report\BorrowerReportController;
 
 
@@ -172,12 +174,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
      });
 
-     Route::post('/reports/loans', [LoanReportController::class, 'index']);
+    Route::post('/reports/loans', [LoanReportController::class, 'index']);
 
-     Route::post('/reports/borrowers',[BorrowerReportController::class, 'index']);
+    Route::post('/reports/borrowers',[BorrowerReportController::class, 'index']);
 
-     Route::post('/reports/payments',[PaymentReportController::class, 'index']);
+    Route::post('/reports/payments',[PaymentReportController::class, 'index']);
 
-     Route::post('/report/export/loan', [LoanExportController::class, 'index']);
+    Route::post('/report/export/loan', [LoanExportController::class, 'index']);
+
+    Route::post('/report/export/borrower', [BorrowerExportController::class, 'index']);
+
+    Route::post('/report/export/payments', [PaymentExportController::class, 'index']);
+
+    Route::get('/create-pdf', [BorrowerController::class, 'createPDF']);
 
 });
