@@ -28,6 +28,7 @@
         
         <input type="number" 
                     name="amount"
+                    disabled
                     v-model="data.collection_amount"                      
                     id="exampleInputPassword1"
                  >        

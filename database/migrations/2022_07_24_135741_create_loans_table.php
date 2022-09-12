@@ -25,6 +25,7 @@ return new class extends Migration
             $table->float('total_amount')->default(0);
             $table->float('balance_amount')->default(0);              
             $table->timestamp('effective_at')->nullable();
+            $table->date('due_date_at')->nullable();
             $table->string('status')->nullable();
             $table->unsignedBigInteger('user_id'); 
             $table->foreign('user_id')->references('id')->on('users');

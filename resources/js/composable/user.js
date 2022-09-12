@@ -10,12 +10,21 @@ export default function useUser()  {
     const success = ref();
     const isLoading = ref(false);
     const isAdmin = ref(false);
+    const unAuthorized = ref(false);
 
     const getUser = async() => {
+        try {
+            let response = await axios.get('/user'); 
+            user.value = response.data; 
+            unAuthorized.value = true;   
+        } catch (e) {  
+           if(e.response.status === 401) {
+             unAuthorized.value = false;
+           }                    
+        }
+       
 
-       let response = await axios.get('/user');  
-
-       user.value = response.data;  
+      
 
     }
 
@@ -164,7 +173,8 @@ export default function useUser()  {
         isLoading,
         user,
         success,
-        errors,        
+        errors, 
+        unAuthorized,       
     }
 
 }

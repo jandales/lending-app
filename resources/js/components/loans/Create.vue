@@ -1,60 +1,50 @@
 <template>
 
 
-<div class="bg-white p-4 border rounded-md w-2/3 mx-auto">
-    <div class="block bg-white">   
-
-        <div v-for="error in errors.message">
-            <Alert :alert="'danger'" :message="error"/>
-        </div>    
-        
-        <div v-if="exist">
-            <Alert :alert="'danger'" :message="'This Customer has an exist loan'"/>
-        </div>  
-                
-        <hi class="block tracking-wider text-lg mb-6 ">Create Loan</hi>
-
-          <div class="flex items-center mb-6">
-            <div v-if="borrower" class="w-20">
-                 <img v-if="borrower.avatar" :src="borrower.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
-                 <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-16 h-16"  alt="Avatar"/>
-            </div>
-            <div v-else class="w-16 h-16">
-                <img  :src="$defaultAvatarSrc" class="rounded-full border w-16 h-16"  alt="Avatar"/>
-            </div>
-         
-           
-    
-            <div v-if="borrower" class="w-full flex  items-center justify-between ml-2">
-               <div>
-                     <label for="" class="block text-sm font-semibold text-gray-700">{{ borrower.name }}</label>
-                    <label for="" class="block text-sm text-gray-700">{{ borrower.phone }}</label>
-               </div>  
-               <span class="text-sky-500 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModalLg">
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg> -->
-                    Find Customer
-               </span>   
-            </div>
-
-            <div v-else class="ml-4">
-                <label for=""  class="text-sky-500" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Select borrower</label>
-                 <small class="text-alert-danger" v-for="error in errors.borrower_id" >{{ error }}</small>
-            </div>
-        </div>         
-
+    <div class="w-full" v-for="error in errors.message">
+                <Alert :alert="'danger'" :message="error"/>
+    </div>    
             
-            <BaseInput 
-                :id="'effective_at'"
-                :type="'date'"
-                :label="'Effective Date'"
-                :errors="errors.effective_at"
-                v-model="form.effective_at"
-            />
+    <div  class="w-full" v-if="exist">
+            <Alert :alert="'danger'" :message="'This Customer has an exist loan'"/>
+    </div>  
+
+    <hi class="block tracking-wider text-lg mb-6 ">Create Loan</hi>
+<div class="flex gap-4">
+    <div class="w-full md:w-2/6 gap-8">
+        <div class="bg-white p-4 border rounded-md w-full mb-4  h-auto">
+            <h1 class="block tracking-wider text-lg mb-6 ">Customer</h1>
+            <div class="flex items-center mb-6">
+                <div class="mr-4">
+                    <div v-if="borrower" class="w-20 h-20">
+                        <img v-if="borrower.avatar" :src="borrower.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
+                        <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-20 h-20"  alt="Avatar"/>
+                    </div>
+                    <div v-else class="w-20 h-20">
+                        <img  :src="$defaultAvatarSrc" class="rounded-full border w-20 h-20"  alt="Avatar"/>
+                    </div> 
+                </div>    
         
-                <div class="form-group mb-6">
-                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Payment Terms</label>
+                <div  class="w-full flex flex-col">
+                
+                    <label v-if="borrower" for="" class="block text-sm font-semibold text-gray-700 capitalize">{{ borrower.name }}</label>                    
+                
+                    <span  class="text-sky-500 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModalLg">                           
+                        Find Customer
+                    </span> 
+
+                </div>
+
+             
+            </div> 
+
+        </div>
+
+        <div class="bg-white p-4 border rounded-md w-full  h-auto">
+            <h1 class="block tracking-wider text-lg mb-6 ">Payment</h1>
+
+            <div class="form-group  mb-6">
+                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Terms</label>
                     <select aria-label="Default select example"   v-model="form.terms" @change="handleTotalInterest" placeholder="Select" class="py-[10px] capitalize">     
                             <option 
                             v-for="term in paymentTerms"                         
@@ -64,24 +54,67 @@
                             >{{term.name }}</option>
                     </select>
                     <small class="text-alert-danger" v-for="error in errors.loan_type_id">{{ error }}</small>
-                </div>
+            </div>
 
-
-
-            <div class="form-group mb-6">
-                <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Interest</label>
-                <select aria-label="Default select example" v-model="form.interest" @change="handleTotalInterest" placeholder="Select" class="py-[10px] capitalize">     
-                       <option value="0" selected>Select interest</option>
-                       <option 
-                        v-for="interest in interests"                         
-                        :value="interest.value"
-                        class="capitalize"
-                        >
-                        {{ interest.value }}
-                        </option>
+            <div class="form-group  w-full mb-6">
+                <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Type</label>
+                <select aria-label="Default select example"   v-model="form.type" @change="handleTotalInterest" placeholder="Select" class="py-[10px] capitalize">     
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="15days">15 Days</option>
+                        <option value="monthly">Monthly</option>                                
                 </select>
                 <small class="text-alert-danger" v-for="error in errors.loan_type_id">{{ error }}</small>
             </div>
+
+
+        </div>
+
+    </div>
+   
+
+
+<div class="bg-white p-4 border rounded-md w-full md:w-4/6">
+    <div class="block bg-white">   
+
+       
+                
+        <hi class="block tracking-wider text-lg mb-6 ">Loan Info</hi>
+
+
+             
+
+            
+        
+            <BaseInput 
+                :id="'effective_at'"
+                :type="'date'"
+                :label="'Effective Date'"
+                :errors="errors.effective_at"
+                v-model="form.effective_at"
+            />
+        
+           
+
+          
+
+                <div class="form-group  mb-6">
+                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Interest</label>
+                    <select aria-label="Default select example" v-model="form.interest" @change="handleTotalInterest" placeholder="Select" class="py-[10px] capitalize">     
+                        <option value="0" selected>Select interest</option>
+                        <option 
+                            v-for="interest in interests"                         
+                            :value="interest.value"
+                            class="capitalize"
+                            >
+                            {{ interest.value }}
+                            </option>
+                    </select>
+                    <small class="text-alert-danger" v-for="error in errors.loan_type_id">{{ error }}</small>
+                </div>
+
+
+            
 
             <BaseInput 
                 @input="handleTotalInterest"
@@ -92,7 +125,7 @@
                 v-model="form.principal_amount" 
             />
 
-            <BaseInput 
+            <BaseInput              
                 :id="'interest'" 
                 :type="'number'"
                 :label="'Total Interest'" 
@@ -118,14 +151,7 @@
                 :disabled="true"
             />
 
-            <BaseInput 
-                :id="'balance'" 
-                :type="'number'"
-                :label="'Balance'" 
-                :errors="errors.interest"
-                v-model="form.total_amount"
-                :disabled="true"
-            />
+ 
 
 
                
@@ -168,6 +194,8 @@
     </div>
    
 </div>
+</div>
+
 
 
 
@@ -196,6 +224,7 @@ const borrower = ref();
 const form = reactive({ 
     borrower_id : null, 
     terms : 0,
+    type : null,
     total_interest : 0,
     interest : 0,
     collection_amount : 0,
@@ -221,7 +250,7 @@ const paymentTerms = [
 
 const handleTotalInterest = () => { 
 
-    const { principal_amount, interest, terms } = toRefs(form)
+    const { principal_amount, interest, terms, type } = toRefs(form)
     
     let total= calculateTotalInterest(parseFloat(principal_amount.value), interest.value, terms.value);    
     form.total_interest = total;  
@@ -229,7 +258,7 @@ const handleTotalInterest = () => {
     const total_amount = calculateTotalAmount(parseFloat(principal_amount.value), total);
     form.total_amount = total_amount;
 
-    form.collection_amount = calculateCollectionAmount(total_amount, terms.value);
+    form.collection_amount = calculateCollectionAmount(total_amount, terms.value, type.value);
 
 }
 

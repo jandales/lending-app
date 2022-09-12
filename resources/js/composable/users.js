@@ -27,11 +27,12 @@ export default function useUsers()  {
 
     const getUsers = async() => {
     
-        const response = await axios.get(`/users`);
-        
-        users.value = response.data;
-
-        console.log(response.data)
+        try {
+            const response = await axios.get(`/users`);
+            users.value = response.data;
+        } catch (error) {
+            console.log(error)
+        }   
 
     }
 

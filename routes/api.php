@@ -14,10 +14,13 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\PaymentDueDateController;
+use App\Http\Controllers\Export\LoanExportController;
 use App\Http\Controllers\Report\LoanReportController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Export\PaymentExportController;
 use App\Http\Controllers\Report\PaymentReportController;
+use App\Http\Controllers\Export\BorrowerExportController;
 use App\Http\Controllers\Report\BorrowerReportController;
 
 
@@ -171,10 +174,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
      });
 
-     Route::post('/reports/loans', [LoanReportController::class, 'index']);
+    Route::post('/reports/loans', [LoanReportController::class, 'index']);
 
-     Route::post('/reports/borrowers',[BorrowerReportController::class, 'index']);
+    Route::post('/reports/borrowers',[BorrowerReportController::class, 'index']);
 
-     Route::post('/reports/payments',[PaymentReportController::class, 'index']);
+    Route::post('/reports/payments',[PaymentReportController::class, 'index']);
+
+    Route::post('/report/export/loan', [LoanExportController::class, 'index']);
+
+    Route::get('/loans/details/{id}/create-pdf', [LoanExportController::class, 'createLoanDetailPDF']);
+
+    Route::post('/report/export/borrower', [BorrowerExportController::class, 'index']);
+
+    Route::post('/report/export/payments', [PaymentExportController::class, 'index']);
+
+    Route::get('/create-pdf', [BorrowerExportController::class, 'createPDF']);
+
+    Route::post('/report/loans/create-pdf', [LoanExportController::class, 'createPDF']);
+
+    Route::post('/report/payments/create-pdf', [PaymentExportController::class, 'createPDF']);
 
 });
