@@ -31,6 +31,21 @@ class BorrowersReport implements Report {
 
     }
 
+    public function generateAll()
+    {
+        return Borrower::whereHas('loans')
+
+            ->withCount('loans')
+
+            ->withSum('loans', 'total_amount')   
+
+            ->get()
+
+            ->map(function($borrower)  {
+                return $this->format($borrower);             
+            });
+    }
+
     private  function format($borrower)
     {
         return  [   

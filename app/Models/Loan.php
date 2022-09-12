@@ -15,6 +15,7 @@ class Loan extends Model
         'loan_number',
         'borrower_id', 
         'terms',
+        'type',
         'collection_amount',       
         'total_interest', 
         'principal_amount',

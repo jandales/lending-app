@@ -8,9 +8,12 @@ use App\Http\Resources\LoanResource;
 use App\Http\Requests\BorrowerRequest;
 use App\Http\Services\BorrowerServices;
 use App\Http\Resources\BorrowerResource;
+use PDF;
 
 class BorrowerController extends Controller
 {    
+    
+    
     private $services;
 
     public function __construct(BorrowerServices $services)
@@ -75,6 +78,8 @@ class BorrowerController extends Controller
         return $this->services->count();
         
     }
+
+
 
    
 

@@ -13,13 +13,13 @@
             <table class="min-w-full">
               <thead class="bg-white border-b">
                 <tr>  
-                  <th>
+                  <!-- <th>
                       <div class="flex justify-center">
                         <div class="form-check">
                           <input  @change="selectAll" type="checkbox"  id="flexCheckIndeterminate" >
                         </div>
                       </div>
-                  </th>    
+                  </th>     -->
                    <th scope="col">
                     Loan Number
                   </th>       
@@ -42,13 +42,13 @@
               </thead>
               <tbody>  
                 <tr v-if="payments.length > 0" v-for="payment in payments" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
-                  <td>
+                  <!-- <td>
                     <div class="flex justify-center">
                       <div class="form-check px-2">
                         <input  type="checkbox"  :value="payment.id" v-model="listId" id="flexCheckIndeterminate">
                       </div>
                     </div>  
-                  </td>   
+                  </td>    -->
                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap cursor-pointer">
                       <RouterLink :to="{name : 'loans.details' , params : {id : payment.loan.id} }" class="text-sky-500">
                         {{ payment.loan.number }}
