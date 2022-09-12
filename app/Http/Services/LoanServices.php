@@ -73,7 +73,11 @@ class LoanServices {
         
         $loan = Loan::create($validated);
       
-        Self::createPaymentDueDate($loan, $loan->type);
+        $due_date =  Self::createPaymentDueDate($loan, $loan->type);
+
+        $loan->due_date_at = $due_date;
+
+        $loan->save();
 
         return new LoanResource($loan);
 
@@ -101,8 +105,8 @@ class LoanServices {
 
     public function createPaymentDueDate($loan, $payment_type)
     {
-      
-        $due_date = $loan->effective_at;
+        
+        $due_date = $loan->effective_at;      
 
         $days = (int)$this->PaymentTypes[$payment_type];
 
@@ -128,8 +132,13 @@ class LoanServices {
 
         } 
 
+        return $due_date;
+
         
     }
+
+
+   
 
 
 

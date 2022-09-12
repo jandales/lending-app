@@ -53,6 +53,7 @@ class LoanExport extends Export
             'balance_amount' => $loan->balance_amount,
             'status' => $loan->status,
             'effective_at' => Carbon::parse($loan->effective_at)->format('Y-m-d'),
+            'due_date_at' => $loan->due_date_at != null ? Carbon::parse($loan->due_date_at)->format('Y-m-d') : null,
             'release_date' => $loan->updated_at->format('Y-m-d'),                 
         ];
     }
@@ -63,7 +64,7 @@ class LoanExport extends Export
             'Loan Number',
             'Borrower', 
             'Payment Terms',
-            'Payemny Type',
+            'Payemnt Type',
             'Interest',
             'Principal Amount',
             'Total Interest',
@@ -71,8 +72,11 @@ class LoanExport extends Export
             'Total Amount',
             'Balance Amount',  
             'Status' ,
-            'Effective_at',     
+            'Effective_at', 
+            'Due Date',  
             'Release Date'
         ];
     }
+
+    
 }

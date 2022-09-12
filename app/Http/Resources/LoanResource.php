@@ -31,6 +31,7 @@ class LoanResource extends JsonResource
             'interest' => $this->interest,
             'status' => $this->status,
             'effective_at' => Carbon::parse($this->effective_at)->format('Y-m-d'),
+            'due_date_at' => Carbon::parse($this->due_date_at)->format('Y-m-d'),
             'created_at' => $this->created_at->format('Y-m-d'), 
             'borrower' => BorrowerResource::make($this->whenLoaded('borrower')),                  
             'payments' => PaymentResource::collection($this->whenLoaded('payments')),

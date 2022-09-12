@@ -79,19 +79,7 @@ class BorrowerController extends Controller
         
     }
 
-    public function createPDF() {
-        // retreive all records from db
-        $borrowers = Borrower::all(); 
 
-        view()->share('borrowers', $borrowers);
-        $pdf = PDF::loadView('borrower', $borrowers->toArray());
-        // download PDF file with download method
-        // return $pdf->download('pdf_file.pdf');
-
-        // $pdf = Pdf::loadView('pdf.borrower', $borrowers->toArray());
-
-        return $pdf->output();
-      }
 
    
 

@@ -2,12 +2,12 @@
 
 namespace App\Http\Exports;
 
-use App\Http\Contracts\ExportContract;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 
-class Export implements ExportContract
+class Export 
 {
     public function csv($columns = [], $data) {    
    
@@ -16,7 +16,8 @@ class Export implements ExportContract
         fputcsv($handle, $columns);
 
         foreach($data as $item)
-        {              
+        {      
+                    
             fputcsv($handle, $item);
         }          
    
@@ -25,14 +26,5 @@ class Export implements ExportContract
         return Storage::disk('local')->download('export.csv');
       
     } 
-
-    public function format($model) 
-    {
-
-    }
-
-    public  function columns()
-    {
-
-    }
+   
 }

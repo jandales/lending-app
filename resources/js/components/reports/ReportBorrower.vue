@@ -122,7 +122,7 @@
 
   const { getBorrowerReports, borrowerReports } = useReport();
 
-  const { exportBorrowers, toPDF } = useExport();
+  const { exportBorrowers, reportBorrowerstoPDF } = useExport();
 
   const { moneyFormatter } = useFormater();  
 
@@ -146,7 +146,7 @@
      await exportBorrowers({...form});
   }
   const toPDFHandle = async () => {
-    await toPDF();
+    await reportBorrowerstoPDF();
   }
 
   const borrowers = computed(() => {

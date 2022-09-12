@@ -182,10 +182,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/report/export/loan', [LoanExportController::class, 'index']);
 
+    Route::get('/loans/details/{id}/create-pdf', [LoanExportController::class, 'createLoanDetailPDF']);
+
     Route::post('/report/export/borrower', [BorrowerExportController::class, 'index']);
 
     Route::post('/report/export/payments', [PaymentExportController::class, 'index']);
 
-    Route::get('/create-pdf', [BorrowerController::class, 'createPDF']);
+    Route::get('/create-pdf', [BorrowerExportController::class, 'createPDF']);
+
+    Route::post('/report/loans/create-pdf', [LoanExportController::class, 'createPDF']);
+
+    Route::post('/report/payments/create-pdf', [PaymentExportController::class, 'createPDF']);
 
 });

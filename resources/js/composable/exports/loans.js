@@ -3,13 +3,24 @@ import axios from '../../axios/index.js';
 
 export default function useExport(){
 
-    const downloadExcel = (data, filename = 'file') => {   
-        const url = window.URL.createObjectURL(new Blob([data]));
+    const createLinkDownload = (url, file) => {
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `${filename}.csv`); //or any other extension
+        link.setAttribute('download', file); 
         document.body.appendChild(link);
         link.click();
+    }
+
+    const downloadExcel = (data, filename = 'file') => {   
+        const url = window.URL.createObjectURL(new Blob([data]));
+        const file = `${filename}.csv`
+        createLinkDownload(url,file);
+    }
+
+    const downloadPDF = (data, filename = 'file') => {
+        const url = window.URL.createObjectURL(new Blob([data],  { type : ' application/pdf'}));
+        const file = `${filename}.pdf`;
+        createLinkDownload(url, file);
     }
 
     const exportLoans = async (body) => {
@@ -40,18 +51,38 @@ export default function useExport(){
         
     }
 
-    const toPDF = async () => {
+    const reportBorrowerstoPDF = async () => {
         let response = await axios.get('/create-pdf', {
+                            responseType: 'arraybuffer'
+                        });                      
+       downloadPDF(response.data, 'borrowers');
+    }
+
+    const reportLoanToPDF = async (body) => {
+        let response = await axios.post('/report/loans/create-pdf', body, {
                             responseType: 'arraybuffer'
                         });
 
                       
-        const url = window.URL.createObjectURL(new Blob([response.data],  { type : ' application/pdf'}));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `file.pdf`); //or any other extension
-        document.body.appendChild(link);
-        link.click();
+        downloadPDF(response.data, 'loans');
+    }
+
+    const reportPaymentToPDF = async (body) => {
+        
+        let response = await axios.post('/report/payments/create-pdf', body, {
+                            responseType: 'arraybuffer'
+                        });
+
+        downloadPDF(response.data, 'payments');
+    }
+
+    const loanDetailsToPDF = async (id) => {
+
+        let response = await axios.get(`/loans/details/${id}/create-pdf`, {
+                            responseType: 'arraybuffer'
+                        });
+
+        downloadPDF(response.data, 'loan-details');
     }
 
    
@@ -60,7 +91,10 @@ export default function useExport(){
         exportLoans,
         exportBorrowers,
         exportPayments,
-        toPDF,
+        reportBorrowerstoPDF,
+        reportLoanToPDF,
+        reportPaymentToPDF,
+        loanDetailsToPDF,
     }
 
 

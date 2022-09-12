@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Export;
 
+use PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Exports\BorrowerExport;
@@ -25,4 +26,12 @@ class BorrowerExportController extends Controller
         return $export->handleExport();
 
     }
+
+    public function createPDF(Request $request) {
+
+        $borrowers = $this->report->generateALL();  
+        view()->share('borrowers', $borrowers);
+        $pdf = PDF::loadView('borrower', $borrowers->toArray())->setPaper('legal', 'landscape');  
+        return $pdf->output();
+      }
 }
