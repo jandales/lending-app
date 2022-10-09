@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('loan_number')->nullable();
             $table->unsignedBigInteger('borrower_id'); 
             $table->integer('terms')->default(0);
+            $table->string('type', 50)->nullable();
             $table->integer('interest')->default(0);
             $table->float('total_interest')->default(0);
             $table->float('collection_amount')->default(0);       
@@ -26,7 +27,7 @@ return new class extends Migration
             $table->float('balance_amount')->default(0);              
             $table->timestamp('effective_at')->nullable();
             $table->date('due_date_at')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status',50)->nullable();
             $table->unsignedBigInteger('user_id'); 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('borrower_id')->references('id')->on('borrowers');
