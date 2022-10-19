@@ -23,11 +23,14 @@ class BorrowerRequest extends FormRequest
      */
     public function rules()
     {
+        $borrower_id = $this->id ?? '';
+
         return [
             'firstname' => 'required',
-            'lastname' => 'required',           
+            'lastname' => 'required', 
+            'email' => 'required|unique:borrowers,email,' . $borrower_id,        
             'address' => 'required',
-            'phone' => 'required',            
+            'phone' => 'required',                        
         ];
     }
 }

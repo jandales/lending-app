@@ -13,24 +13,18 @@ use App\Http\Resources\UserEditResource;
 class UserController extends Controller
 {
     
-    private $services;
+    private UserServices $services;
     
     public function __construct(UserServices $services)
     {
-
-        $this->services = $services;
-        
+        $this->services = $services;        
     }
-
 
     public function index()
     {
         if (auth()->user()->cannot('viewAny', User::class)) {
-
             abort(403);
-
         }
-
 
         return $this->services->getUsers();
 
@@ -40,9 +34,7 @@ class UserController extends Controller
     {
 
         if (auth()->user()->cannot('view', $user)) {
-
             abort(403);
-
         }
 
         return UserEditResource::make($user);
@@ -53,9 +45,7 @@ class UserController extends Controller
     {
 
         if ($request->user()->cannot('update', $user)) {
-
             abort(403);
-
         }
 
         return $this->services->update($user, $request);
@@ -64,23 +54,18 @@ class UserController extends Controller
 
     public function store(UserStoreRequest  $request)
     { 
-
         if ($request->user()->cannot('create',  User::class)) {
-
             abort(403);
-
         }
 
         return $this->services->store($request);
 
     }  
     
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         if ($request->user()->cannot('delete', $user)) {
-
             abort(403);
-
         }
         
         return $user->delete();

@@ -28,11 +28,15 @@ export default function useUsers()  {
     const getUsers = async() => {
     
         try {
+            isLoading.value = true;
             const response = await axios.get(`/users`);
             users.value = response.data;
         } catch (error) {
             console.log(error)
-        }   
+        } finally {
+            isLoading.value = false;
+        }
+        
 
     }
 

@@ -4,34 +4,29 @@
       <div class="w-full md:w-2/6 mb-12 md:mb-0">
         <form>
           <Alert v-if="errors.message" :alert="'danger'" :message="errors.message" />
+
           <div class="flex flex-row items-center justify-center py-4">
             <h1 class="text-[2rem] mb-0 font-bold">Login</h1>   
           </div>
 
           <!-- Email input -->
-          <div class="mb-6">
-            <input
-             v-model="email"
-              type="text"
-              class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              id="exampleFormControlInput2"
-              placeholder="Email address"
+            <BaseInput 
+              :id="'email'"
+              :type="'email'"
+              :label="'Email'"
+              :errors="errors.password"
+              v-model="email"
+              placeholder="Email"
             />
-            <small class="text-alert-danger" v-for="error in errors.email">{{ error }}</small>
-          </div>
 
-          <!-- Password input -->
-          <div class="mb-6">
-            <input
+            <BaseInput 
+              :id="'password'"
+              :type="'password'"
+              :label="'Password'"
+              :errors="errors.password"
               v-model="password"
-              
-              type="password"
-              class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              id="exampleFormControlInput2"
               placeholder="Password"
-            />
-               <small class="text-alert-danger" v-for="error in errors.password">{{ error }}</small>
-          </div>          
+            />         
 
           <div class="text-center lg:text-left mb-6">
             <button
@@ -63,14 +58,20 @@
         </form>
       </div>  
   </div>
+
 </section>
 </template>
 <script setup>
-import Alert from '../components/Alert.vue';
-import { ref } from 'vue';
-import useUser from '../composable/user';
 
-const { userlogin,isLoading,  errors } = useUser();
+import { ref, defineAsyncComponent } from 'vue';
+import useUser from '../composable/user';
+import BaseInput from '../components/base/BaseInput.vue';
+
+const Alert = defineAsyncComponent(
+  () =>  import('../components/Alert.vue')
+);
+
+const { userlogin, isLoading, errors } = useUser();
 
 const email = ref('admin@gmail.com')
 const password = ref('password')

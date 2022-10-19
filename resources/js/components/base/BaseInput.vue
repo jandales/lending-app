@@ -1,11 +1,11 @@
 <template>
     <div class="form-group mb-6">
         <div class="block" :class="{ 'flex items-center  gap-4 ' : inline}">
-               <label for="exampleFormControlInpu3" class="form-label inline-block mb-2 text-gray-700" :class="{'!mb-0' : inline}">{{props.label}}</label> 
+               <label class="form-label inline-block mb-2 text-gray-700" :class="{'!mb-0' : inline}">{{props.label}}</label> 
         <textarea 
             v-if="props.type == 'textarea'"
             id="exampleFormControlTextarea1"
-            rows="3">
+            rows="3" v-bind="$attrs">
         </textarea>
         <input 
             v-if="props.type == 'date'"
@@ -13,6 +13,7 @@
             :type="props.type"
             :value="props.modelValue"
             :disabled="props.disabled"
+            v-bind="$attrs"
             @input="updateInput" 
         />
         <input 
@@ -21,6 +22,8 @@
             :type="props.type"
             :value="props.modelValue"
             :disabled="props.disabled"
+            :name="name"
+            v-bind="$attrs"
             @input="updateInput" 
         />
         </div>
@@ -32,11 +35,15 @@
     const props = defineProps({
             id: {
                 type: String,
-                default: "",
+                default: null,
             },
             label: {
                 type: String,
                 default: "",
+            },
+            name : {
+                type : String,
+                default : null,
             },
             modelValue: {
                 type: [String, Number],

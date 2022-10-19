@@ -1,13 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-
-
-
-
-
-
-
-import ChangePassword from '../components/settings/ChangePassword.vue'
 import middleware  from '../middleware/index';
 
 const router = createRouter({ 
@@ -21,11 +13,11 @@ const router = createRouter({
             [
                 { path : '' , name : 'dashboard', component : () => import('../pages/Dashboard.vue') },
 
-                { path : 'loans' , name : 'loans', component : () => import('../components/loans/Index.vue') },
+                { path : 'loans' , name : 'loans', component : () => import('../components/loans/LoanIndex.vue') },
 
                 { path : 'loans/details/:id' , name : 'loans.details', component : () => import('../components/loans/Details.vue') },
 
-                { path : 'loans/create' , name : 'loans.create', component : () => import('../components/loans/Create.vue') },
+                { path : 'loans/create' , name : 'loans.create', component : () => import('../components/loans/LoanCreate.vue') },
 
                 { path : 'loan-types' , name : 'loanTypes', component : () => import('../components/LoanTypes/Index.vue') },
 
@@ -35,9 +27,9 @@ const router = createRouter({
 
                 { path : 'borrowers', name : 'borrowers', component : () => import('../components/borrowers/Index.vue') },
 
-                { path : 'borrowers/create', name : 'borrowers.create', component : () => import('../components/borrowers/Create.vue') },
+                { path : 'borrowers/create', name : 'borrowers.create', component : () => import('../components/borrowers/BorrowerCreate.vue') },
 
-                { path : 'borrowers/edit/:id', name : 'borrowers.edit', component : () => import('../components/borrowers/Edit.vue') },
+                { path : 'borrowers/edit/:id', name : 'borrowers.edit', component : () => import('../components/borrowers/BorrowerEdit.vue') },
 
                 { path : 'borrowers/details/:id', name : 'borrowers.details', component :  () => import('../components/borrowers/Details.vue') },            
 
@@ -51,17 +43,17 @@ const router = createRouter({
 
                 { path : 'reports/customers', name : 'report.customers', component :  () => import('../components/reports/ReportBorrower.vue') },
 
-                { path : 'users', name : 'users', component : () => import('../components/users/Index.vue'),  beforeEnter : middleware.role  },
+                { path : 'users', name : 'users', component : () => import('../components/users/UserIndex.vue'),  beforeEnter : middleware.role  },
 
-                { path : 'users/create', name : 'users.create', component : () => import('../components/users/Create.vue'),  beforeEnter : middleware.role },
+                { path : 'users/create', name : 'users.create', component : () => import('../components/users/UserCreate.vue'),  beforeEnter : middleware.role },
 
-                { path : 'users/edit/:id', name : 'users.edit', component : () => import('../components/users/Edit.vue'),  beforeEnter : middleware.role  },
+                { path : 'users/edit/:id', name : 'users.edit', component : () => import('../components/users/UserEdit.vue'),  beforeEnter : middleware.role  },
 
                 { path : 'settings', name: 'settings', component : () => import('../pages/Setting.vue'),  children : [
       
                     {path : 'profile', name : 'settings.profile', component : () => import('../components/settings/Profile.vue')},
 
-                    // {path : 'change-password', name : 'settings.change.password', component :ChangePassword},
+                    { path : 'change-password', name : 'settings.change.password', component : () => import('../components/settings/ChangePassword.vue') },
 
                     {path : 'interest', name : 'settings.interest', component : ()=> import('../components/settings/Interest.vue'), beforeEnter : middleware.role}
 

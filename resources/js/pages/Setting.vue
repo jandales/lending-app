@@ -25,8 +25,7 @@
                         </svg>
                         <span>Change Password</span>
                     </router-link>
-                </li> -->
-                
+                </li> -->                
             </ul>
         </div>
         <div class="px-8  w-[calc(100%_-_15rem)]">

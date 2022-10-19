@@ -37,8 +37,6 @@ class UserServices
           
     }
 
-
-
     public function update(User $user, Request $request)
     {
         
@@ -60,9 +58,7 @@ class UserServices
 
         return $user;
 
-    }
-   
-    
+    }      
 
     public function store(Request $request)
     {
