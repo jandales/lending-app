@@ -1,40 +1,45 @@
 <template>
-  <BasePanelWrapper :title="'List of Users'">
+
+<div class="w-full flex mb-6 justify-between">
+      <div class="flex items-center justify-center">
+            <div class="xl:w-52">
+              <BaseSearch v-model="keyword"/>                     
+            </div>
+      </div>            
+
+      <div class="flex gap-2">
+      <BaseDropDown1  :options="roles" :title="'Roles'" :value="filterName"  @click-action="filterUser" />
+
+      <BaseDropDown1  :options="sorting" :title="'Sort'" :value="sortBy"  @click-action="handleSort" />
+</div>
+
+</div>
+  <BasePanelWrapper :title="'users'">
         <template #action>
-            <router-link 
+          <router-link 
                     :to="{name : 'users.create'}"
                     class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                     Create User
             </router-link>  
         </template>
+        <template #filter>
+           
+        </template>
         <template #body>
           <BaseTableWrapper>
             <BaseTable>
                 <BaseTableHead>
-                  <BaseTableRow>
-                      <BaseTableTh class="w-[50px]">
-                          <div class="flex justify-center">
-                              <div class="form-check px-2">
-                                <input  @change="selectAll()"  type="checkbox"  id="flexCheckIndeterminate" >
-                              </div>
-                          </div>
-                      </BaseTableTh>
+                  <BaseTableRow>             
                       <BaseTableTh>Name</BaseTableTh>
                       <BaseTableTh>Email</BaseTableTh>
                       <BaseTableTh>Phone</BaseTableTh>
+                      <BaseTableTh>Date</BaseTableTh>
                       <BaseTableTh>Role</BaseTableTh>
-                      <BaseTableTh>Action</BaseTableTh>   
+                      <BaseTableTh class="text-center">Action</BaseTableTh>   
                   </BaseTableRow>             
                 </BaseTableHead>            
                 <BaseTableBody>                         
-                  <BaseTableRow  :body="true"  v-for="(user, index) in users" :key="index">
-                    <BaseTd>
-                        <div class="flex justify-center">
-                          <div class="form-check">
-                            <input  type="checkbox"  :value="user.id" v-model="selected" id="flexCheckIndeterminate">
-                          </div>
-                        </div>  
-                    </BaseTd>
+                  <BaseTableRow  :body="true"  v-for="(user, index) in users" :key="index">              
                     <BaseTd>
                         <BaseAvatar 
                           :image="user.avatar" 
@@ -43,6 +48,7 @@
                     </BaseTd>
                     <BaseTd>{{ user.email }}</BaseTd>
                     <BaseTd>{{ user.phone }}</BaseTd>
+                    <BaseTd>{{ user.created_at }}</BaseTd>
                     <BaseTd>{{ user.role  }}</BaseTd>
                     <BaseTd>
                         <div class="flex justify-end gap-4 mr-4">                                   
@@ -59,10 +65,12 @@
                   </BaseTableRow>                          
                 </BaseTableBody>           
             </BaseTable>  
+            <BasePagination v-if="pagination.last_page > 1" :pagination="pagination" @page-change="changePage"/>
             <BaseTableSpinner v-if="isLoading"/> 
           </BaseTableWrapper>
         </template>
   </BasePanelWrapper> 
+  
 </template>
 <script setup>
 import BasePanelWrapper from '../base/BasePanelWrapper.vue'
@@ -78,59 +86,96 @@ import BaseButton from '../base/BaseButton.vue'
 import BaseTableSpinner from '../base/table/BaseTableSpinner.vue'
 import BaseIconDelete from '../base/icons/BaseIconDelete.vue'
 import BaseIconEdit from '../base/icons/BaseIconEdit.vue'
+import BaseSearch from '../base/BaseSearch.vue';
+import BaseDropDown1 from '../base/BaseDropDown1.vue';
+import BasePagination from '../Pagination.vue';
 
 import useUsers from '../../composable/users'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 
 
-const { getUsers, destroyUser, users, isLoading } = useUsers();
+const { getUsers,
+       destroyUser, 
+       searchUsers, 
+       pagination,
+       users, 
+       isLoading } = useUsers();
 
 
-const selected = ref([])
+const keyword = ref(null);
+const filterName = ref('All');
+const filter =ref(null);
+const sortBy = ref(null);
+const sortName = ref(null);
 
-const selectAllState = ref(false);
+const roles = ref([
+    { name : 'All', value : 0 },
+    { name : 'Admin', value : 1 },
+    { name : 'Employee', value : 2},
+])
 
-const selectAll = () => {   
+const sorting = ref([
+    { name : 'Name', value : 'name' },
+    { name : 'Date', value : 'Date' }, 
+])
 
-      selectAllState.value = selectAllState.value == true ? false : true;
-
-      selected.value = []
-
-      if(selectAllState.value == true){  
-
-          users.value.forEach(type => {
-
-              selected.value.push(type.id)
-
-          })        
-
-          return;
-      }
-
-      selected.value = []      
-}
-
-const deleteSeleted  =  () => {
-
-    selected.value.forEach(id => { 
-
-        destroy(id);
-
-    })    
-}
 const destroy = async (id) => {
-
     await destroyUser(id)
-
     await getUsers();
-
 }
 
 
+const filterUser  = (role) => {
+  let value = role.value == 0  ? null  : role.value;
+  filterName.value = role.name
+  filter.value = value
+  let page = pagination.value.current_page;
+  getUsers(page, filter.value);
+}
 
-onMounted(getUsers);
+const handleSort  = (sort) => {
+    sortBy.value = sort.value
+
+    if (sort.value == 'name') {
+      users.value = users.value.sort( (function(a, b) {
+          const nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+          if (nameA < nameB) //sort string ascending
+            return -1;
+          if (nameA > nameB)
+            return 1;
+          return 0; //default return value (no sorting)
+      }))  
+      
+      return; 
+    }
+
+    users.value = users.value.sort( (function(a, b) {
+          const dateA = a.created_at, dateB = b.created_at;
+          if (dateA < dateB) //sort string ascending    
+            return -1;
+          if (dateA > dateB)
+            return 1;
+          return 0; //default return value (no sorting)
+    })) 
+  
+};
+
+const changePage = (page) => {
+    page = page.split("=")[1];   
+    getUsers(page, filter.value)
+}
+
+onMounted(() => {  
+  getUsers(); 
+});
 
 
-
+watch(keyword, (value) => {
+  if ( value.length > 2 ){
+    searchUsers(value)
+    return;
+  }
+  getUsers()
+});
 
 </script>

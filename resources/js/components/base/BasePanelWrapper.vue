@@ -10,6 +10,7 @@
             <slot name="action">
             </slot>            
         </div>
+        <slot name="filter"></slot>
         <slot name="body">
         </slot>
     </div>

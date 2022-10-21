@@ -1,7 +1,7 @@
 <template>
-     <div class="flex justify-center">
-                <div class="mb-6 w-full">
-                    <label for="formFile" class="form-label inline-block mb-2 text-gray-700">{{label}}</label>
+     <div class="flex items-center justify-center">
+                <div class="mb-6 w-full" :class="parentClass">
+                    <label for="formFile" class="form-label inline-block mb-2 text-gray-700" :class="labelClass">{{label}}</label>
                     <select name="role" :id="id" :value="modelValue" class="py-[10px] capitalize" @input="updateInput" v-bind="$attrs" >                       
                         <option v-for="(option, index) in options" :key="index" :value="option.value" selected> 
                             {{  option.name }} 
@@ -48,7 +48,17 @@
             options : {
                 type : Array,
                 default : null,
-            }
+            },
+            parentClass : {
+                type : String,
+                default : null,
+            },
+            labelClass : {
+                type : String,
+                default : null,
+            },
+
+
     })
 
     const emit  = defineEmits(['update:modelValue'])

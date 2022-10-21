@@ -1,19 +1,14 @@
-
-   import axios from "../axios/index.js"   
-   import { ref } from "vue";
-
+import axios from "../axios/index.js"   
+import { ref } from "vue";
 
 export default function useUsers()  {
  
     const users = ref([]);
-
     const user = ref();
-
     const errors = ref([]);  
-
     const isLoading = ref(false);
-
     const isSuccess = ref(false);
+    const pagination = ref(Object);
 
     const initProps = () => {
 
@@ -25,12 +20,27 @@ export default function useUsers()  {
 
     }
 
-    const getUsers = async() => {
-    
+    const getUsers = async (page = 1, filter = null) => {
+        
+       
+        let api = '/users'
+     
+
+        if (page  != null ){
+            api += `?page=${page}`;
+        }
+
+        if (filter != null) {
+            api += `&filter=${filter}`;
+        }
+
+
         try {
             isLoading.value = true;
-            const response = await axios.get(`/users`);
-            users.value = response.data;
+            const response = await axios.get(api);            
+            let  { data, links, per_page, last_page, current_page, total } = response.data;
+            users.value = data;  
+            pagination.value = { per_page, last_page, current_page, total, links }     
         } catch (error) {
             console.log(error)
         } finally {
@@ -124,28 +134,31 @@ export default function useUsers()  {
 
     }
 
+    const searchUsers = async(keyword) => {
+        try {  
+            let response = await axios.get(`/users/search/keyword=${keyword}`); 
+            let  { data, links, per_page, last_page, current_page, total } = response.data;
+            users.value = data;  
+            pagination.value = { per_page, last_page, current_page, total, links }     
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
     return {
-
         getUsers,
-
-        storeUser,
-
+        storeUser,        
         editUser,
-
         updateUser,
-
         destroyUser,
-
+        searchUsers ,
         user,
-
         users,
-
+        pagination,
         isLoading,
-
         isSuccess,
-
         errors,
-
     }
       
     

@@ -1,6 +1,6 @@
 
 <template>
-    <table v-bind="$attrs" class="min-w-full">
+    <table v-bind="$attrs" class="w-full">
         <slot></slot>
     </table>
 </template>

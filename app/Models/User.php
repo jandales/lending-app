@@ -57,4 +57,12 @@ class User extends Authenticatable
         if ($this->role == 2) return 'Employee';
 
     }
+
+    public function scopeSearch($query, $keyword)
+    {
+        return $query->where('name','LIKE', '%' . $keyword . '%' )               
+                ->orWhere('address', 'LIKE', '%' . $keyword . '%')
+                ->orWhere('email',  'LIKE', '%' . $keyword . '%')
+                ->orWhere('phone',  'LIKE', '%' . $keyword . '%');
+    }
 }

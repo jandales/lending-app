@@ -20,13 +20,13 @@ class UserController extends Controller
         $this->services = $services;        
     }
 
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->user()->cannot('viewAny', User::class)) {
             abort(403);
         }
-
-        return $this->services->getUsers();
+        $filter = $request->query('filter');
+        return $this->services->getUsers($filter);
 
     }
 
@@ -70,6 +70,11 @@ class UserController extends Controller
         
         return $user->delete();
 
+    }
+
+    public function search($keyword)
+    {         
+        return $this->services->search($keyword);
     }
 
     

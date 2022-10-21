@@ -7,7 +7,7 @@ const props = defineProps({body : {
 
 const styles = props.body === false 
     ? null 
-    : 'bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100';
+    : 'bg-white border-b transition duration-300 ease-in-out  hover:bg-gray-100';
 
 </script>
 <template>

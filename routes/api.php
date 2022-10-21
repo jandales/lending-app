@@ -34,6 +34,8 @@ use App\Http\Controllers\Report\BorrowerReportController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
 Route::post('/login', [LoginController::class, 'attempt']);
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'index']);
@@ -81,6 +83,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{user:id}/update', 'update');  
         
         Route::delete('/{user:id}/destroy', 'destroy');
+
+        Route::get('/search/keyword={keyword}', 'search');
+
+      
          
     });
     
