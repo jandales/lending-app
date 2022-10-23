@@ -9,6 +9,11 @@ class Payment extends Model
 {
     use HasFactory;
 
+    public static $PAID = 'paid';
+    public static $VOID = 'void';
+    public static $RELEASED = 'released';
+    public static $FAILED = 'failed';
+
     protected $fillable = [
         'due_date',
         'amount',

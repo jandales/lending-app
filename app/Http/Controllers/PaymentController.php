@@ -21,10 +21,12 @@ class PaymentController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {        
-
-        return $this->services->index();
+        $filter = $request->query('filter');
+        $sort = $request->query('sort');
+        $order = $request->query('order');
+        return $this->services->getPaymentAll($filter, $sort, $order);       
 
     }
 
@@ -35,18 +37,25 @@ class PaymentController extends Controller
 
     }
 
-    public function view(Payment $payment)
-    {
+    // public function view(Payment $payment)
+    // {
 
-        return $this->services->view($payment);
+        
+    //     return $this->services->view($payment);
 
-    }
+    // }
 
     public function destroy(Payment $payment)
     {  
      
         return $this->services->destroy($payment); 
         
+    }
+
+    public function search(Request $request) 
+    {      
+        $keyword = $request->query('keyword');        
+        return $this->services->search($keyword);
     }
    
 }

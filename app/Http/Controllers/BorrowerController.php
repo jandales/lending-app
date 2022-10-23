@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Loan;
 use App\Models\Borrower;
+use Illuminate\Http\Request;
 use App\Http\Resources\LoanResource;
 use App\Http\Requests\BorrowerRequest;
 use App\Http\Services\BorrowerServices;
 use App\Http\Resources\BorrowerResource;
-use PDF;
 
 class BorrowerController extends Controller
 {    
@@ -23,10 +24,12 @@ class BorrowerController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        return $this->services->getAll();
+        $filter = $request->query('filter');
+        $sortName = $request->query('sort');
+        $order = $request->query('order');
+        return $this->services->getAll($filter, $sortName, $order);
 
     }
 
@@ -65,9 +68,9 @@ class BorrowerController extends Controller
 
     }
 
-    public function search($keyword)
+    public function search(Request $request)
     {
-
+        $keyword = $request->query('keyword');
         return $this->services->search($keyword);
 
     }

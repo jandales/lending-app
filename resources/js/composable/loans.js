@@ -1,5 +1,6 @@
 import axios from '../axios/index.js'
 import { ref } from 'vue'
+import { isEmpty } from 'lodash';
 
 
 export default function useLoans() {
@@ -10,24 +11,42 @@ export default function useLoans() {
     const isSuccess = ref(false);
     const isLoading = ref(false);
     const exist = ref(false);
+    const pagination = ref(Object);
 
-    const getLoans = async () => {
-        isLoading.value = true;
-        try {
-            let response = await axios.get('/loans');
-            loans.value = response.data.data;
-        }catch (e) {
-            console.error(e);
-        }finally {
-            isLoading.value = false;
+    const getLoans = async (page = 1, filter = null, sort = {} ) => {    
+
+        let api = '/loans'
+
+        if (page != null) {
+            api += `?page=${page}`
         }
-       
+
+        if (filter != null) {
+            api += `&filter=${filter}`
+        }
+
+        if (Object.keys(sort).length > 1){
+            api += `&sort=${sort.name}&order=${sort.value}`;
+        }
+
+        try {
+            isLoading.value = true
+            let response = await axios.get(api)
+            const { data, meta } = response.data
+            loans.value = data
+            const { links, per_page, last_page, current_page, total } = meta                   
+            pagination.value = { per_page, last_page, current_page, total, links }
+        }catch (e) {
+            console.error(e)
+        }finally {
+            isLoading.value = false
+        }       
     }
 
-    const getLoan = async (id) => {
-        isLoading.value = true;
+    const getLoan = async (id) => {        
         try {
-            let response = await axios.get(`/loans/${id}`);
+            isLoading.value = true;
+            let response = await axios.get(`/loans/${id}/show`);
             loan.value = response.data.data;
         }
         catch (e){
@@ -41,8 +60,9 @@ export default function useLoans() {
    
 
     const searchLoans = async (keyword) => {
-        isLoading.value = true;
+       
         try {
+            isLoading.value = true;
             let response = await axios.get(`/loans/search/keyword=${keyword}`);
             loans.value = response.data.data;
         }
@@ -55,14 +75,23 @@ export default function useLoans() {
     }
 
     const existLoan = async (id) => {    
-        exist.value = false; 
-        let response = await axios.get(`/loans/existing-loan/${id}`);
-        exist.value = response.data.status;                    
+        try {
+            isLoading.value = true;
+            exist.value = false; 
+            let response = await axios.get(`/loans/existing-loan/${id}`);
+            exist.value = response.data.status;  
+        } catch (error) {
+            console.log(error)
+        } finally {
+            isLoading.value = false;
+        }  
+                         
     }
 
     const getLoanByCustomer = async (id) => {
-        isLoading.value = true;
+      
         try {  
+            isLoading.value = true;
             let response = await axios.get(`/loans/borrower/${id}`);
             loan.value = response.data.data;
         }
@@ -76,24 +105,26 @@ export default function useLoans() {
     }
 
     const storeLoan =  async (data) => {
-        errors.value = [];
-        isSuccess.value = false;
-        isLoading.value = true;
+       
+       
         try {
-           let response =  await axios.post('/loans/store', data);
-           if(response.data.status === 500){ 
-                errors.value = { message : [response.data.message]}
-                return;             
-           }
-           loan.value = response.data.data;
-           isSuccess.value =true;
+            errors.value = [];
+            isSuccess.value = false;
+            isLoading.value = true;
+            let response =  await axios.post('/loans/store', data);
+
+            if(response.data.status === 500){ 
+                return  errors.value = { message : [response.data.message]}                                
+            }
+
+            loan.value = response.data.data;
+            isSuccess.value =true;
 
         } catch (e) {
            if(e.response.status === 422){
                 errors.value = e.response.data.errors;
            } 
-        }
-        finally {
+        } finally {
             isLoading.value = false;
         }
        
@@ -112,15 +143,16 @@ export default function useLoans() {
     }
 
     const updateStatusLoan = async (id, body) => {
-        isLoading.value = true;
+        
         try {
+            isLoading.value = true;
             let response = await axios.put(`/loans/update-status/${id}`, body);    
             loan.value = response.data.data;
             isSuccess.value = true;
         }catch (e) {
-            if(e.response.status === 422){
+            if (e.response.status === 422) {
                 errors.value = e.response.data.errors;
-           } 
+            } 
         }
         finally {
             isLoading.value = false;
@@ -130,28 +162,31 @@ export default function useLoans() {
 
     const getActiveLoan = async (id) => {
 
-        isLoading.value = true;
-
         try {
-
+            isLoading.value = true;
             let response = await axios.get(`/loans/customers/${id}/active-loan`);
-
             loan.value = response.data.data;
-
-        }
-
-        catch (e){
-
+        } catch (e) {
             console.error(e);
-
-        }
-
-        finally {
-
+        } finally {
             isLoading.value = false;
-
         }   
 
+    }
+
+    const loanSearch = async (keyword) => {
+        try {
+            isLoading.value = true
+            let response = await axios.get(`/loans/search?keyword=${keyword}`)
+            const { data, meta } = response.data
+            loans.value = data
+            const { links, per_page, last_page, current_page, total } = meta                   
+            pagination.value = { per_page, last_page, current_page, total, links }
+        }catch (e) {
+            console.error(e)
+        }finally {
+            isLoading.value = false
+        } 
     }
 
 
@@ -165,12 +200,14 @@ export default function useLoans() {
         updateStatusLoan,
         searchLoans,
         getActiveLoan,
+        existLoan,
+        loanSearch,
+        pagination,
         loans,
         loan,
         errors,
         isSuccess,
         isLoading,
-        exist,
-        existLoan
+        exist,        
     }
 }

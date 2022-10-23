@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\PaymentDueDate;
 use App\Http\Resources\LoanResource;
 
-class LoanServices {
+class LoanServices extends BaseServices {
 
     private $PaymentTypes = [
         'daily' => 1,
@@ -16,6 +16,8 @@ class LoanServices {
         '15days' => 15,
         'monthly' => 30,
     ];
+
+
 
     private function LoanNumber()
     {
@@ -25,10 +27,26 @@ class LoanServices {
     }
 
     
-    public function getLoans()
+    public function getLoans($filter = null, $sort = null, $order = null)
     {
-
-        $loans = Loan::with('borrower')->where('status', '!=', 'void')->orderBy('created_at', 'desc')->get();
+      
+        $loans = Loan::with('borrower')
+                ->when(!is_null($filter), function ($query) use ($filter) {
+                    if ($filter == 'all') return;
+                    $query->where('status', $filter);
+                })
+                ->when(!is_null($sort) && ! is_null($order), function ($query) use ($sort, $order) {
+                    if ($sort == 'name') {
+                        $query->orderBy(Borrower::select('lastname')
+                              ->whereColumn('borrowers.id', 'loans.id'),
+                                $order
+                        );
+                        return;
+                    }
+                    $query->orderBy($sort, $order);
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate($this->perpage);
 
         return LoanResource::collection($loans);
 
@@ -65,7 +83,7 @@ class LoanServices {
 
         $validated['loan_number'] = Self::LoanNumber();
 
-        $validated['status'] = Loan::$STATUS_PENDING;
+        $validated['status'] = Loan::$PENDING;
 
         $validated['user_id'] = $request->user()->id;
 
@@ -84,57 +102,44 @@ class LoanServices {
     } 
     
     public function updateStatus(Loan $loan, $status)
-    {       
-
-        $loan->status = $status;
-        
-
-        $loan->save();
-
-       
+    {      
+        $loan->status = $status; 
+        $loan->save();       
         return new LoanResource(Self::getLoan($loan));
-
     }
 
     public function existLoan($id)
     {
-        
         return Loan::ExistingLoan($id);
-
     }
 
     public function createPaymentDueDate($loan, $payment_type)
-    {
-        
-        $due_date = $loan->effective_at;      
-
+    {        
+        $due_date = $loan->effective_at; 
         $days = (int)$this->PaymentTypes[$payment_type];
-
         $daysToPay = ((int)$loan->terms * 30) /  (int)$days;
 
         for ($i = 0; $i < $daysToPay; $i++) { 
 
             $due_date = Carbon::parse($due_date)->addDays($days);
-
+            
             PaymentDueDate::create([
-
                 'loan_id' => $loan->id,
-
                 'due_date' => $due_date,
-
                 'collection_amount' => $loan->collection_amount,
-
-                'amount_paid' => 0,     
-
+                'amount_paid' => 0,    
                 'user_id' => $loan->user_id,
-
             ]);
-
         } 
 
         return $due_date;
-
         
+    }
+
+    public function search($keyword) 
+    {
+        $loans  = Loan::Search($keyword)->paginate($this->perpage);
+        return LoanResource::collection($loans);
     }
 
 

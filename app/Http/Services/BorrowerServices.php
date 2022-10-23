@@ -7,13 +7,35 @@ use Illuminate\Http\Request;
 use App\Http\Traits\UploadTrait;
 use App\Http\Resources\BorrowerResource;
 
-class BorrowerServices {
 
-    use UploadTrait;
+class BorrowerServices extends BaseServices  {
 
-    public function getAll()
-    {
-        return BorrowerResource::collection(Borrower::all());
+    use UploadTrait;   
+
+    public function getAll($filter = null, $sort = null, $order = null)
+    {  
+
+        $borrowers = Borrower::
+            when($filter != null, function($query) use($filter) { 
+                if ( $filter != 'all') {
+                    $query->where('status', $filter);
+                }           
+                
+            })
+            ->when($sort != null, function($query) use($sort, $order) {
+                if ($sort == 'date') {
+                    $sort = 'created_at';
+                }
+                if ($sort == 'name') {
+                    $sort = 'lastname';
+                }
+                $query->orderBy($sort, $order);
+            }) 
+            ->orderBy('created_at', 'desc')
+            ->paginate($this->perpage);
+
+
+        return BorrowerResource::collection($borrowers);
     }
 
     public function store(Request $request)
@@ -43,8 +65,8 @@ class BorrowerServices {
         $borrower->address = $request->address;
         $borrower->user_id = $request->user()->id;
         $borrower->save();
-
-        if ($oldImagePath != null){
+        
+        if (! is_null($oldImagePath) ) {
             $this->deleteImage($oldImagePath);
         }
 
@@ -59,7 +81,8 @@ class BorrowerServices {
 
     public function search($keyword)
     {
-        return BorrowerResource::collection(Borrower::search($keyword)->get());
+        $borrowers = Borrower::search($keyword)->paginate($this->perpage);
+        return BorrowerResource::collection($borrowers);
     }
 
     public function count()

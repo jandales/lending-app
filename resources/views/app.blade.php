@@ -8,7 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <script src="/node_modules/dist/js/index.min.js"></script>
+       
         <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
           {{-- <!-- @production
             @php

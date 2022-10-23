@@ -22,7 +22,7 @@ class DueDateResource extends JsonResource
             'balance' => $this->balance,
             'collection_amount' => $this->collection_amount,
             'due_date' => Carbon::parse($this->due_date)->format('Y-m-d'),
-            'paid_at' =>  $this->paid_at != null ?  Carbon::parse($this->paid_at)->format('Y-m-d') : null,
+            'paid_at' =>  $this->paid_at != null ?  Carbon::parse($this->paid_at)->toFormattedDateString() : null,
             'status' => $this->status,
         ];
     }

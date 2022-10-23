@@ -20,10 +20,12 @@ class LoanController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        return $this->services->getLoans();
+        $filter = $request->query('filter');
+        $sort = $request->query('sort');
+        $order = $request->query('order');
+        return $this->services->getLoans($filter, $sort, $order);
 
     }
 
@@ -64,11 +66,10 @@ class LoanController extends Controller
 
     }
 
-    public function search($keyword)
+    public function search(Request $request)
     {        
-
-       return LoanResource::collection(Loan::Search($keyword));
-
+       $keyword = $request->query('keyword');     
+       return $this->services->search($keyword);
     }
 
     public function updateStatus(StatusRequest $request, Loan $loan)
