@@ -84,7 +84,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         
         Route::delete('/{user:id}/destroy', 'destroy');
 
-        Route::get('/search/keyword={keyword}', 'search');
+        Route::get('/search', 'search');
 
       
          
@@ -118,7 +118,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::delete('/destroy/{borrower:id}', 'destroy');
 
-        Route::get('/search/{keyword}',  'search');
+        Route::get('/search',  'search');
 
         Route::get('/person/count',  'count');
 
@@ -128,7 +128,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', 'index');
 
-        Route::get('/{id}', 'view');
+        Route::get('/{id}/show', 'view');
 
         Route::get('/borrower/{id}', 'getLoanByCustomer');
 
@@ -140,7 +140,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/existing-loan/{id}', 'exist');
 
-        Route::get('/search/keyword={keyword}',  'search');
+        Route::get('/search',  'search');
 
         Route::get('/customers/{id}/active-loan', 'activeLoan');
 
@@ -150,12 +150,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', 'index');
 
-        Route::get('/{payment:id}',  'view');
+        // Route::get('/{payment:id}',  'view');
 
         Route::post('/store',  'store');
 
         Route::delete('/destroy/{payment:id}',  'destroy'); 
 
+        Route::get('/search',  'search');
+      
     });
 
     Route::controller(PaymentDueDateController::class)->prefix('payment-due-date')->group(function () {  

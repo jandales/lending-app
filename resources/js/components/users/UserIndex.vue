@@ -9,8 +9,7 @@
 
       <div class="flex gap-2">
       <BaseDropDown1  :options="roles" :title="'Roles'" :value="filterName"  @click-action="filterUser" />
-
-      <BaseDropDown1  :options="sorting" :title="'Sort'" :value="sortBy"  @click-action="handleSort" />
+      <BaseDropDown1  :options="usersSorting" :title="'Sort'" :value="sortBy"  @click-action="handleSort" />
 </div>
 
 </div>
@@ -63,7 +62,13 @@
                         </div>
                     </BaseTd>
                   </BaseTableRow>                          
-                </BaseTableBody>           
+                </BaseTableBody>  
+                
+                <!-- show if no record  found -->
+                <BaseTableRow v-if="!isLoading && users.length === 0">
+                        <BaseTd   colspan="8" class="text-center font-semibold">No Record Found</BaseTd>
+                </BaseTableRow>  
+
             </BaseTable>  
             <BasePagination v-if="pagination.last_page > 1" :pagination="pagination" @page-change="changePage"/>
             <BaseTableSpinner v-if="isLoading"/> 
@@ -91,33 +96,27 @@ import BaseDropDown1 from '../base/BaseDropDown1.vue';
 import BasePagination from '../Pagination.vue';
 
 import useUsers from '../../composable/users'
+import useSorting from '../../composable/sorting'
+import useStatus from '../../composable/status'
 import { ref, onMounted, watch, computed } from 'vue'
 
+const  { usersSorting } = useSorting();
+const  { roles } = useStatus();
 
 const { getUsers,
-       destroyUser, 
-       searchUsers, 
-       pagination,
-       users, 
-       isLoading } = useUsers();
+        destroyUser, 
+        searchUsers, 
+        pagination,
+        users, 
+        isLoading
+      } = useUsers();
 
 
 const keyword = ref(null);
 const filterName = ref('All');
 const filter =ref(null);
 const sortBy = ref(null);
-const sortName = ref(null);
 
-const roles = ref([
-    { name : 'All', value : 0 },
-    { name : 'Admin', value : 1 },
-    { name : 'Employee', value : 2},
-])
-
-const sorting = ref([
-    { name : 'Name', value : 'name' },
-    { name : 'Date', value : 'Date' }, 
-])
 
 const destroy = async (id) => {
     await destroyUser(id)
@@ -129,35 +128,12 @@ const filterUser  = (role) => {
   let value = role.value == 0  ? null  : role.value;
   filterName.value = role.name
   filter.value = value
-  let page = pagination.value.current_page;
-  getUsers(page, filter.value);
+  getUsers(1, filter.value);
 }
 
 const handleSort  = (sort) => {
-    sortBy.value = sort.value
-
-    if (sort.value == 'name') {
-      users.value = users.value.sort( (function(a, b) {
-          const nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
-          if (nameA < nameB) //sort string ascending
-            return -1;
-          if (nameA > nameB)
-            return 1;
-          return 0; //default return value (no sorting)
-      }))  
-      
-      return; 
-    }
-
-    users.value = users.value.sort( (function(a, b) {
-          const dateA = a.created_at, dateB = b.created_at;
-          if (dateA < dateB) //sort string ascending    
-            return -1;
-          if (dateA > dateB)
-            return 1;
-          return 0; //default return value (no sorting)
-    })) 
-  
+    sortBy.value = sort.displayName      
+    getUsers(1, filter.value, sort);
 };
 
 const changePage = (page) => {
@@ -170,12 +146,12 @@ onMounted(() => {
 });
 
 
-watch(keyword, (value) => {
-  if ( value.length > 2 ){
-    searchUsers(value)
-    return;
+watch( keyword, async (value) => {
+  if (value.length > 0 ) {
+    await searchUsers(value); 
+     return;
   }
-  getUsers()
+  await getUsers()
 });
 
 </script>

@@ -20,11 +20,11 @@ export default function useUsers()  {
 
     }
 
-    const getUsers = async (page = 1, filter = null) => {
+    const getUsers = async (page = 1, filter = null, sort ={} ) => {
         
        
         let api = '/users'
-     
+       
 
         if (page  != null ){
             api += `?page=${page}`;
@@ -34,13 +34,19 @@ export default function useUsers()  {
             api += `&filter=${filter}`;
         }
 
+        if (Object.keys(sort).length > 1) {
+            api += `&sort=${sort.name}&order=${sort.value}`;
+        }
+
 
         try {
             isLoading.value = true;
-            const response = await axios.get(api);            
-            let  { data, links, per_page, last_page, current_page, total } = response.data;
+            const response = await axios.get(api);
+            const { data, meta } = response.data;
             users.value = data;  
-            pagination.value = { per_page, last_page, current_page, total, links }     
+            const { links, per_page, last_page, current_page, total } = meta;                    
+            pagination.value = { per_page, last_page, current_page, total, links }
+            
         } catch (error) {
             console.log(error)
         } finally {
@@ -136,10 +142,11 @@ export default function useUsers()  {
 
     const searchUsers = async(keyword) => {
         try {  
-            let response = await axios.get(`/users/search/keyword=${keyword}`); 
-            let  { data, links, per_page, last_page, current_page, total } = response.data;
+            let response = await axios.get(`/users/search?keyword=${keyword}`); 
+            const { data, meta} = response.data;
             users.value = data;  
-            pagination.value = { per_page, last_page, current_page, total, links }     
+            const { links, per_page, last_page, current_page, total } = meta;                    
+            pagination.value = { per_page, last_page, current_page, total, links }    
         } catch (error) {
             console.log(error)
         }

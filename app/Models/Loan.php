@@ -27,12 +27,12 @@ class Loan extends Model
         'status',
     ];
 
-    public static $STATUS_APPROVED = 'approved';
-    public static $STATUS_ACTIVE = 'active';
-    public static $STATUS_PENDING = 'pending';
-    public static $STATUS_PAID = 'paid';
-    public static $STATUS_REJECT = 'rejected';
-    public static $STATUS_VOID = 'void';  
+    public static $APPROVED = 'approved';
+    public static $ACTIVE = 'active';
+    public static $PENDING = 'pending';
+    public static $PAID = 'paid';
+    public static $REJECT = 'rejected';
+    public static $VOID = 'void';  
 
     public function borrower()
     {
@@ -72,21 +72,16 @@ class Loan extends Model
     public function scopeActive($query)
     {
 
-        return $query->where('status', Self::$STATUS_ACTIVE)->latest('created_at');
+        return $query->where('status', Self::$ACTIVE)->latest('created_at');
 
     }
 
     public function scopeExistingLoan($query, $id)
     {      
-        
         $loan = $query->where('borrower_id', $id)->where(function ($q) {
-
-                        $q->where('status', Self::$STATUS_APPROVED)
-
-                        ->orWhere('status', Self::$STATUS_PENDING)
-
-                        ->orWhere('status', Self::$STATUS_ACTIVE);
-
+                        $q->where('status', Self::$APPROVED)
+                        ->orWhere('status', Self::$PENDING)
+                        ->orWhere('status', Self::$ACTIVE);
                 })->first();
 
         return $loan === null ? false : true;
@@ -97,19 +92,12 @@ class Loan extends Model
     {   
 
         $capital = 0;
-
         $loans =  $query->get();
-
-        if (is_null($loans)) return 0;
-
+        if (is_null($loans) ) return 0;
         forEach ($loans as $loan) {
-
             $capital += $loan->principal_amount;
-
         }
-
-        return $capital;
-        
+        return $capital;       
         
     }
 
@@ -117,21 +105,15 @@ class Loan extends Model
     {  
 
         $capital = 0; 
-
-        $interest = 0;    
-
+        $interest = 0;   
         $loans =  $query->get();
 
         if (is_null($loans)) return 0;
 
         forEach ($loans as $loan) {
-
             $interest += $loan->interest;
-
             $capital += $loan->principal_amount;
-
         }
-
         $total = $capital + ($capital * ($interest / 100));
 
         return $total;        
@@ -142,18 +124,12 @@ class Loan extends Model
     {    
         
        return $query->with('borrower')
-
-                    ->where('loan_number', 'LIKE', '%' . $keyword . '%')  
-
+                    ->where('loan_number', 'LIKE', '%' . $keyword . '%') 
                     ->orWhereHas('borrower', function ($q) use ($keyword) {
-
                         $q->where('firstname', 'LIKE', '%' . $keyword . '%')
-
-                         ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');  
-
-                    })  
-
-                    ->get();
+                          ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');  
+                    });
+                  
 
     }
 

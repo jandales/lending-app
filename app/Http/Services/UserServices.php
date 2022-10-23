@@ -4,26 +4,31 @@ namespace App\Http\Services;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 
-class UserServices
-{
-    private int $perpage = 5;
+class UserServices extends BaseServices
+{  
 
-    public function getUsers($filter = null)
+    public function getUsers($filter = null, $sort = null, $order = null)
     {      
-        $users = User::where('role' ,'>', 0);       
 
-        if ($filter != null) {
-            $users->where('role', $filter);
-        }
+        $users = User::where('role' ,'>', 0)
+            ->when(!is_null($filter), function ($query) use ($filter) {
+                if ($filter != 0) {
+                    $query->where('role', $filter); 
+                }                              
+            })
 
-        return $users
-                ->orderBy('created_at','desc')
-                ->paginate($this->perpage)
-                ->through(function($user) {                    
-                    return $this->format($user);
-                 });          
+            ->when(!is_null($sort) && !is_null($order), function ($query) use ($sort, $order) {               
+                 $query->orderBy($sort, $order);                
+            })
+
+            ->orderBy('created_at','desc')
+            ->paginate($this->perpage);
+
+        return UserResource::collection($users);
+                       
     }
 
     public function format($user)
@@ -66,12 +71,11 @@ class UserServices
 
     public function search($keyword)
     {     
-        return User::Search($keyword)
+        $users = User::Search($keyword)
                 ->orderBy('created_at','desc')
-                ->paginate($this->perpage)
-                ->through(function($user) {
-                    return $this->format($user);
-                });
+                ->paginate($this->perpage);              
+
+        return UserResource::collection($users);
     }
 
    

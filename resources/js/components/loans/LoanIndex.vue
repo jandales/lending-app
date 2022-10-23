@@ -1,5 +1,16 @@
 <template>
-<BasePanelWrapper :title="'List of Loans'">
+    <div class="w-full flex mb-6 justify-between">
+        <div class="flex items-center justify-center">
+              <div class="xl:w-52">
+                <BaseSearch v-model="keyword"/>                     
+              </div>
+        </div>   
+        <div class="flex gap-2">
+        <BaseDropDown :options="loanStatus"  :title="'Status'" :value="filterName"  @click-action="handleFilter" />
+        <BaseDropDown :options="loanSorting" :title="'Sort'"   :value="sortName"    @click-action="handleSorting" />
+  </div>
+</div>
+<BasePanelWrapper :title="'Loans'">
       <template #action>
           <router-link 
             :to="{name : 'loans.create'}"
@@ -12,7 +23,6 @@
              <BaseTable>
                 <BaseTableHead>
                     <BaseTableRow>
-
                       <BaseTableTh>
                         <div class="flex justify-center">
                             <div class="form-check px-2">
@@ -20,21 +30,12 @@
                             </div>
                         </div>
                       </BaseTableTh>
-
-                      <BaseTableTh>Borrower</BaseTableTh>
-
-                      <BaseTableTh>Terms</BaseTableTh>
-
-                      <BaseTableTh>Interest</BaseTableTh>
-
-                      <BaseTableTh>Total Amount</BaseTableTh>
-
-                      <BaseTableTh>Balance</BaseTableTh>
-
+                      <BaseTableTh>Loan Number</BaseTableTh>
+                      <BaseTableTh>Borrower</BaseTableTh>    
+                      <BaseTableTh>Total Amount</BaseTableTh>      
+                      <BaseTableTh>Date</BaseTableTh>                 
                       <BaseTableTh>Status</BaseTableTh>
-
-                      <BaseTableTh>Action</BaseTableTh>
-
+                      <BaseTableTh class="text-center">Action</BaseTableTh>
                     </BaseTableRow>                   
                 </BaseTableHead>
                 <BaseTableBody v-if="loans.length > 0"  >
@@ -48,29 +49,32 @@
                       </BaseTd>
                       <BaseTd>
                         <router-link :to="{name: 'borrowers.details', params : { id :  loan.borrower.id }}" class="text-sky-500">
+                           {{loan.loan_number}}
+                        </router-link> 
+                      </BaseTd>
+                      <BaseTd>
+                        <router-link :to="{name: 'borrowers.details', params : { id :  loan.borrower.id }}" class="text-sky-500">
                             <BaseAvatar
                               :image="loan.borrower.avatar"
                               :name="loan.borrower.name"
                             /> 
                         </router-link> 
-                      </BaseTd>
-                      <BaseTd> {{ `${loan.terms} Months` }} </BaseTd>
-                      <BaseTd> {{ `${loan.interest}%` }} </BaseTd>
+                      </BaseTd>                                        
                       <BaseTd> {{ moneyFormatter(loan.total_amount) }} </BaseTd>
-                      <BaseTd> {{ moneyFormatter(loan.balance_amount) }} </BaseTd>
+                      <BaseTd> {{ loan.created_at }} </BaseTd> 
                       <BaseTd> 
-                        <span v-if="loan.status == 'paid'" class="bg-green-500 text-xs px-2 py-1 rounded-md text-white capitalize">
-                          {{ loan.status }}
-                        </span>
-                        <span v-else-if="loan.status == 'void'"  class="bg-rose-500 text-xs px-2 py-1 rounded-md text-white capitalize">
-                          {{ loan.status }}
-                        </span>
-                        <span v-else-if="loan.status == 'rejected'"  class="bg-rose-500 text-xs px-2 py-1 rounded-md text-white capitalize">
-                          {{ loan.status }}
-                        </span>
-                        <span v-else class="bg-blue-500 text-xs px-2 py-1 rounded-md text-white capitalize">
-                          {{ loan.status }}
-                        </span>      
+                          <span v-if="loan.status == 'paid'" class="bg-green-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                            {{ loan.status }}
+                          </span>
+                          <span v-else-if="loan.status == 'void'"  class="bg-rose-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                            {{ loan.status }}
+                          </span>
+                          <span v-else-if="loan.status == 'rejected'"  class="bg-rose-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                            {{ loan.status }}
+                          </span>
+                          <span v-else class="bg-blue-500 text-xs px-2 py-1 rounded-md text-white capitalize">
+                            {{ loan.status }}
+                          </span>      
                       </BaseTd>
                       <BaseTd>
                           <div class="flex justify-end gap-4 mr-4 ">                                   
@@ -89,9 +93,13 @@
                               </BaseButton>
                         </div>
                       </BaseTd>
-                  </BaseTableRow>
+                  </BaseTableRow>                  
                 </BaseTableBody>
+                <BaseTableRow v-if="!isLoading && loans.length === 0">
+                    <BaseTd   colspan="8" class="text-center font-semibold">No Record Found</BaseTd>
+                </BaseTableRow>
             </BaseTable>
+            <Pagination v-if="pagination.last_page > 1" :pagination="pagination" @page-change=pageChange />
             <BaseTableSpinner v-if="isLoading" />
           </BaseTableWrapper>
 
@@ -112,34 +120,40 @@ import BaseTableBody from '../base/table/BaseTableBody.vue'
 import BaseTd from '../base/table/BaseTd.vue'
 import BaseButton from '../base/BaseButton.vue'
 import BaseTableSpinner from '../base/table/BaseTableSpinner.vue'
+import Pagination from '../Pagination.vue'
+import BaseSearch from '../base/BaseSearch.vue'
+import BaseDropDown from '../base/BaseDropDown1.vue'
 
 import useLoans from '../../composable/loans'
-import useUser from '../../composable/user';
+import useUser from '../../composable/user'
+import useSorting from '../../composable/sorting';
+import useStatus from '../../composable/status';
 import useFormatter from '../../composable/helper/formater'
 
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue'
 
-const { getLoans, destroyLoan, loans, isLoading} =  useLoans();
-const {checkUserRole, isAdmin } = useUser();
-const { moneyFormatter } = useFormatter();
+const { getLoans, destroyLoan, loanSearch, loans, isLoading, pagination } =  useLoans()
+const {checkUserRole, isAdmin } = useUser()
+const { moneyFormatter } = useFormatter()
+const { loanSorting } = useSorting();
+const { loanStatus } = useStatus();
 
 const selected = ref([])
-const selectAllState = ref(false);
+const selectAllState = ref(false)
+const filterName = ref(null)
+const filter = ref(null)
+const sortName = ref(null)
+const sort = ref(Object)
+const keyword = ref(null)
 
 const selectAll = () => {   
-
-      selectAllState.value = selectAllState.value == true ? false : true;
-
+      selectAllState.value = selectAllState.value == true ? false : true
       selected.value = []
 
-      if(selectAllState.value == true){  
-
+      if (selectAllState.value == true) { 
           loans.value.forEach(type => {
-
               selected.value.push(type.id)
-
-          })        
-
+          })       
           return;
       }
 
@@ -147,21 +161,44 @@ const selectAll = () => {
 }
 
 const deleteSeleted  =  () => {
-
     selected.value.forEach(id => { 
-
         destroy(id);
-
     })    
 }
 const destroy = async (id) => {
     await destroyLoan(id)
-    await getLoans();
+    await getLoans()
 }
 
-onMounted(getLoans);
+const handleFilter = (status) => {
+  filterName.value = status.name
+  filter.value = status.value
+  getLoans(1, filter.value)
+}
+
+const handleSorting = (payload) => {
+  sortName.value = payload.displayName
+  sort.value = payload.value
+  getLoans(1, filter.value, sort.value)
+}
+
+
+const pageChange = (page) => {
+  page = page.split("=")[1]
+  getLoans(page)
+}
+
+onMounted(getLoans)
+
 onMounted(checkUserRole)
 
+watch(keyword, async(value) => {
+  if ( value.length > 2 ){ 
+     await loanSearch(value);
+     return;
+  }
+ await getLoans();
+})
 
 
 </script>

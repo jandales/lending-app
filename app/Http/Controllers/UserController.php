@@ -26,7 +26,9 @@ class UserController extends Controller
             abort(403);
         }
         $filter = $request->query('filter');
-        return $this->services->getUsers($filter);
+        $sort = $request->query('sort');
+        $order = $request->query('order');
+        return $this->services->getUsers($filter, $sort, $order);
 
     }
 
@@ -72,8 +74,9 @@ class UserController extends Controller
 
     }
 
-    public function search($keyword)
+    public function search(Request $request)
     {         
+        $keyword = $request->query('keyword');
         return $this->services->search($keyword);
     }
 

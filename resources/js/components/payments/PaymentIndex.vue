@@ -1,4 +1,15 @@
 <template>
+    <div class="w-full flex mb-6 justify-between">
+        <div class="flex items-center justify-center">
+              <div class="xl:w-52">
+                <BaseSearch v-model="keyword"/>                     
+              </div>
+        </div>   
+        <div class="flex gap-2">
+        <BaseDropDown  :options="paymentStatus" :title="'status'" :value="filterName"  @click-action="handleFilter" />
+        <BaseDropDown :options="paymentSorting" :title="'Sort'" :value="sortName"  @click-action="handleSort" />
+  </div>
+</div>
 <BasePanelWrapper :title="'List of Payments'">
   <template #action>
     <BaseButton 
@@ -50,7 +61,14 @@
                   </BaseTd>
                 </BaseTableRow>
               </BaseTableBody>
+
+                <!-- show if no record  found -->
+              <BaseTableRow v-if="!isLoading && filteredPayments.length === 0">
+                      <BaseTd   colspan="8" class="text-center font-semibold">No Record Found</BaseTd>
+              </BaseTableRow>   
+
           </BaseTable>
+          <Pagination v-if="pagination.last_page > 1" :pagination="pagination" @page-change="pageChange" />
           <BaseTableSpinner v-if="isLoading" />
       </BaseTableWrapper>
   </template>
@@ -71,59 +89,58 @@ import BaseTableBody from '../base/table/BaseTableBody.vue'
 import BaseTd from '../base/table/BaseTd.vue'
 import BaseButton from '../base/BaseButton.vue'
 import BaseTableSpinner from '../base/table/BaseTableSpinner.vue'
+import Pagination from '../Pagination.vue';
+import BaseSearch from '../base/BaseSearch.vue'
+import BaseDropDown from '../base/BaseDropDown1.vue';
 
-
+import useStatus from '../../composable/status';
+import useSorting from '../../composable/sorting';
 import usePayments from '../../composable/payments';
 import useFormatter from '../../composable/helper/formater'
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 
-const listId = ref([]);
-const selectAllState = ref(false);
+const listId = ref([])
+const selectAllState = ref(false)
+const keyword = ref(null)
+const filterName = ref(null)
+const filter = ref(null)
+const sortName = ref(null)
+const sort = ref(null);
 
-const { getPayments, removePayment, payments, isLoading } = usePayments();
+const { paymentStatus } = useStatus();
+const  { paymentSorting } = useSorting();
+const { getPayments, removePayment, payments, paymentSearch, pagination, isLoading } = usePayments();
 const { moneyFormatter } = useFormatter();
 
 const voidPayment = async(id)=> {
-
       await removePayment(id);
-
       await getPayments();
-
 }
 
 const deleteSeleted  = () => {
-
     listId.value.forEach(id => { 
-
         removePayment(id);
-
-    })  
-
-}
-
-const selectAll = () => {   
-
-    selectAllState.value = selectAllState.value == true ? false : true;
-
-    listId.value = []
-
-    if(selectAllState.value == true){ 
-
-        payments.value.forEach(payment => {
-
-            listId.value.push(payment.id)
-
-        })        
-
-        return;
-        
-    }
-
-    listId.value = []
-    
+    }); 
 }
 
 onMounted(getPayments)
+
+const pageChange = (page) => {
+  page = page.split("=")[1];
+  getPayments(page);
+} 
+
+const handleFilter = async (status) => {
+    filterName.value = status.name;
+    filter.value = status.value;  
+    await getPayments(1, filter.value);  
+}
+
+const handleSort = async (payload) => {
+    sortName.value = payload.displayName;
+    sort.value = payload;
+    await getPayments(1, filter.value, sort.value);
+}
 
 const filteredPayments = computed(() => {
     return payments.value.map(payment => {
@@ -132,5 +149,15 @@ const filteredPayments = computed(() => {
     });
 });
 
+watch(keyword, async (value) => {
+
+  if (value.length > 2) {
+    await paymentSearch(value)
+    return;
+  }
+
+  await getPayments();
+  
+})
 
 </script>

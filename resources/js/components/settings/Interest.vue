@@ -27,7 +27,7 @@
                     </BaseTableTh>
                     <BaseTableTh>Interest</BaseTableTh>
                     <BaseTableTh>Date created</BaseTableTh>
-                    <BaseTableTh>Action</BaseTableTh>
+                    <BaseTableTh class="text-center">Action</BaseTableTh>
                   </BaseTableRow>
               </BaseTableHead>
               <BaseTableBody>

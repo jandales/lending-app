@@ -18,7 +18,7 @@ class PaymentResource extends JsonResource
             'id' => $this->id,          
             'amount' => $this->amount,            
             'status' => $this->status,
-            'created_at' => $this->created_at->format('Y-m-d'),
+            'created_at' => $this->created_at->toFormattedDateString(),
             'borrower' => [
                 'id' => $this->borrower->id,
                 'name' => $this->borrower->firstname . " " . $this->borrower->lastname,

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BorrowerResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,13 @@ class BorrowerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->firstname . " " . $this->lastname,
-            'email' => $this->email,
+            'name' => $this->name,
+            'email' => $this->email,        
             'phone' => $this->phone,
-            'address' => $this->address,
             'avatar' => $this->avatar,
-            'status' => $this->status ==  1 ? 'active' : 'not active',
-            'loans' => LoanResource::collection($this->whenLoaded('loans')),         
+            'address' => $this->address,
+            'role' => $this->role ==  2 ? 'Employee' : 'Admin' ,
+            'created_at' => $this->created_at->toFormattedDateString(),
         ];
     }
 }

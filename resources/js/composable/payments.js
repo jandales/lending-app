@@ -9,12 +9,31 @@ export default function usePayments() {
     const errors = ref([]);
     const isSuccess = ref(false);
     const isLoading = ref(false);
+    const pagination = ref(Object);
 
-    const getPayments = async () => {
+    const getPayments = async (page = 1, filter = null,  sort = {}) => {
+
+        let api = '/payments';
+
+        if (page != null){
+            api += `?page=${page}`;
+        }
+
+        if (filter != null) {
+            api += `&filter=${filter}`;
+        }
+
+        if (Object.keys(sort).length > 1) {
+            api += `&sort=${sort.name}&order=${sort.value}`;
+        }
+
         try {
             isLoading.value = true
-            let response = await axios.get('/payments');
-            payments.value = response.data.data;
+            let response = await axios.get(api);        
+            const { data, meta} = response.data;
+            payments.value = data;
+            const { links, per_page, last_page, current_page, total } = meta;                    
+            pagination.value = { per_page, last_page, current_page, total, links }
         } catch (error) {
             console.log(error)
         } finally {
@@ -75,12 +94,32 @@ export default function usePayments() {
         }
     }
 
+    const paymentSearch = async (keyword) => {
+        try {
+            isLoading.value = true
+            const response = await axios.get(`/payments/search?keyword=${keyword}`);
+
+            const { data, meta} = response.data;
+            const { links, per_page, last_page, current_page, total } = meta; 
+
+            payments.value = data;                               
+            pagination.value = { per_page, last_page, current_page, total, links }
+            
+        } catch (error) {
+            console.log(error)
+        } finally {
+            isLoading.value = false
+        }
+    }
+
     return {
         getPayments,
         getPayment,
         addPayment,
         removePayment,
         failedToPay,
+        paymentSearch,
+        pagination,
         payments,
         payment,
         errors,

@@ -1,5 +1,6 @@
 import axios from '../axios/index.js'
 import { ref } from 'vue'
+import { isEmpty } from 'lodash';
 
 
 export default function useLoans() {
@@ -10,24 +11,42 @@ export default function useLoans() {
     const isSuccess = ref(false);
     const isLoading = ref(false);
     const exist = ref(false);
+    const pagination = ref(Object);
 
-    const getLoans = async () => {        
+    const getLoans = async (page = 1, filter = null, sort = {} ) => {    
+
+        let api = '/loans'
+
+        if (page != null) {
+            api += `?page=${page}`
+        }
+
+        if (filter != null) {
+            api += `&filter=${filter}`
+        }
+
+        if (Object.keys(sort).length > 1){
+            api += `&sort=${sort.name}&order=${sort.value}`;
+        }
+
         try {
-            isLoading.value = true;
-            let response = await axios.get('/loans');
-            loans.value = response.data.data;
+            isLoading.value = true
+            let response = await axios.get(api)
+            const { data, meta } = response.data
+            loans.value = data
+            const { links, per_page, last_page, current_page, total } = meta                   
+            pagination.value = { per_page, last_page, current_page, total, links }
         }catch (e) {
-            console.error(e);
+            console.error(e)
         }finally {
-            isLoading.value = false;
+            isLoading.value = false
         }       
     }
 
-    const getLoan = async (id) => {
-        
+    const getLoan = async (id) => {        
         try {
             isLoading.value = true;
-            let response = await axios.get(`/loans/${id}`);
+            let response = await axios.get(`/loans/${id}/show`);
             loan.value = response.data.data;
         }
         catch (e){
@@ -155,6 +174,21 @@ export default function useLoans() {
 
     }
 
+    const loanSearch = async (keyword) => {
+        try {
+            isLoading.value = true
+            let response = await axios.get(`/loans/search?keyword=${keyword}`)
+            const { data, meta } = response.data
+            loans.value = data
+            const { links, per_page, last_page, current_page, total } = meta                   
+            pagination.value = { per_page, last_page, current_page, total, links }
+        }catch (e) {
+            console.error(e)
+        }finally {
+            isLoading.value = false
+        } 
+    }
+
 
 
     return {
@@ -167,6 +201,8 @@ export default function useLoans() {
         searchLoans,
         getActiveLoan,
         existLoan,
+        loanSearch,
+        pagination,
         loans,
         loan,
         errors,

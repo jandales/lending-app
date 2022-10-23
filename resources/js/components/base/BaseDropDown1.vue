@@ -13,7 +13,6 @@ const props = defineProps({
 })
 
 
-console.log(props.options.value)
 const emit  = defineEmits(['click-action'])
 
 const handleclick  = (value) => {
@@ -66,8 +65,7 @@ const handleclick  = (value) => {
                       min-w-max
                       absolute
                       hidden
-                      bg-white
-                      text-base
+                      bg-white                  
                       z-50
                       float-left
                       py-2
@@ -84,7 +82,7 @@ const handleclick  = (value) => {
                     aria-labelledby="dropdownMenuButton9"
                   >
                     <li  v-for="(option, index) in options" :key="index">
-                      <a
+                      <a v-if="option.displayName"
                         @click="handleclick(option)"
                         class="
                           dropdown-item
@@ -94,6 +92,27 @@ const handleclick  = (value) => {
                           font-normal
                           block
                           w-full
+                          whitespace-nowrap
+                          bg-transparent
+                          text-gray-700
+                          hover:bg-gray-100
+                          capitalize
+                        "
+                        href="#"
+                        >{{option.displayName}}</a
+                      >
+                      <a
+                      v-else
+                        @click="handleclick(option)"
+                        class="
+                          dropdown-item
+                          text-sm
+                          py-2
+                          px-4
+                          font-normal
+                          block
+                          w-full
+                          capitalize
                           whitespace-nowrap
                           bg-transparent
                           text-gray-700

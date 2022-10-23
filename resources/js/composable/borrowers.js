@@ -2,6 +2,7 @@ import {ref} from 'vue';
 import axios from '../axios/index.js';
 import { useRouter } from 'vue-router'
 
+
 export default function useBorrowers(){
 
     const router = useRouter();
@@ -10,12 +11,32 @@ export default function useBorrowers(){
     const borrower = ref();
     const errors =  ref([]);
     const isLoading = ref(false);
+    const pagination = ref(Object);
 
-    const getBorrowers = async() => {
+    const getBorrowers = async(page = 1, filter = null, sort = {}) => {
+
+        let api = '/borrowers'
+
+        if (page != null) {
+            api += `?page=${page}`    
+        }
+
+        if (filter != null) {          
+            api += `&filter=${filter}`;
+        }
+
+        if (Object.keys(sort).length != 0) {
+            api += `&sort=${sort.name}&order=${sort.value}`;
+        } 
+  
+
         try {
             isLoading.value = true;
-            let response = await axios.get('/borrowers');
-            borrowers.value = response.data.data;
+            let response = await axios.get(api);
+            const { data, meta} = response.data;
+            borrowers.value = data; 
+            const { links, per_page, last_page, current_page, total } = meta;                    
+            pagination.value = { per_page, last_page, current_page, total, links }
         } catch (error) {
             console.log(error);
         } finally {
@@ -65,12 +86,15 @@ export default function useBorrowers(){
         }  
     }
 
-    const searchborrowers = async(keyword) => {
+    const borrowerSearch = async(keyword) => {
 
         try {
             isLoading.value = true
-            let response = await axios.get(`/borrowers/search/${keyword}`);
-            borrowers.value = response.data;
+            let response = await axios.get(`/borrowers/search?keyword=${keyword}`);
+            const { data, meta } = response.data;
+            borrowers.value = data; 
+            const { links, per_page, last_page, current_page, total } = meta;                    
+            pagination.value = { per_page, last_page, current_page, total, links }
         } catch (error) {
             console.log(error)
         } finally {
@@ -135,9 +159,10 @@ export default function useBorrowers(){
         storeBorrower,
         destroyBorrower,
         updateBorrower,
-        searchborrowers,
+        borrowerSearch,
         getBorrowersCount,
         editBorrower,
+        pagination,
         isLoading,
         borrowersCount,
         borrowers,

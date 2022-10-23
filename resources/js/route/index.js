@@ -25,7 +25,7 @@ const router = createRouter({
 
                 { path : 'loan-types/edit/:id', name : 'loanTypes.edit',  component : () => import('../components/LoanTypes/Edit.vue')  },
 
-                { path : 'borrowers', name : 'borrowers', component : () => import('../components/borrowers/Index.vue') },
+                { path : 'borrowers', name : 'borrowers', component : () => import('../components/borrowers/BorrowerIndex.vue') },
 
                 { path : 'borrowers/create', name : 'borrowers.create', component : () => import('../components/borrowers/BorrowerCreate.vue') },
 
@@ -33,7 +33,7 @@ const router = createRouter({
 
                 { path : 'borrowers/details/:id', name : 'borrowers.details', component :  () => import('../components/borrowers/Details.vue') },            
 
-                { path: 'payments' , name : 'payments', component : () => import('../components/payments/Index.vue')},
+                { path: 'payments' , name : 'payments', component : () => import('../components/payments/PaymentIndex.vue')},
       
                 { path: 'payments/create/:loan_id?', name : 'payments.create', component : () => import('../components/payments/Create.vue') },
 
