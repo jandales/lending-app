@@ -79,7 +79,7 @@
     import { onMounted, ref, computed } from 'vue';
     import useBorrowers from '../../composable/borrowers';
 
-    const { getBorrowers, searchborrowers, borrowers} = useBorrowers(); 
+    const { getBorrowers, borrowerSearch , borrowers} = useBorrowers(); 
     const emit = defineEmits(['selectBorrower']);
     const selected  = ref();
 
@@ -87,14 +87,12 @@
     const search = (event) => {
         let keyword = event.target.value; 
         if(keyword == null) return;   
-        searchborrowers(keyword);
+        borrowerSearch(keyword);
     }
 
     const selectBorrower = () => {      
         emit('selectBorrower', selected.value);
     }
-
-    onMounted(getBorrowers);
 
     // const listborrowers = computed(() => {
     //     if(borrowers.value.length == 0) return [];

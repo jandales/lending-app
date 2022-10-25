@@ -10,8 +10,8 @@
     </div>  
 
     <hi class="block tracking-wider text-lg mb-6 ">Create Loan</hi>
-<div class="flex gap-4">
-    <div class="w-full md:w-2/6 gap-8">
+   
+    <div class="w-full">
         <div class="bg-white p-4 border rounded-md w-full mb-4  h-auto">
             <h1 class="block tracking-wider text-lg mb-6 ">Customer</h1>
             <div class="flex items-center mb-6">
@@ -27,7 +27,7 @@
         
                 <div  class="w-full flex flex-col">
                 
-                    <label v-if="borrower" for="" class="block text-sm font-semibold text-gray-700 capitalize">{{ borrower.name }}</label>                    
+                    <label v-if="borrower" for="" class="block text-lg font-semibold text-gray-700 capitalize">{{ borrower.name }}</label>                    
                 
                     <span  class="text-sky-500 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModalLg">                           
                         Find Customer
@@ -35,13 +35,14 @@
 
                 </div>
 
-             
+            
             </div> 
 
         </div>
 
         <div class="bg-white p-4 border rounded-md w-full  h-auto">
-            <h1 class="block tracking-wider text-lg mb-6 ">Payment</h1>           
+
+            <h1 class="block tracking-wider text-lg mb-6">Payment</h1>          
 
             <BaseSelect
                 v-model="form.terms"
@@ -60,87 +61,89 @@
                 :errors="errors.type"
                 class="py-[10px] capitalize"
             />
-         
+
+            <BaseSelect
+                :label="'Interest'"
+                :options="filteredInterests"                
+                @change="handleTotalInterest"
+                v-model="form.interest"
+                :errors="errors.interest"
+                class="py-[10px] capitalize"
+            />
+        
 
 
         </div>
 
     </div>
-   
+    
 
 
-<div class="bg-white p-4 border rounded-md w-full md:w-4/6">
-    <div class="block bg-white">                   
-        <h1 class="block tracking-wider text-lg mb-6 ">Loan Info</h1>  
+    <div class="bg-white p-4 border rounded-md w-full mt-8">
+        <div class="block bg-white">                   
+            <h1 class="block tracking-wider text-lg mb-6 ">Loan Info</h1>  
 
-        <BaseInput 
-            :id="'effective_at'"
-            :type="'date'"
-            :label="'Effective Date'"
-            :errors="errors.effective_at"
-            v-model="form.effective_at"
-        />
+            <BaseInput 
+                :id="'effective_at'"
+                :type="'date'"
+                :label="'Effective Date'"
+                :errors="errors.effective_at"
+                v-model="form.effective_at"
+            />
 
-        <BaseSelect
-            :label="'Interest'"
-            :options="filteredInterests"                
-            @change="handleTotalInterest"
-            v-model="form.interest"
-            :errors="errors.interest"
-            class="py-[10px] capitalize"
-        />
+           
 
-        <BaseInput 
-            @input="handleTotalInterest"
-            :id="'principal_amount'"
-            :type="'number'"
-            :label="'Principal Amount'"           
-            :errors="errors.principal_amount"
-            v-model="form.principal_amount" 
-        />
+            <BaseInput 
+                @input="handleTotalInterest"
+                :id="'principal_amount'"
+                :type="'number'"
+                :label="'Principal Amount'"           
+                :errors="errors.principal_amount"
+                v-model="form.principal_amount" 
+            />
 
-        <BaseInput              
-            :id="'interest'" 
-            :type="'number'"
-            :label="'Total Interest'" 
-            :errors="errors.total_interest"
-            v-model="form.total_interest"
-            :disabled="true"
-        />
+            <BaseInput              
+                :id="'interest'" 
+                :type="'number'"
+                :label="'Total Interest'" 
+                :errors="errors.total_interest"
+                v-model="form.total_interest"
+                :disabled="true"
+            />
 
-        <BaseInput 
-            :id="'amount'"
-            :type="'number'"
-            :label="'Total Amount'"
-            v-model="form.total_amount"
-            :errors="errors.total_amount"
-            :disabled="true"
-        />  
+            <BaseInput 
+                :id="'amount'"
+                :type="'number'"
+                :label="'Total Amount'"
+                v-model="form.total_amount"
+                :errors="errors.total_amount"
+                :disabled="true"
+            />  
 
-        <BaseInput 
-            :id="'Collection-Amount'" 
-            :type="'number'"
-            :label="'Collection Amount'" 
-            :errors="errors.collection_amount"
-            v-model="form.collection_amount"
-            :disabled="true"
-        />
+            <BaseInput 
+                :id="'Collection-Amount'" 
+                :type="'number'"
+                :label="'Collection Amount'" 
+                :errors="errors.collection_amount"
+                v-model="form.collection_amount"
+                :disabled="true"
+            />
 
-        <BaseButton 
-            v-if="exist"  
-            name="Save"         
-            disabled  
-        />
+            <BaseButton 
+                v-if="exist"  
+                name="Save"         
+                disabled  
+            />
 
-        <BaseButton
-            v-else 
-            @click="store" 
-            name=" Save"
-        />         
+            <BaseButton
+                v-else 
+                @click="store" 
+                name=" Save"
+            />         
+        </div>
+    
     </div>
-   
-</div>
-</div>
+ 
 
 
 

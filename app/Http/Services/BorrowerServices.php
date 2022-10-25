@@ -59,11 +59,12 @@ class BorrowerServices extends BaseServices  {
         } 
 
         $borrower->firstname = $request->firstname;
-        $borrower->lastname =$request->lastname;
-        $borrower->email =$request->email;
-        $borrower->phone = $request->phone;
-        $borrower->address = $request->address;
-        $borrower->user_id = $request->user()->id;
+        $borrower->lastname  = $request->lastname;
+        $borrower->email     = $request->email;
+        $borrower->phone     = $request->phone;
+        $borrower->address   = $request->address;
+        $borrower->user_id   = $request->user()->id;
+        $borrower->status   = $request->status;
         $borrower->save();
         
         if (! is_null($oldImagePath) ) {
@@ -79,9 +80,14 @@ class BorrowerServices extends BaseServices  {
         return $borrower->delete();
     }
 
-    public function search($keyword)
+    public function search($keyword, $active = 0)
     {
-        $borrowers = Borrower::search($keyword)->paginate($this->perpage);
+        $borrowers = Borrower::when($active != 0, function($q) use ($active) {
+                        $q->where('has_active_loan', $active);
+                     })
+                     ->Search($keyword)
+                     ->paginate($this->perpage);
+
         return BorrowerResource::collection($borrowers);
     }
 

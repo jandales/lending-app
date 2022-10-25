@@ -3,7 +3,9 @@
 namespace App\Http\Services;
 
 use App\Models\User;
+use App\Helpers\Password;
 use Illuminate\Http\Request;
+use App\Jobs\ProccessSendPassword;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,6 +16,7 @@ class UserServices extends BaseServices
     {      
 
         $users = User::where('role' ,'>', 0)
+        
             ->when(!is_null($filter), function ($query) use ($filter) {
                 if ($filter != 0) {
                     $query->where('role', $filter); 
@@ -62,11 +65,17 @@ class UserServices extends BaseServices
 
     public function store(Request $request)
     {
+        $password = Password::generate();
         $validated = $request->validated();
         $validated['address'] = $request->address;
         $validated['phone'] = $request->phone;
-        $validated['password'] = Hash::make($validated['password']);
-        return User::create($validated);        
+        $validated['password'] = Password::make($password);
+       
+        $user =  User::create($validated);  
+        
+        dispatch(new ProccessSendPassword($user->email, $password));
+
+        return $user;
     }
 
     public function search($keyword)

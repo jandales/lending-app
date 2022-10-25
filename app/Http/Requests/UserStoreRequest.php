@@ -34,8 +34,6 @@ class UserStoreRequest extends FormRequest
 
             'role' => 'required',
 
-            'password' => 'required'
-
         ];
 
     }

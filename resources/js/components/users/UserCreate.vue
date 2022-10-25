@@ -1,7 +1,8 @@
 <template>
-   <div class="bg-white p-4 border rounded-md w-1/2 mx-auto"> 
+   <div class="bg-white p-4 border rounded-md w-full"> 
         <PageHeading :title="'Create User'" />  
-        <div class="block bg-white  rounded-md mt-6">
+        <p class="mt-2 text-gray-400">Password is auto generated and sent to user email</p>
+        <div class="block bg-white rounded-md mt-6">
             <form>
                 <BaseInput
                     :id="'name'"
@@ -33,15 +34,7 @@
                     :label="'Address'"
                     v-model="form.address"
                     :errors="errors.address"
-                />  
-                
-                <BaseInput
-                    :label="'Password'"
-                    :id="'password'"
-                    :name="'password'"               
-                    v-model="form.password"
-                    :errors="errors.password"
-                />          
+                />   
 
             <BaseSelect
                 :label="'Role'"
@@ -78,8 +71,7 @@ const form =  reactive({
     email : null,
     phone : null,
     address : null,
-    role : null,
-    password : 'password'
+    role : null,   
 })
 
 const userTypes = [  

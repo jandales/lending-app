@@ -1,7 +1,7 @@
 <template>
-   <div class="bg-white p-4 border rounded-md w-max mx-auto">        
+   <div class="bg-white p-4 border rounded-md w-full">        
         <PageHeading :title="'Create Borrower'" />    
-        <div class="block bg-white  rounded-md max-w-2xl mt-6">
+        <div class="block bg-white  rounded-md mt-6">
             <form>
                 <div class="grid grid-cols-2 gap-4">
                     <BaseInput

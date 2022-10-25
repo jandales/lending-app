@@ -123,8 +123,8 @@ class Loan extends Model
     public function scopeSearch($query, $keyword)
     {    
         
-       return $query->with('borrower')
-                    ->where('loan_number', 'LIKE', '%' . $keyword . '%') 
+       return $query->with('borrower')                    
+                    ->Where('loan_number', 'LIKE', '%' . $keyword . '%')                   
                     ->orWhereHas('borrower', function ($q) use ($keyword) {
                         $q->where('firstname', 'LIKE', '%' . $keyword . '%')
                           ->orWhere('lastname', 'LIKE', '%' . $keyword . '%');  

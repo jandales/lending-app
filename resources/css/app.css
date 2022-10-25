@@ -16,12 +16,22 @@ select{
   focus:border-blue-600 focus:outline-none;
 }
 
-table tr th{
+table tr th {
     @apply text-xs font-bold text-gray-900 px-6 py-4 text-left;    
 }
 
 table tr td {
-    @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900;
+    @apply  !px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900;
+}
+
+table tr td:first-child,
+table tr th:first-child {
+    @apply  !pr-0;
+}
+
+table tr td:nth-child(2),
+table tr th:nth-child(2) {
+    @apply  !pl-0;
 }
 
 .form-input{

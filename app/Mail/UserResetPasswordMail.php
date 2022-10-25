@@ -7,18 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ForgotPasswordMail extends Mailable
+class UserResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $url;
+
+    protected $password;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($url)
-    {
-        $this->url = $url;
+    
+    public function __construct($password)
+    {        
+        $this->password = $password;
     }
 
     /**
@@ -27,9 +30,9 @@ class ForgotPasswordMail extends Mailable
      * @return $this
      */
     public function build()
-    {     
-        return $this->from('example@example.com')
-        ->markdown('mail.forgot-password')
-        ->with(['token' => $this->url]);
+    {
+        return $this->from('ettodev@gmail.com')
+                ->markdown('mail.reset-password')
+                ->with(['password' => $this->password]);
     }
 }

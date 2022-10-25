@@ -13,12 +13,15 @@ export default function useLoans() {
     const exist = ref(false);
     const pagination = ref(Object);
 
-    const getLoans = async (page = 1, filter = null, sort = {} ) => {    
+    const getLoans = async (page = 1, type = null,  filter = null, sort = {} ) => {    
 
         let api = '/loans'
 
         if (page != null) {
             api += `?page=${page}`
+        }
+        if (type != null) {
+            api += `&type=${type}`;
         }
 
         if (filter != null) {
@@ -48,23 +51,6 @@ export default function useLoans() {
             isLoading.value = true;
             let response = await axios.get(`/loans/${id}/show`);
             loan.value = response.data.data;
-        }
-        catch (e){
-            console.error(e);
-        }
-        finally {
-            isLoading.value = false;
-        }       
-    }
-
-   
-
-    const searchLoans = async (keyword) => {
-       
-        try {
-            isLoading.value = true;
-            let response = await axios.get(`/loans/search/keyword=${keyword}`);
-            loans.value = response.data.data;
         }
         catch (e){
             console.error(e);
@@ -174,10 +160,19 @@ export default function useLoans() {
 
     }
 
-    const loanSearch = async (keyword) => {
+    const loanSearch = async (keyword, loanType = null) => {
+
+        let api = `/loans/search?keyword=${keyword}`
+
+        if (loanType != null) {
+            api += `&type=${loanType}` 
+        }
+
         try {
             isLoading.value = true
-            let response = await axios.get(`/loans/search?keyword=${keyword}`)
+           
+    
+            let response = await axios.get(api)
             const { data, meta } = response.data
             loans.value = data
             const { links, per_page, last_page, current_page, total } = meta                   
@@ -197,8 +192,7 @@ export default function useLoans() {
         getLoanByCustomer,
         storeLoan,
         destroyLoan,
-        updateStatusLoan,
-        searchLoans,
+        updateStatusLoan,      
         getActiveLoan,
         existLoan,
         loanSearch,
