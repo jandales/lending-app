@@ -10,13 +10,13 @@
         <BaseDropDown :options="paymentSorting" :title="'Sort'" :value="sortName"  @click-action="handleSort" />
   </div>
 </div>
-<BasePanelWrapper :title="'List of Payments'">
+<BasePanelWrapper :title="title">
   <template #action>
-    <BaseButton 
-      v-if="selectAllState" 
-      @click="deleteSeleted" 
-      name="Delete"   
-    />
+        <router-link 
+            :to="{ name : 'payments.create' }"
+            class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+            Create Payment
+        </router-link>  
   </template>
   <template #body>
       <BaseTableWrapper>
@@ -51,20 +51,15 @@
                   <BaseTd>
                       {{ payment.created_at }}
                   </BaseTd>
-                  <BaseTd>
-                    <span  
-                      class="bg-green-500 text-xs px-2 py-1 rounded-md text-white capitalize"
-                      :class="{'!bg-rose-500' : payment.status == 'void' }"
-                      >
-                     {{ payment.status }}
-                  </span>
+                  <BaseTd>       
+                      <BaseStatus v-if="payment" :status="payment.status"/>
                   </BaseTd>
                 </BaseTableRow>
               </BaseTableBody>
 
                 <!-- show if no record  found -->
               <BaseTableRow v-if="!isLoading && filteredPayments.length === 0">
-                      <BaseTd   colspan="8" class="text-center font-semibold">No Record Found</BaseTd>
+                  <BaseTd   colspan="8" class="text-center font-semibold">No Record Found</BaseTd>
               </BaseTableRow>   
 
           </BaseTable>
@@ -74,7 +69,9 @@
   </template>
 </BasePanelWrapper>
 
- 
+ <Teleport to="body">
+  <PaymentCreateModal />
+ </Teleport>
 </template>
 <script setup>
 
@@ -87,7 +84,6 @@ import BaseTableRow from '../base/table/TableRow.vue'
 import BaseTableTh from '../base/table/BaseTableTh.vue'
 import BaseTableBody from '../base/table/BaseTableBody.vue'
 import BaseTd from '../base/table/BaseTd.vue'
-import BaseButton from '../base/BaseButton.vue'
 import BaseTableSpinner from '../base/table/BaseTableSpinner.vue'
 import Pagination from '../Pagination.vue';
 import BaseSearch from '../base/BaseSearch.vue'
@@ -97,15 +93,20 @@ import useStatus from '../../composable/status';
 import useSorting from '../../composable/sorting';
 import usePayments from '../../composable/payments';
 import useFormatter from '../../composable/helper/formater'
-import { onMounted, ref, computed, watch } from 'vue';
 
-const listId = ref([])
-const selectAllState = ref(false)
+
+import { onMounted, ref, computed, watch, defineAsyncComponent } from 'vue';
+
+const BaseStatus = defineAsyncComponent(() => import('../base/BaseStatus.vue'))
+
+
+const title = ref('Payments')
 const keyword = ref(null)
 const filterName = ref(null)
 const filter = ref(null)
 const sortName = ref(null)
 const sort = ref(null);
+
 
 const { paymentStatus } = useStatus();
 const  { paymentSorting } = useSorting();
@@ -117,11 +118,6 @@ const voidPayment = async(id)=> {
       await getPayments();
 }
 
-const deleteSeleted  = () => {
-    listId.value.forEach(id => { 
-        removePayment(id);
-    }); 
-}
 
 onMounted(getPayments)
 

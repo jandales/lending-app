@@ -28,7 +28,7 @@
           <BaseTableWrapper>
             <BaseTable>
                 <BaseTableHead>
-                  <BaseTableRow>             
+                  <BaseTableRow>                            
                       <BaseTableTh>Name</BaseTableTh>
                       <BaseTableTh>Email</BaseTableTh>
                       <BaseTableTh>Phone</BaseTableTh>
@@ -38,7 +38,7 @@
                   </BaseTableRow>             
                 </BaseTableHead>            
                 <BaseTableBody>                         
-                  <BaseTableRow  :body="true"  v-for="(user, index) in users" :key="index">              
+                  <BaseTableRow  :body="true"  v-for="(user, index) in users" :key="index">                            
                     <BaseTd>
                         <BaseAvatar 
                           :image="user.avatar" 
@@ -50,10 +50,18 @@
                     <BaseTd>{{ user.created_at }}</BaseTd>
                     <BaseTd>{{ user.role  }}</BaseTd>
                     <BaseTd>
-                        <div class="flex justify-end gap-4 mr-4">                                   
+                        <div class="flex justify-end gap-4 mr-4">  
+
                                 <router-link :to="{name : 'users.edit' , params : {id : user.id} }" type="button" class="btn-icon-info">
                                     <BaseIconEdit/>
-                                </router-link>                   
+                                </router-link>       
+                                <BaseButton @click="toggleModal(true, user.id)" class="btn-icon-info" tooltip="change Password">
+                                  <template #icon>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                    </svg>
+                                  </template>
+                                </BaseButton>            
                                 <BaseButton  @click="destroy(user.id)" class="btn-icon-danger">
                                   <template #icon>
                                     <BaseIconDelete />
@@ -75,7 +83,13 @@
           </BaseTableWrapper>
         </template>
   </BasePanelWrapper> 
-  
+  <Teleport to="body">
+    <ResetPasswordModal 
+    v-if="resetPasswordState"
+    :user="userId" 
+    @toggleModal="toggleModal"
+    />
+  </Teleport>
 </template>
 <script setup>
 import BasePanelWrapper from '../base/BasePanelWrapper.vue'
@@ -98,7 +112,12 @@ import BasePagination from '../Pagination.vue';
 import useUsers from '../../composable/users'
 import useSorting from '../../composable/sorting'
 import useStatus from '../../composable/status'
-import { ref, onMounted, watch, computed } from 'vue'
+
+import {  ref,
+          onMounted,
+          watch,
+          defineAsyncComponent
+        } from 'vue'
 
 const  { usersSorting } = useSorting();
 const  { roles } = useStatus();
@@ -111,11 +130,14 @@ const { getUsers,
         isLoading
       } = useUsers();
 
+const ResetPasswordModal = defineAsyncComponent(() => import('../Modal/UserResetPassword.vue'))
 
 const keyword = ref(null);
 const filterName = ref('All');
 const filter =ref(null);
 const sortBy = ref(null);
+const resetPasswordState = ref(false);
+const userId = ref(null)
 
 
 const destroy = async (id) => {
@@ -139,6 +161,11 @@ const handleSort  = (sort) => {
 const changePage = (page) => {
     page = page.split("=")[1];   
     getUsers(page, filter.value)
+}
+
+const toggleModal = (state, user) => {
+  resetPasswordState.value = state;
+  userId.value = user;
 }
 
 onMounted(() => {  

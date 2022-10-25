@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BorrowerController;
 use App\Http\Controllers\InterestController;
 use App\Http\Controllers\LoanTypeController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ChangePasswordController;
@@ -168,19 +169,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     });
 
-    Route::controller(InterestController::class)->prefix('interests')->group(function () { 
-
+    Route::controller(InterestController::class)->prefix('interests')->group(function () {
         Route::get('/', 'index');
-
         Route::get('/{interest:id}', 'show');
-
         Route::post('/store',  'store');
-
         Route::put('/update/{interest:id}', 'update');
-
-        Route::delete('/destroy/{interest:id}', 'destroy');        
-
+        Route::delete('/destroy/{interest:id}', 'destroy'); 
      });
+
+    Route::controller(PasswordController::class)->prefix('password')->group(function () {         
+        Route::post('/reset/user/{id}', 'reset');
+    });
 
     Route::post('/reports/loans', [LoanReportController::class, 'index']);
 

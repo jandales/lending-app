@@ -11,32 +11,21 @@
   </div>
 </div>
 
-<BasePanelWrapper :title="'List of borrowers'">
+<BasePanelWrapper :title="title">
     <template #action>
-          <router-link  v-if="!selectAllState && selected.length < 2"
+          <router-link
                 :to="{name : 'borrowers.create'}"
                 class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                 Create Borrower
           </router-link>  
 
-          <BaseButton v-else
-              @click="deleteSeleted"
-              class="btn-danger"
-              name="Delete"
-          />             
+                  
     </template>
     <template #body>
       <BaseTableWrapper>
         <BaseTable>
             <BaseTableHead>
-              <BaseTableRow>
-                  <BaseTableTh class="w-[50px]">
-                      <div class="flex justify-center">
-                          <div class="form-check px-2">
-                            <input  @change="selectAll()"  type="checkbox"  id="flexCheckIndeterminate" >
-                          </div>
-                      </div>
-                  </BaseTableTh>
+              <BaseTableRow>                 
                   <BaseTableTh>Name</BaseTableTh>
                   <BaseTableTh>Phone</BaseTableTh>
                   <BaseTableTh>Email</BaseTableTh>  
@@ -46,14 +35,7 @@
             </BaseTableHead>            
             <BaseTableBody>             
                     
-              <BaseTableRow  :body="true"  v-for="(borrower, index) in borrowers" :key="index">
-                <BaseTd>
-                  <div class="flex justify-center">
-                      <div class="form-check">
-                        <input  type="checkbox" :value="borrower.id" v-model="selected" id="flexCheckIndeterminate">
-                      </div>
-                  </div>  
-                </BaseTd>
+              <BaseTableRow  :body="true"  v-for="(borrower, index) in borrowers" :key="index">             
                 <BaseTd>
                   <router-link :to="{name: 'borrowers.details', params : { id :  borrower.id } }" class="text-sky-500">
                       <BaseAvatar :image="borrower.avatar" :name="borrower.name" />
@@ -117,8 +99,7 @@ const { getBorrowers, destroyBorrower, borrowerSearch,  borrowers, pagination, i
 const { sorting } = useSorting();
 const { borrowerStatus } = useStatus();
 
-const selected = ref([])
-const selectAllState = ref(false);
+const title = ref('Borrowers');
 const keyword = ref(null);
 const filterName = ref(null);
 const filter = ref(null);
@@ -132,39 +113,6 @@ const deleteBorrower = async(id) => {
     await getBorrowers();
 
 } 
-
-const selectAll = () => {   
-
-      selectAllState.value = selectAllState.value == true ? false : true;
-
-      selected.value = []
-
-      if(selectAllState.value == true){  
-
-          borrowers.value.forEach(type => {
-
-              selected.value.push(type.id)
-
-          })        
-
-          return;
-
-      }
-
-      selected.value = []      
-}
-
-const deleteSeleted  =  () => {
-
-    selected.value.forEach(id => { 
-
-        destroyBorrower(id)
-
-        getBorrowers();
-
-    })    
-
-}
 
 const handleFilter = (status) => {
   filterName.value = status.name;

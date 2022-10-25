@@ -25,7 +25,8 @@ class LoanController extends Controller
         $filter = $request->query('filter');
         $sort = $request->query('sort');
         $order = $request->query('order');
-        return $this->services->getLoans($filter, $sort, $order);
+        $type = $request->query('type');
+        return $this->services->getLoans($type, $filter, $sort, $order);
 
     }
 
@@ -68,8 +69,9 @@ class LoanController extends Controller
 
     public function search(Request $request)
     {        
-       $keyword = $request->query('keyword');     
-       return $this->services->search($keyword);
+       $keyword = $request->query('keyword'); 
+       $type = $request->query('type');     
+       return $this->services->search($keyword, $type);
     }
 
     public function updateStatus(StatusRequest $request, Loan $loan)

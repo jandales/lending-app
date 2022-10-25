@@ -1,5 +1,5 @@
 <template>
-   <div v-if="user" class="bg-white p-4 border rounded-md w-1/2 mx-auto">
+   <div v-if="user" class="bg-white p-4 border rounded-md w-full">
         <PageHeading :title="'Edit User'" />  
         <div class="block bg-white  rounded-md mt-6">
             <form>
@@ -36,14 +36,7 @@
                     v-model="user.address" 
                 />  
                 
-                <BaseInput 
-                    :label="'Password'"
-                    :id="'password'"   
-                    :type="'password'"             
-                    :name="'password'"
-                    :errors="errors.password"
-                    v-model="user.password" 
-                /> 
+        
 
                 <BaseSelect
                     :label="'Role'"

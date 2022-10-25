@@ -18,15 +18,14 @@ class Borrower extends Model
         'address',
         'phone',
         'avatar',
+        'status',
         'user_id'
     ];
 
 
     public function loans()
     {
-
         return $this->hasMany(Loan::class)->orderBy('created_at', 'desc');
-
     }
 
    

@@ -158,8 +158,8 @@
 
 <script setup>
 import Alert from '../Alert.vue';
-import PaymentModal from '../../components/Modal/PaymentModal.vue';
-import BaseLabelRow from '../../components/base/BaseLabelRow.vue'
+import PaymentModal from '../Modal/PaymentModal.vue';
+import BaseLabelRow from '../base/BaseLabelRow.vue'
 import useLoans from '../../composable/loans';
 import useCalculation from '../../composable/helper/calculations';
 import useFormatter from '../../composable/helper/formater'
