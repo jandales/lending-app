@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('email')->nullable();
             $table->string('phone');
-            $table->string('address');
-            $table->integer('status');
+            $table->string('address');        
             $table->integer('has_active_loan')->default(0);
             $table->string('avatar')->nullable();
             $table->softDeletes();
