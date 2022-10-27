@@ -5,7 +5,7 @@ export default function useApp(){
 
     const customerCount = ref(0);
 
-    const loanCapital = ref(0);
+    const currentCapital = ref(0);
 
     const loanRevenue = ref(0);
     
@@ -13,21 +13,23 @@ export default function useApp(){
 
     const recentLoans = ref([]);  
 
+    const totalInterest = ref(0);
+
     const getDashboards = async() => {
 
         let response = await axios.get('/app/dashboard');
 
-        const { customersCount, capital, revenue, activeLoan, loans}  = response.data; 
+        const { customers_count, current_capital, total_interest,  active_loan, loans}  = response.data; 
 
-        customerCount.value = customersCount;
+        customerCount.value = customers_count ?? 0;
 
-        loanCapital.value = capital;
-
-        loanRevenue.value = revenue;
+        currentCapital.value = current_capital ?? 0;
 
         recentLoans.value = loans;
 
-        activeLoansCount.value =  activeLoan;
+        activeLoansCount.value =  active_loan ?? 0;
+
+        totalInterest.value = total_interest ?? 0;
 
 
     }
@@ -37,7 +39,7 @@ export default function useApp(){
 
         getDashboards,
 
-        loanCapital,
+        currentCapital,
 
         loanRevenue,
 
@@ -46,6 +48,7 @@ export default function useApp(){
         recentLoans,
 
         activeLoansCount,
+        totalInterest
 
     }
 

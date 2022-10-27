@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\FundController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
@@ -179,6 +180,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(PasswordController::class)->prefix('password')->group(function () {         
         Route::post('/reset/user/{id}', 'reset');
+    });
+
+    Route::controller(FundController::class)->prefix('fund')->group(function () {
+        Route::get('/hasFunds',  'hasFunds');
     });
 
     Route::post('/reports/loans', [LoanReportController::class, 'index']);

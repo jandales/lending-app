@@ -23,11 +23,12 @@
           <BaseTable>
               <BaseTableHead>
                   <BaseTableRow>                   
-                      <BaseTableTh>Loan Number</BaseTableTh>
+                      <BaseTableTh>Reference no</BaseTableTh>
                       <BaseTableTh>Customer</BaseTableTh>
                       <BaseTableTh>Amount</BaseTableTh>
                       <BaseTableTh>Date of payment</BaseTableTh>                      
                       <BaseTableTh>Status</BaseTableTh>
+                      <BaseTableTh class="text-center">Action</BaseTableTh>
                   </BaseTableRow>
               </BaseTableHead>
               <BaseTableBody v-if="filteredPayments.length > 0">
@@ -53,6 +54,18 @@
                   </BaseTd>
                   <BaseTd>       
                       <BaseStatus v-if="payment" :status="payment.status"/>
+                  </BaseTd>
+                  <BaseTd>
+                    <div class="flex justify-end gap-4">    
+                              <router-link :to="{name : 'loans.details' , params : {id : payment.id} }" type="button" class="btn-icon-info">
+                                  <BaseIconEdit/>
+                              </router-link>
+                              <BaseButton @click="voidPayment(payment.id)" class="btn-icon-danger">
+                                <template #icon>
+                                  <BaseIconDelete/>
+                                </template>
+                              </BaseButton>
+                              </div>
                   </BaseTd>
                 </BaseTableRow>
               </BaseTableBody>
@@ -87,7 +100,11 @@ import BaseTd from '../base/table/BaseTd.vue'
 import BaseTableSpinner from '../base/table/BaseTableSpinner.vue'
 import Pagination from '../Pagination.vue';
 import BaseSearch from '../base/BaseSearch.vue'
+import BaseButton from '../base/BaseButton.vue'
 import BaseDropDown from '../base/BaseDropDown1.vue';
+import BaseIconDelete from '../base/icons/BaseIconDelete.vue'
+import BaseIconEdit from '../base/icons/BaseIconEdit.vue'
+
 
 import useStatus from '../../composable/status';
 import useSorting from '../../composable/sorting';
@@ -113,7 +130,7 @@ const  { paymentSorting } = useSorting();
 const { getPayments, removePayment, payments, paymentSearch, pagination, isLoading } = usePayments();
 const { moneyFormatter } = useFormatter();
 
-const voidPayment = async(id)=> {
+const voidPayment = async (id) => {
       await removePayment(id);
       await getPayments();
 }

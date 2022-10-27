@@ -1,13 +1,13 @@
 <template>
 
 <div class="w-full flex gap-8"> 
-  <BaseCard :title="'Customers'"  :value="customerCount" :icon="'person'" />
+  <BaseCard :title="'Borrowers'"  :value="customerCount" :icon="'person'" />
 
   <BaseCard :title="'Active Loan'"  :value="activeLoansCount" :icon="'activeLoanCount'" />
 
-  <BaseCard :title="'Capital'"  :value="moneyFormatter(loanCapital)" :icon="'capital'" />
+  <BaseCard :title="'Current Capital'"  :value="moneyFormatter(currentCapital)" :icon="'capital'" />
 
-  <BaseCard :title="'Revenue'"  :value="moneyFormatter(loanRevenue)" :icon="'revenue'"/> 
+  <BaseCard :title="'Total Interest'"  :value="moneyFormatter(totalInterest)" :icon="'revenue'"/> 
 </div>
 
 
@@ -96,7 +96,7 @@ import { onMounted, computed} from 'vue';
 
 const { moneyFormatter } = useFormatter();
 
-const { getDashboards ,customerCount, loanRevenue, loanCapital,activeLoansCount, recentLoans  } = useApp();
+const { getDashboards ,customerCount, totalInterest, currentCapital ,activeLoansCount, recentLoans  } = useApp();
 
 const getData = () => {
 

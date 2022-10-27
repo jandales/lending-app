@@ -1,12 +1,12 @@
 <template>
       <div class="flex gap-8">
-            <div class="min-w-[120px]">
+            <div class="min-w-[120px] flex items-center">
                 <label for="" class="block text-sm font-[500] text-gray-700 mb-2">{{props.name}}</label>
             </div>            
             <span  class="text-sm font-bold capitalize " :class="{ 
-                'bg-green-500 rounded-md p-1 px-2 text-white' : props.backgroundColor == 'success',
-                'bg-blue-500 rounded-md p-2 px-2 text-white' : props.backgroundColor == 'info',
-                'bg-rose-500 rounded-md p-2 px-2 text-white' : props.backgroundColor == 'danger',                    
+                'text-green-500 rounded-md' : props.backgroundColor == 'success',
+                'text-blue-500  rounded-md' : props.backgroundColor == 'info',
+                'text-rose-500  rounded-md' : props.backgroundColor == 'danger',                    
                  }" >
                 {{ props.value }}
             </span>

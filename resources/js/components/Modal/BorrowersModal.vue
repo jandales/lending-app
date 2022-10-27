@@ -1,5 +1,5 @@
 <template>
-<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="exampleModalLg" tabindex="-1" aria-labelledby="exampleModalLgLabel" aria-modal="true" role="dialog">
+<div class="modal fade fixed top-0 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="exampleModalLg" tabindex="-1" aria-labelledby="exampleModalLgLabel" aria-modal="true" role="dialog">
   <div class="modal-dialog modal-lg relative w-auto pointer-events-none">
     <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
       <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
@@ -76,7 +76,7 @@
 </div>
 </template>
 <script setup>
-    import { onMounted, ref, computed } from 'vue';
+    import {  ref } from 'vue';
     import useBorrowers from '../../composable/borrowers';
 
     const { getBorrowers, borrowerSearch , borrowers} = useBorrowers(); 

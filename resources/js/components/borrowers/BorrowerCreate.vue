@@ -108,6 +108,7 @@ const form =  reactive({
     phone : '',
     address : '',
     avatar : '',
+    status : 1,
 })
 
 const avatar = ref();

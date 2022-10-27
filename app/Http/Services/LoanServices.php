@@ -4,20 +4,27 @@ namespace App\Http\Services;
 
 use Carbon\Carbon;
 use App\Models\Loan;
+use App\Helpers\Status;
+use App\Models\Capital;
+use App\Helpers\DueDate;
 use Illuminate\Http\Request;
 use App\Models\PaymentDueDate;
+use App\Http\Services\FundServices;
 use App\Http\Resources\LoanResource;
+use App\Http\Services\BorrowerServices;
 
 class LoanServices extends BaseServices {
 
-    private $PaymentTypes = [
-        'daily' => 1,
-        'weekly' => 7,
-        '15days' => 15,
-        'monthly' => 30,
-    ];
 
 
+
+
+    private FundServices $fundServices;
+
+    public function __construct(FundServices $fundServices)
+    {
+        $this->fundServices = $fundServices;
+    }
 
     private function LoanNumber()
     {
@@ -26,7 +33,6 @@ class LoanServices extends BaseServices {
         return $timestamp . '' . $id;
     }
 
-    
     public function getLoans($type = null, $filter = null, $sort = null, $order = null)
     {
       
@@ -71,43 +77,55 @@ class LoanServices extends BaseServices {
 
         return new LoanResource($loan);
 
-    }
+    }    
 
- 
-
-    public function store(Request $request)
+    public function store(array $request, $user_id)
     { 
-      
-        $validated = $request->validated();
+        // check if borrower has an active loan
+        $exist  = Self::existLoan($request['borrower_id']); 
 
-        $exist  = Loan::ExistingLoan($validated['borrower_id']); 
+        if ($exist) {
+            return response()->json(['errors' => [ 'message' => 'This borrower has an exist loan' ]], 422);
+        }
 
-        if ($exist) return response()->json(['status' => 500, 'message' => 'This Customer has an exist loan' ]);   
+        $pricipal_amount = (double)$request['principal_amount']; 
 
-        $validated['loan_number'] = Self::LoanNumber();
+        $result = $this->fundServices->setAmount($pricipal_amount)->hasFunds();
 
-        $validated['status'] = Loan::$PENDING;
+        if ($result === false) {
+            return response()->json(['errors' => ['message' => 'You dont have enough funds'] ], 422);
+        }      
 
-        $validated['user_id'] = $request->user()->id;
+        $request['loan_number'] = Self::LoanNumber();
+        $request['status'] = Status::$PENDING;
+        $request['user_id'] = $user_id;
+        $request['balance_amount'] = $request['total_amount'];                        
+        $loan = Loan::create($request);       
 
-        $validated['balance_amount'] = $validated['total_amount'];
-        
-        $loan = Loan::create($validated);
-      
-        $due_date =  Self::createPaymentDueDate($loan, $loan->type);
+        $this->fundServices->setAmount($pricipal_amount)->isDeduction()->updateCurrentCapital();
 
-        $loan->due_date_at = $due_date;
-
-        $loan->save();
-
-        return new LoanResource($loan);
+        return new LoanResource($loan);        
 
     } 
     
-    public function updateStatus(Loan $loan, $status)
-    {      
-        $loan->status = $status; 
-        $loan->save();       
+    public function updateStatus(Loan $loan, $status, $user_id)
+    {   
+        if (Status::$REJECTED  == $status) {
+            return Self::reject($loan); 
+        }   
+
+        if (Status::$VOID == $status) {
+            return Self::void($loan);         
+        }
+
+        if (Status::$ACTIVE == $status) {           
+            $due_date = DueDate::create($loan, $user_id);
+            BorrowerServices::updateLoanStatus($loan->borrower_id, 1);
+        }
+        
+        $loan->status = $status;         
+        $loan->save(); 
+
         return new LoanResource(Self::getLoan($loan));
     }
 
@@ -116,28 +134,6 @@ class LoanServices extends BaseServices {
         return Loan::ExistingLoan($id);
     }
 
-    public function createPaymentDueDate($loan, $payment_type)
-    {        
-        $due_date = $loan->effective_at; 
-        $days = (int)$this->PaymentTypes[$payment_type];
-        $daysToPay = ((int)$loan->terms * 30) /  (int)$days;
-
-        for ($i = 0; $i < $daysToPay; $i++) { 
-
-            $due_date = Carbon::parse($due_date)->addDays($days);
-            
-            PaymentDueDate::create([
-                'loan_id' => $loan->id,
-                'due_date' => $due_date,
-                'collection_amount' => $loan->collection_amount,
-                'amount_paid' => 0,    
-                'user_id' => $loan->user_id,
-            ]);
-        } 
-
-        return $due_date;
-        
-    }
 
     public function search($keyword, $type = null) 
     {
@@ -149,6 +145,42 @@ class LoanServices extends BaseServices {
                 
         return LoanResource::collection($loans);
     }
+
+    public function reject(Loan $loan)
+    {
+        $loan->status = Status::$REJECTED;
+
+        if (!$loan->save()) return;    
+        
+        BorrowerServices::updateLoanStatus($loan->borrower_id, 0);
+
+        $this->fundServices
+            ->setAmount($loan->principal_amount)    
+            ->updateCurrentCapital();
+
+        return $loan;  
+
+    }
+
+    public function void(Loan $loan)
+    {   
+        if (Status::$REJECTED == $loan->status || Status::$VOID == $loan->status) return $loan;
+
+        $loan->status = Status::$VOID;
+        $loan->save(); 
+
+        BorrowerServices::updateLoanStatus($loan->borrower_id, 0);
+          
+        return $loan;
+    }
+
+
+    
+
+    
+
+
+
 
 
    

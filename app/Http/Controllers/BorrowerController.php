@@ -46,7 +46,7 @@ class BorrowerController extends Controller
     }
 
     public function store(BorrowerRequest $request)
-    {    
+    {  
         return $this->services->store($request);
     }
 

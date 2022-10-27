@@ -34,14 +34,15 @@
                     </div>        
                 </div>
 
-                <div v-if="isAdmin && loan && loan.status != 'paid' && loan.status != 'active'" class="flex items-center gap-4">
-                    <div  class="form-group w-60 mb-6 mt-6">
+                <div  class="flex items-center gap-4">
+                    <div v-if="isAdmin" class="form-group w-60 mb-6 mt-6">
                         <div class="flex items-center gap-4">
                             <label for="exampleInputPassword1"  class="form-label text-sm inline-block text-gray-700">Status</label>
                             <select v-model="status" aria-label="Default select example"  placeholder="Select" class="py-[10px] w-full capitalize text-sm">  
                                 <option v-if="loan.status == 'pending'"  value='approved'  :selected="status == loan.status">Approved</option>
                                 <option v-if="loan.status == 'approved'" value='active'  :selected="status == loan.status">Release</option>  
-                                <option v-if="loan.status != 'paid' || loan.status != 'active' "     value='rejected'  :selected="status == loan.status">Reject</option>
+                                <option v-if="loan.status == 'pending'"  value='rejected'  :selected="status == loan.status">Reject</option>
+                                <option v-else  value='void'>Void</option>
                             </select>
                         </div> 
                     </div>    
@@ -157,6 +158,7 @@
 </template>
 
 <script setup>
+
 import Alert from '../Alert.vue';
 import PaymentModal from '../Modal/PaymentModal.vue';
 import BaseLabelRow from '../base/BaseLabelRow.vue'

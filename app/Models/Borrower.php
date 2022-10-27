@@ -22,6 +22,8 @@ class Borrower extends Model
         'user_id'
     ];
 
+    public static $ACTIVE = 1;
+    public static $DEACTIVATE = 0;
 
     public function loans()
     {

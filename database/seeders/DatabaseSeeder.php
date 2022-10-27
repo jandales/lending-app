@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Capital;
+use App\Models\Interest;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +17,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory()->create();
+
+        $this->call([
+            CapitalSeeder::class,
+            InterestSeeder::class,
+        ]);
+
         // $this->call([
         //     LoanTypeSeeder::class,                
         // ]);

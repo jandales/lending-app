@@ -66,8 +66,10 @@ export default function useLoans() {
             exist.value = false; 
             let response = await axios.get(`/loans/existing-loan/${id}`);
             exist.value = response.data.status;  
-        } catch (error) {
-            console.log(error)
+        } catch (e) {
+            if(e.response.status === 422){
+                errors.value = e.response.data.errors;
+           } 
         } finally {
             isLoading.value = false;
         }  
@@ -97,12 +99,7 @@ export default function useLoans() {
             errors.value = [];
             isSuccess.value = false;
             isLoading.value = true;
-            let response =  await axios.post('/loans/store', data);
-
-            if(response.data.status === 500){ 
-                return  errors.value = { message : [response.data.message]}                                
-            }
-
+            let response =  await axios.post('/loans/store', data);   
             loan.value = response.data.data;
             isSuccess.value =true;
 
@@ -169,9 +166,9 @@ export default function useLoans() {
         }
 
         try {
-            isLoading.value = true
-           
-    
+
+            isLoading.value = true   
+
             let response = await axios.get(api)
             const { data, meta } = response.data
             loans.value = data
