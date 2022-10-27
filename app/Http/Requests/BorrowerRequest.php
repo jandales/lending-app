@@ -25,12 +25,19 @@ class BorrowerRequest extends FormRequest
     {
         $borrower_id = $this->id ?? '';
 
-        return [
+        $rules = [
             'firstname' => 'required',
             'lastname' => 'required', 
-            'email' => 'required|unique:borrowers,email,' . $borrower_id,        
+            'email' => 'required|unique:borrowers',        
             'address' => 'required',
-            'phone' => 'required',                        
+            'phone' => 'required',
         ];
+
+        if ($borrower_id != null) {
+            $rules['email'] = 'required|unique:borrowers,email,' . $borrower_id;       
+        }  
+
+        return $rules;
+        
     }
 }
