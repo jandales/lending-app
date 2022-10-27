@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use Carbon\Carbon;
 use App\Models\Loan;
+use App\Helpers\Status;
 use App\Models\Payment;
 use App\Models\Borrower;
 use Illuminate\Http\Request;
@@ -12,7 +13,12 @@ use App\Http\Resources\PaymentResource;
 
 class PaymentServices extends BaseServices
 { 
+    private FundServices $fundServices;
 
+    public function __construct(FundServices $fundServices)
+    {
+        $this->fundServices = $fundServices;
+    }
 
     public function getPaymentAll($filter = null, $sort = null, $order = null)
     {
@@ -40,28 +46,32 @@ class PaymentServices extends BaseServices
 
     }
 
-    public function store(Request $request)
-    {
+    public function store(array $request, $user_id)
+    {    
+        $amount = (float)$request['amount'];
 
-        $validated = $request->validated();  
-       
-        $loan = Loan::findOrfail($validated['loan_id']);            
-
-        $validated['remark'] = $request->remark;
-        $validated['user_id'] = $request->user()->id;
-        $validated['status'] = Payment::$PAID;  
-        $validated['due_date'] = date("Y-m-d", strtotime($validated['due_date']));  
+        $loan = Loan::findOrfail($request['loan_id']); 
+    
+        $request['user_id'] = $user_id;
+        $request['status'] = STATUS::$PAID;  
+        $request['due_date'] = date("Y-m-d", strtotime($request['due_date'])); 
 
         $balance = $loan->balance_amount;
         
-        if ($balance < (float)$validated['amount']) {
-            $validated['amount'] = $balance;   
+        if ($balance < $amount) {
+            $request['amount'] = $balance;   
         } 
 
-        $payment = Payment::create($validated);
-        $balance -= (float)$validated['amount']; 
-        Self::updateLoanBalance($loan,$balance); 
-        Self::updateDueDate($request->due_date_id, $validated['amount'], $balance);
+        $payment = Payment::create($request);      
+       
+        $balance -= $amount; 
+
+        $loan->updateBalance($balance); 
+
+        $this->fundServices->setAmount($amount)->updateCurrentCapital();
+
+        Self::updateDueDate($request['due_date_id'], $amount, $balance);
+
         return $payment;
 
     }
@@ -73,16 +83,24 @@ class PaymentServices extends BaseServices
 
     public function destroy(Payment $payment)
     {    
-      
+        $amount = $payment->amount;
+        
         $loan  = Loan::findOrfail($payment->loan_id);
 
-        if ($loan->status == Loan::$PAID) return;
+        if ($loan->status == STATUS::$PAID) return;
         
-        $balance = $loan->balance_amount += $payment->amount;
-        Self::updateLoanBalance($loan, $balance);         
-        Self::cancelDueDatePayment($payment->dueDate);        
-        $payment->status = Payment::$VOID;    
-        $payment->save();      
+        $balance = $loan->balance_amount += $amount;
+             
+        Self::cancelDueDatePayment($payment->dueDate);  
+        
+        Self::updateLoanBalance($loan, $balance);  
+
+        $this->fundServices->setAmount($amount)->updateCurrentCapital();
+
+        $payment->status = Status::$VOID;  
+
+        $payment->save();  
+
         return new PaymentResource($payment);
 
     }
@@ -91,24 +109,26 @@ class PaymentServices extends BaseServices
     private function updateLoanBalance(Loan $loan, $balance)
     {   
 
-        if ($balance === 0) {
-            $loan->status =  Loan::$PAID;
+        if ($balance ===  0 || $balance < 0) {
+            $loan->status = Status::$PAID;
         }       
 
         $loan->balance_amount = $balance;  
         $loan->save();
+
         return $loan;
 
     }
 
     public function updateDueDate($id, $amount, $balance)
     {  
-        $data = PaymentDueDate::find($id);
-        $data->paid_at = now();
-        $data->amount_paid = $amount;
-        $data->balance = $balance;
-        $data->status = Payment::$PAID;        
-        $data->save();
+        $balance = $balance < $amount ? 0 : $balance;
+        $date = PaymentDueDate::find($id);
+        $date->paid_at = now();
+        $date->amount_paid = $amount;
+        $date->balance = $balance;
+        $date->status = Payment::$PAID;        
+        $date->save();
     }
 
     public function cancelDueDatePayment(PaymentDueDate $paymentDueDate)
@@ -116,7 +136,7 @@ class PaymentServices extends BaseServices
         $paymentDueDate->amount_paid = 0;
         $paymentDueDate->balance = 0;
         $paymentDueDate->paid_at = null;
-        $paymentDueDate->status = null;
+        $paymentDueDate->status = Status::$VOID;
         $paymentDueDate->save();
     }
 

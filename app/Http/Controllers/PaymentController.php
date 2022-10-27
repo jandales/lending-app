@@ -31,10 +31,8 @@ class PaymentController extends Controller
     }
 
     public function store(PaymentStoreRequest $request)
-    {
-
-        return $this->services->store($request);  
-
+    {       
+        return $this->services->store($request->validated(), $request->user()->id);
     }
 
     // public function view(Payment $payment)

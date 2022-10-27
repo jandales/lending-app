@@ -1,20 +1,12 @@
 <template>
 
+    <Alert v-if="errors.message" :alert="'danger'" :message="errors.message"/>  
 
-    <div class="w-full" v-for="error in errors.message">
-                <Alert :alert="'danger'" :message="error"/>
-    </div>    
-            
-    <div  class="w-full" v-if="exist">
-            <Alert :alert="'danger'" :message="'This Customer has an exist loan'"/>
-    </div>  
-
-    <hi class="block tracking-wider text-lg mb-6 ">Create Loan</hi>
-   
+    <h1 class="block tracking-wider text-lg mb-6 ">Create Loan</h1>
+    <h1 class="block tracking-wider text-lg mb-4 ">Borrower</h1>
     <div class="w-full">
-        <div class="bg-white p-4 border rounded-md w-full mb-4  h-auto">
-            <h1 class="block tracking-wider text-lg mb-6 ">Customer</h1>
-            <div class="flex items-center mb-6">
+        <div class="bg-white p-4 border rounded-md w-full mb-4  h-auto">           
+            <div class="flex items-center">
                 <div class="mr-4">
                     <div v-if="borrower" class="w-20 h-20">
                         <img v-if="borrower.avatar" :src="borrower.avatar" class="rounded-full border w-16 h-16"  alt="Avatar" />
@@ -25,12 +17,16 @@
                     </div> 
                 </div>    
         
-                <div  class="w-full flex flex-col">
+                <div  class="w-full flex justify-between items-center">
+                    
+                    <div v-if="borrower">
+                        <label  for="" class="block text-lg font-semibold text-sky-500 capitalize" :class="{'text-rose-500' : exist}">{{ borrower.name }}</label>
+                        <label v-if="!exist" class="text-gray-500">{{ borrower.email }} / {{ borrower.phone }}</label>
+                        <label v-else class="text-rose-500">This Borrower has an exist loan</label>
+                    </div>                                      
                 
-                    <label v-if="borrower" for="" class="block text-lg font-semibold text-gray-700 capitalize">{{ borrower.name }}</label>                    
-                
-                    <span  class="text-sky-500 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModalLg">                           
-                        Find Customer
+                    <span  class="text-sky-500 cursor-pointer" @click="toggleModal(true)">                           
+                        Select Borrower
                     </span> 
 
                 </div>
@@ -40,10 +36,9 @@
 
         </div>
 
-        <div class="bg-white p-4 border rounded-md w-full  h-auto">
+        <h1 class="block tracking-wider text-lg mb-4">Payment</h1> 
 
-            <h1 class="block tracking-wider text-lg mb-6">Payment</h1>          
-
+        <div class="bg-white p-4 border rounded-md w-full mb-4 h-auto">
             <BaseSelect
                 v-model="form.terms"
                 :label="'Terms'"
@@ -79,10 +74,9 @@
     
 
 
-    <div class="bg-white p-4 border rounded-md w-full mt-8">
-        <div class="block bg-white">                   
-            <h1 class="block tracking-wider text-lg mb-6 ">Loan Info</h1>  
-
+    <h1 class="block tracking-wider text-lg mb-4">Loan Info</h1>  
+    <div class="bg-white p-4 border rounded-md w-full">
+        <div class="block">  
             <BaseInput 
                 :id="'effective_at'"
                 :type="'date'"
@@ -139,6 +133,8 @@
                 v-else 
                 @click="store" 
                 name=" Save"
+                :class="{'!bg-gray-700' : exist }"
+                :disabled="exist"
             />         
         </div>
     
@@ -146,31 +142,42 @@
  
 
 
+<Teleport to="body">
+    <ModalSearch v-if="selectBorrowerState" @select="selectBorrower" @close="toggleModal" />
+</Teleport>
 
 
-<BorrowersModal @selectBorrower="selectBorrower"></BorrowersModal>
 
 </template>
 
 <script setup>
-import BorrowersModal from '../Modal/BorrowersModal.vue'
-import Alert from '../Alert.vue';
+
+
 import BaseInput from '../base/BaseInput.vue';
 import BaseButton from '../base/BaseButton.vue';
 import BaseSelect from '../base/BaseSelect.vue';
 import useLoans from '../../composable/loans';
 import useInterests from '../../composable/interest';
+
 import useCalculation from '../../composable/helper/calculations'
-import { reactive,ref, toRefs, onMounted, computed } from 'vue';
+import usePaymentTypes from '../../composable/helper/paymentTypes'
+import usePaymentTerms from '../../composable/helper/paymentTerms'
+
+import { reactive,ref, toRefs, onMounted, computed, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
+const Alert = defineAsyncComponent(() => import('../Alert.vue'));
+const ModalSearch =  defineAsyncComponent(() =>  import('../Modal/BorrowerSearchModal.vue'));
+
+const { paymentTypes } = usePaymentTypes();
+const { paymentTerms } = usePaymentTerms();
 const { getInterests, interests } = useInterests();
 const { storeLoan, existLoan, loan, errors, isSuccess, exist} = useLoans();
 const { calculateTotalInterest, calculateTotalAmount, calculateCollectionAmount } =  useCalculation();
 
 const router = useRouter();
-
 const borrower = ref();
+const selectBorrowerState = ref(false);
 
 const form = reactive({ 
     borrower_id : null, 
@@ -184,32 +191,9 @@ const form = reactive({
     effective_at : null, 
 });
 
-const paymentTerms = [
-    { name : `${1} Month`, value : 1 },
-    { name : `${2} Months`, value : 2 },
-    { name : `${3} Months`, value : 3 },
-    { name : `${4} Months`, value : 4 },
-    { name : `${5} Months`, value : 5 },
-    { name : `${6} Months`, value : 6 },
-    { name : `${7} Months`, value : 7 },
-    { name : `${8} Months`, value : 8 },
-    { name : `${9} Months`, value : 9 },
-    { name : `${10} Months`, value : 10 },
-    { name : `${11} Months`, value : 11 },
-    { name : `${12} Months`, value : 12 },
-]
-
-const paymentTypes = [
-    { name :  'Daily', value : 'daily'},
-    { name :  'Weekly', value : 'weekly'},
-    { name :  '15Days', value :'15Days'},
-    { name :  'Monthly', value :'monthly'},
-]
-
 const handleTotalInterest = () => { 
 
-    const { principal_amount, interest, terms, type } = toRefs(form)
-    
+    const { principal_amount, interest, terms, type } = toRefs(form)    
     let total= calculateTotalInterest(parseFloat(principal_amount.value), interest.value, terms.value);    
     form.total_interest = total;  
 
@@ -220,28 +204,27 @@ const handleTotalInterest = () => {
 
 }
 
+const toggleModal = (state) => {
+    selectBorrowerState.value = state;  
+}
+
 const selectBorrower = (person) => {
-
+    existLoan(person.id);  
     form.borrower_id = person.id;
-
-    borrower.value = person;
-
-    existLoan(person.id); 
-
+    borrower.value = person; 
 }
 
 const store = async () => {
 
     await storeLoan(form) 
 
-    if(isSuccess.value === true){
-
+    if (isSuccess.value === true) {
         router.push({name : 'loans.details', params : { id : loan.value.id }});
-
     }     
 }
 
 onMounted(getInterests);
+
 
 const filteredInterests = computed( () => {
     let formatted = interests.value.map(interest => {

@@ -42,8 +42,9 @@ class BorrowerServices extends BaseServices  {
     {
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
-        $validated['email'] = $request->email; 
-        $validated['avatar'] = $this->upload($request, 'avatar'); 
+        $validated['email']   = $request->email; 
+        $validated['avatar']  = $this->upload($request, 'avatar');
+        $validated['status']  = $request->status;  
         return Borrower::create($validated);      
     }
 
@@ -64,7 +65,7 @@ class BorrowerServices extends BaseServices  {
         $borrower->phone     = $request->phone;
         $borrower->address   = $request->address;
         $borrower->user_id   = $request->user()->id;
-        $borrower->status   = $request->status;
+        $borrower->status    = $request->status;
         $borrower->save();
         
         if (! is_null($oldImagePath) ) {
@@ -94,6 +95,13 @@ class BorrowerServices extends BaseServices  {
     public function count()
     {
         return Borrower::count();
+    }
+
+    public static function updateLoanStatus($borrower_id, $status)
+    {
+        $borrower = Borrower::find($borrower_id);
+        $borrower->has_active_loan = $status;
+        $borrower->save();
     }
 
     

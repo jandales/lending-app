@@ -4,8 +4,7 @@ namespace App\Http\Services;
 
 class BaseServices 
 {
-    public int $perpage;
- 
+    public ?int $perpage = null;
 
     public function __construct()
     {

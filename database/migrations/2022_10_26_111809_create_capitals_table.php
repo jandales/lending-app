@@ -13,9 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('borrowers', function (Blueprint $table) { 
-            $table->integer('status')->after('avatar')->nullable();
-            $table->integer('user_id')->unsigned();
+        Schema::create('capitals', function (Blueprint $table) {
+            $table->id();
+            $table->double('capital')->default(0);
+            $table->double('less_capital')->default(0);
+            $table->double('current_capital')->default(0);
+            $table->integer('status')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -26,9 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('borrowers', function (Blueprint $table) {
-            $table->integer('user_id');
-            $table->integer('status');
-        });
+        Schema::dropIfExists('capitals');
     }
 };

@@ -31,9 +31,9 @@ export default function useCalculation(){
     const calculateCollectionAmount = (principal_amount, terms, payment_type) => {
         
         payment_type = paymentTypes(payment_type);
-        const daystoPay = Math.ceil((terms * 30) / payment_type);       
+        const daystoPay = Math.ceil( (terms * 30) / payment_type);       
         const amount = principal_amount / daystoPay
-        return  Math.round(amount);
+        return  Math.ceil(amount);
   
     }
 
