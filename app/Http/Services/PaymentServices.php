@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use App\Models\Loan;
 use App\Helpers\Status;
 use App\Models\Payment;
+use App\Helpers\DueDate;
 use App\Models\Borrower;
+use App\Helpers\PaymentType;
 use Illuminate\Http\Request;
 use App\Models\PaymentDueDate;
 use App\Http\Resources\PaymentResource;
@@ -14,10 +16,12 @@ use App\Http\Resources\PaymentResource;
 class PaymentServices extends BaseServices
 { 
     private FundServices $fundServices;
+  
 
     public function __construct(FundServices $fundServices)
     {
         $this->fundServices = $fundServices;
+       
     }
 
     public function getPaymentAll($filter = null, $sort = null, $order = null)
@@ -38,7 +42,9 @@ class PaymentServices extends BaseServices
                             );
                             return;
                         } 
+
                         $query->orderBy($sort, $order);
+
                     })
                     ->orderBy('created_at', 'desc')->paginate($this->perpage);
 
@@ -46,35 +52,60 @@ class PaymentServices extends BaseServices
 
     }
 
-    public function store(array $request, $user_id)
-    {    
-        $amount = (float)$request['amount'];
-
-        $loan = Loan::findOrfail($request['loan_id']); 
+    public function proccessPayment($data)
+    {  
     
-        $request['user_id'] = $user_id;
-        $request['status'] = STATUS::$PAID;  
-        $request['due_date'] = date("Y-m-d", strtotime($request['due_date'])); 
-
+        $amount = (float)$data['amount'];   
+    
+        $loan = Loan::findOrfail($data['loan_id']); 
         $balance = $loan->balance_amount;
         
         if ($balance < $amount) {
-            $request['amount'] = $balance;   
+            $amount['amount'] = $balance;   
         } 
 
-        $payment = Payment::create($request);      
+        $data['status'] = STATUS::$PAID; 
+        $payment = Payment::create($data);     
        
         $balance -= $amount; 
-
         $loan->updateBalance($balance); 
+        
+        $this->fundServices->setAmount($amount)->updateCurrentCapital();  
 
-        $this->fundServices->setAmount($amount)->updateCurrentCapital();
+        $dueDate = DueDate::find($data['due_date_id'])->update($amount, $balance);   
+        
+        $result = DueDate::findByLoan($data['loan_id'])->isLastDate($data['due_date']);
 
-        Self::updateDueDate($request['due_date_id'], $amount, $balance);
+        if ($result == true && $balance > 0) {
+            self::handleAddMaturitiesDate($loan->id);
+        }
 
         return $payment;
 
     }
+
+
+    public function failedPayment(array $data)
+    {  
+        $id = $data['due_date_id'];        
+        // create payment
+        $data['status'] = STATUS::$FAILED; 
+        Payment::create($data);
+        // update due data info
+        $dueDate = DueDate::find($id)->failedPayment(); 
+        // add day in due date;        
+        self::handleAddMaturitiesDate($dueDate->loan_id);
+        return $dueDate;
+    }
+
+    private function handleAddMaturitiesDate($id)
+    {
+        $loan = Loan::find($id);
+        $days = PaymentType::getValue($loan->type);        
+        DueDate::findByLoan($id)->addDays($days); 
+    }
+
+ 
 
     public function view(Payment $payment)
     {
@@ -86,59 +117,22 @@ class PaymentServices extends BaseServices
         $amount = $payment->amount;
         
         $loan  = Loan::findOrfail($payment->loan_id);
-
-        if ($loan->status == STATUS::$PAID) return;
         
         $balance = $loan->balance_amount += $amount;
-             
-        Self::cancelDueDatePayment($payment->dueDate);  
+         
+        DueDate::find($payment->dueDate->id)->void();       
         
-        Self::updateLoanBalance($loan, $balance);  
+        $loan->updateBalance($balance)->updateStatus(Status::$ACTIVE); 
 
         $this->fundServices->setAmount($amount)->updateCurrentCapital();
 
-        $payment->status = Status::$VOID;  
-
+        $payment->status = Status::$VOID;
         $payment->save();  
 
         return new PaymentResource($payment);
 
-    }
-
-    
-    private function updateLoanBalance(Loan $loan, $balance)
-    {   
-
-        if ($balance ===  0 || $balance < 0) {
-            $loan->status = Status::$PAID;
-        }       
-
-        $loan->balance_amount = $balance;  
-        $loan->save();
-
-        return $loan;
-
-    }
-
-    public function updateDueDate($id, $amount, $balance)
-    {  
-        $balance = $balance < $amount ? 0 : $balance;
-        $date = PaymentDueDate::find($id);
-        $date->paid_at = now();
-        $date->amount_paid = $amount;
-        $date->balance = $balance;
-        $date->status = Payment::$PAID;        
-        $date->save();
-    }
-
-    public function cancelDueDatePayment(PaymentDueDate $paymentDueDate)
-    {
-        $paymentDueDate->amount_paid = 0;
-        $paymentDueDate->balance = 0;
-        $paymentDueDate->paid_at = null;
-        $paymentDueDate->status = Status::$VOID;
-        $paymentDueDate->save();
-    }
+    }    
+   
 
     public function search($keyword)
     {

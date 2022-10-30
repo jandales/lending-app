@@ -55,7 +55,7 @@
                 <BaseTableBody v-if="loans.length > 0"  >
                   <BaseTableRow :body="true" v-for="loan in loans">                     
                       <BaseTd>
-                        <router-link :to="{name: 'borrowers.details', params : { id :  loan.borrower.id }}" class="text-sky-500">
+                        <router-link :to="{name: 'loans.details', params : { id :  loan.id }}" class="text-sky-500">
                            {{loan.loan_number}}
                         </router-link> 
                       </BaseTd>

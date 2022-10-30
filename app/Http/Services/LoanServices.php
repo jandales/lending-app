@@ -34,8 +34,7 @@ class LoanServices extends BaseServices {
     }
 
     public function getLoans($type = null, $filter = null, $sort = null, $order = null)
-    {
-      
+    {      
         $loans = Loan::with('borrower')
                 ->when(!is_null($type), function ($query) use ($type) {
                     $query->where('type', $type);
@@ -63,20 +62,14 @@ class LoanServices extends BaseServices {
 
     public function getLoan($id)
     {  
-
         $loan = Loan::with('borrower', 'payments', 'dueDates')->where('id', $id)->first();
-
         return new LoanResource($loan);
-
     }
 
     public function getLoanByCustomer($id)
     {
-
         $loan = Loan::with('borrower', 'payments')->where('borrower_id',$id)->first();
-
         return new LoanResource($loan);
-
     }    
 
     public function store(array $request, $user_id)
@@ -94,19 +87,24 @@ class LoanServices extends BaseServices {
 
         if ($result === false) {
             return response()->json(['errors' => ['message' => 'You dont have enough funds'] ], 422);
-        }      
-
-        $request['loan_number'] = Self::LoanNumber();
-        $request['status'] = Status::$PENDING;
-        $request['user_id'] = $user_id;
-        $request['balance_amount'] = $request['total_amount'];                        
-        $loan = Loan::create($request);       
+        }   
+   
+        $request['user_id'] = $user_id;                          
+        $loan = Self::createLoan($request);       
 
         $this->fundServices->setAmount($pricipal_amount)->isDeduction()->updateCurrentCapital();
 
         return new LoanResource($loan);        
 
     } 
+
+    public function createLoan(array $request)
+    {
+        $request['loan_number'] = Self::LoanNumber();
+        $request['status'] = Status::$PENDING;
+        $request['balance_amount'] = $request['total_amount'];                        
+        return Loan::create($request);     
+    }
     
     public function updateStatus(Loan $loan, $status, $user_id)
     {   
@@ -172,6 +170,7 @@ class LoanServices extends BaseServices {
         BorrowerServices::updateLoanStatus($loan->borrower_id, 0);
           
         return $loan;
+        
     }
 
 

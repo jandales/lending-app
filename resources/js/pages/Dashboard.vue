@@ -1,7 +1,7 @@
 <template>
 
 <div class="w-full flex gap-8"> 
-  <BaseCard :title="'Borrowers'"  :value="customerCount" :icon="'person'" />
+  <BaseCard :title="'Borrowers'"  :value="borrowerCount" :icon="'person'" />
 
   <BaseCard :title="'Active Loan'"  :value="activeLoansCount" :icon="'activeLoanCount'" />
 
@@ -96,7 +96,7 @@ import { onMounted, computed} from 'vue';
 
 const { moneyFormatter } = useFormatter();
 
-const { getDashboards ,customerCount, totalInterest, currentCapital ,activeLoansCount, recentLoans  } = useApp();
+const { getDashboards ,borrowerCount, totalInterest, currentCapital ,activeLoansCount, recentLoans  } = useApp();
 
 const getData = () => {
 

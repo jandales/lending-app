@@ -27,6 +27,7 @@ class BorrowerController extends Controller
         $filter = $request->query('filter');
         $sortName = $request->query('sort');
         $order = $request->query('order');
+        
         return $this->services->getAll($filter, $sortName, $order);
 
     }

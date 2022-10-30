@@ -45,6 +45,7 @@ class BorrowerServices extends BaseServices  {
         $validated['email']   = $request->email; 
         $validated['avatar']  = $this->upload($request, 'avatar');
         $validated['status']  = $request->status;  
+        
         return Borrower::create($validated);      
     }
 

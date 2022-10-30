@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Models\Fund;
 use App\Models\Capital;
 
 class FundServices 
@@ -10,6 +11,12 @@ class FundServices
     private $is_deduction = false;
     private $remark = '';
     
+    private  $fund;
+
+    public  function __construct()
+    {
+        $this->fund = Fund::find(1);
+    } 
 
     public function setAmount($amount)
     {   
@@ -58,5 +65,28 @@ class FundServices
 
         return $capital;
 
+    }
+
+    public function storeInitialFund($amount)
+    {
+        return Fund::create([
+            'intial_capital' => $amount,
+            'current_capital' => $amount,
+        ]);
+    }
+
+    public  function addFund($amount, $remark = null)
+    {
+          $this->fund->current_capital += $amount;
+          $this->fund->save();           
+          $this->fund->activies->create('add', $remark);
+        
+    }
+
+    public  function deductFund($amount, $remark = null)
+    {
+          $this->fund->current_capital -= $amount;
+          $this->fund->save();           
+          $this->fund->activies->create('deduct', $remark);        
     }
 }

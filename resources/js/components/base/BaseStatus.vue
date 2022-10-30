@@ -7,6 +7,7 @@
    
 
     const getStyle = () => {
+
         switch(props.status) {
             case  'paid' :
                 return  'bg-green-500';
@@ -14,9 +15,14 @@
                 return  'bg-rose-500';
             case 'rejected' : 
                 return  'bg-rose-500';
+            case 'failed' : 
+                return  'bg-rose-500';
+            case 'pending' : 
+                return  'bg-yellow-100 !text-gray-500';
             default : 
                 return  'bg-blue-500'
         }
+
     }
 </script>
 <template>
