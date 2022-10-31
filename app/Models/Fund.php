@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\FundActivity;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Fund extends Model
 {
@@ -14,9 +15,9 @@ class Fund extends Model
         'current_capital',
     ];
 
-    public function activies() 
+    public function activities() 
     {
-        return $this->hasMany(FundActivity::class, 'fund_id');
+        return $this->hasMany(FundActivity::class, 'fund_id', 'id')->orderBy('id', 'desc');
     }
 
 }

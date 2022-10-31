@@ -4,6 +4,8 @@ namespace App\Http\Services;
 
 use App\Models\Fund;
 use App\Models\Capital;
+use App\Helpers\ActivityAction;
+use App\Http\Resources\FundResource;
 
 class FundServices 
 {
@@ -17,6 +19,10 @@ class FundServices
     {
         $this->fund = Fund::find(1);
     } 
+
+    public function getFund() {
+        return FundResource::make($this->fund->load(['activities', 'activities.user']));
+    }
 
     public function setAmount($amount)
     {   
@@ -75,18 +81,35 @@ class FundServices
         ]);
     }
 
-    public  function addFund($amount, $remark = null)
+    public  function addFund($amount, $user, $remark)
     {
+        
           $this->fund->current_capital += $amount;
-          $this->fund->save();           
-          $this->fund->activies->create('add', $remark);
+          $this->fund->save();             
+          $this->fund->activities()->create([
+            'fund_id' => $this->fund->id,
+            'action' => ActivityAction::$DEPOSIT,
+            'amount' => $amount,
+            'remark' => $remark,
+            'user_id' => $user,
+          ]);
+
+          return FundResource::make($this->fund->load(['activities', 'activities.user']));
         
     }
 
-    public  function deductFund($amount, $remark = null)
+    public  function deductFund($amount, $user, $remark)
     {
           $this->fund->current_capital -= $amount;
-          $this->fund->save();           
-          $this->fund->activies->create('deduct', $remark);        
+          $this->fund->save(); 
+          $this->fund->activities()->create([
+            'fund_id' => $this->fund->id,
+            'action' => ActivityAction::$WITHDRAWAL,
+            'amount' => $amount,
+            'remark' => $remark,
+            'user_id' => $user,
+          ]);   
+
+          return FundResource::make($this->fund->load(['activities', 'activities.user']));      
     }
 }

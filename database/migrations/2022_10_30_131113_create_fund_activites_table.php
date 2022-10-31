@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fund_activites', function (Blueprint $table) {
+        Schema::create('fund_activities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('fund_id')->constrained()->onDelete('cascade');
             $table->string('action');
-            $table->string('commit')->nullable();
+            $table->double('amount')->default(0);
+            $table->string('remark')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

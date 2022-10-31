@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Fund;
 use Illuminate\Http\Request;
 use App\Http\Services\FundServices;
+use App\Http\Requests\ActivityStoreRequest;
 
 class FundController extends Controller
 {
@@ -14,24 +15,35 @@ class FundController extends Controller
         $this->services = $services;
     }
 
+    public function index()
+    {
+        return $this->services->getFund();
+    }
+
     public function store(Request $request)
     {
         $this->services->storeInitialFund($request);
     }
 
-    public function hasFunds()
+    public function has()
     {
         return $this->services->hasFunds();
     }
 
-    public function addFund(Request $request)
-    {        
-        $this->services->addFund($request);
+    public function add(ActivityStoreRequest $request)
+    {            
+        $amount = $request->amount;
+        $remark = $request->remark;
+        $user = $request->user()->id;
+        return $this->services->addFund($amount, $user, $remark);
     }
 
-    public function deductFund(Request $request)
-    {
-        $this->services->deductFund($request);
+    public function deduct(ActivityStoreRequest $request)
+    {    
+        $amount = $request->amount;
+        $remark = $request->remark;
+        $user = $request->user()->id;    
+        return $this->services->deductFund($amount, $user, $remark );
     }
 
 }

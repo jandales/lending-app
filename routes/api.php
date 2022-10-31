@@ -183,7 +183,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::controller(FundController::class)->prefix('fund')->group(function () {
-        Route::get('/hasFunds',  'hasFunds');
+        Route::get('/', 'index');
+        Route::get('/has',  'has');
+        Route::post('/add',  'add');
+        Route::post('/deduct', 'deduct');
     });
 
     Route::post('/reports/loans', [LoanReportController::class, 'index']);

@@ -49,6 +49,8 @@ const router = createRouter({
 
                 { path : 'users/edit/:id', name : 'users.edit', component : () => import('../components/users/UserEdit.vue'),  beforeEnter : middleware.role  },
 
+                { path : 'funds', name : 'funds', component : () => import('../components/funds/FundIndex.vue'),  beforeEnter : middleware.role  },
+
                 { path : 'settings', name: 'settings', component : () => import('../pages/Setting.vue'),  children : [
       
                     {path : 'profile', name : 'settings.profile', component : () => import('../components/settings/Profile.vue')},

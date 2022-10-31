@@ -5,10 +5,13 @@
         <textarea 
             v-if="props.type == 'textarea'"
             id="exampleFormControlTextarea1"
-            rows="3" v-bind="$attrs">
+            rows="3"  
+            :value="props.modelValue"
+            v-bind="$attrs">
         </textarea>
+
         <input 
-            v-if="props.type == 'date'"
+            v-else-if ="props.type == 'date'"
             :id="props.id"
             :type="props.type"
             :value="props.modelValue"
@@ -16,6 +19,7 @@
             v-bind="$attrs"
             @input="updateInput" 
         />
+
         <input 
             v-else
             :id="props.id"
