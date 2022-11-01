@@ -13,14 +13,16 @@ class FundServices
     private $is_deduction = false;
     private $remark = '';
     
-    private  $fund;
+    private $fund;
 
     public  function __construct()
-    {
+    {        
         $this->fund = Fund::find(1);
+        
     } 
 
-    public function getFund() {
+    public function getFund()
+    {
         return FundResource::make($this->fund->load(['activities', 'activities.user']));
     }
 
@@ -37,6 +39,7 @@ class FundServices
 
         return $this;
     }
+
     public function addRermark($remark)
     {
         $this->remark = $remark;
@@ -45,71 +48,70 @@ class FundServices
     }
 
     public function getCurrentCapital()
-    {
-        $capital = Capital::GetCapital()->first();
-        
-        return $capital->current_capital;
+    {        
+        return $this->fund->current_capital;
     }
 
     public function hasFunds()
-    {      
-        $capital = Capital::GetCapital()->first();  
-        
-        return $capital->hasFunds(0);
+    {  
+        if ($this->fund->current_capital <= 0) return false;
+        return true;
     }
 
     public function updateCurrentCapital()
-    {
-        $capital = Capital::GetCapital()->first();
-
+    {        
         if ($this->is_deduction) 
-            $capital->current_capital -=  $this->amount;
+            $this->fund->current_capital -=  $this->amount;
         else 
-            $capital->current_capital +=  $this->amount;              
-      
-        $capital->save();  
+            $this->fund->current_capital +=  $this->amount;      
+    
+        $this->fund->save();
 
-        return $capital;
+        return $this->fund;
 
-    }
-
-    public function storeInitialFund($amount)
-    {
-        return Fund::create([
-            'intial_capital' => $amount,
-            'current_capital' => $amount,
-        ]);
     }
 
     public  function addFund($amount, $user, $remark)
     {
-        
-          $this->fund->current_capital += $amount;
-          $this->fund->save();             
-          $this->fund->activities()->create([
-            'fund_id' => $this->fund->id,
-            'action' => ActivityAction::$DEPOSIT,
-            'amount' => $amount,
-            'remark' => $remark,
-            'user_id' => $user,
-          ]);
+        $initial_capital = $this->fund->initial_capital;
 
-          return FundResource::make($this->fund->load(['activities', 'activities.user']));
+        if ($initial_capital == 0) {
+            $this->fund->initial_capital = $amount;
+        }
+
+        $capital = $this->fund->current_capital;
+        $this->fund->current_capital += $amount;
+        $this->fund->save();
+
+        $this->addActivity($user, ActivityAction::$DEPOSIT, $capital, $amount, $remark);   
+        return FundResource::make($this->fund->load(['activities', 'activities.user']));
         
     }
 
     public  function deductFund($amount, $user, $remark)
     {
-          $this->fund->current_capital -= $amount;
-          $this->fund->save(); 
-          $this->fund->activities()->create([
+        $capital = $this->fund->current_capital;
+        $this->fund->current_capital -= $amount;
+        $this->fund->save();
+        
+        $this->addActivity($user, ActivityAction::$WITHDRAWAL, $capital, $amount, $remark);
+        return FundResource::make($this->fund->load(['activities', 'activities.user']));      
+    }
+
+    private function addActivity($user, $action, $capital_amount, $amount, $remark)
+    {
+
+        $activity =  $this->fund->activities()->create([
             'fund_id' => $this->fund->id,
-            'action' => ActivityAction::$WITHDRAWAL,
+            'action' => $action,
+            'last_capital_amount' => $capital_amount,
             'amount' => $amount,
             'remark' => $remark,
             'user_id' => $user,
-          ]);   
+        ]); 
 
-          return FundResource::make($this->fund->load(['activities', 'activities.user']));      
+        return $activity;
+
     }
+    
 }

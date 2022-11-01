@@ -16,9 +16,6 @@ use App\Http\Services\BorrowerServices;
 class LoanServices extends BaseServices {
 
 
-
-
-
     private FundServices $fundServices;
 
     public function __construct(FundServices $fundServices)

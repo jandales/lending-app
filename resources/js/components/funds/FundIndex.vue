@@ -14,14 +14,14 @@ const { getFund, fund, isLoading } = useFund();
 const modalState = ref(false);
 const isDeductState = ref(false);
 const isShow = ref(false);
-const activity = ref({});
+const activity = ref();
 const FundModal = defineAsyncComponent(() => import('./FundActionModal.vue'));
 const FundShowModal = defineAsyncComponent(() => import('./FundShowModal.vue'));
 
 const handleModalState = () => { 
-    modalState.value = modalState.value === true ? false : true;
-    isShow.value = false;
-  
+    modalState.value = modalState.value === true 
+        ? false
+        : true;   
 }
 
 const handleAddState = () => {
@@ -38,40 +38,56 @@ const handleUpdateFundValue = (value) => {
     fund.value = value;
 }
 
-const showActivity = (activity) => {
-    activity.value = activity;
-    isShow.value = true;
+const handleShowActivity = (data = null) => {
+   
+    isShow.value = isShow.value === false 
+        ? true 
+        : false;
+
+    if (isShow.value === false) return;  
+
+    activity.value = data;   
 }
+
+
 
 onMounted(getFund);
 </script>
 <template>
     <div v-if="fund" class="flex flex-col gap-8">
-            <div class="w-full  border  bg-white p-4 rounded-md">
-               <div class="flex justify-between">
-                    <h1>Capital</h1>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-                    </svg>
-               </div>
-               <div class="p-4">
-                    <h1 class="text-[3rem]">{{  moneyFormatter(fund.current_capital) }}</h1>
-               </div>
-               <div class="flex gap-4">
-                    <BaseButton 
-                        @click="handleAddState" 
-                        name="Add Fund"
-                    />
-                    <BaseButton 
-                        @click="handleDeductState" 
-                        name="Deduct Fund"
-                        class="btn-danger"
-                    />
-               </div>
+            
+            <div class="flex gap-8">
+                <div class="w-1/2  border  bg-white p-4 rounded-md">
+                    <div class="flex justify-between">
+                            <h1>Initial Capital</h1>                  
+                    </div>
+                    <div class="p-4">
+                            <h1 class="text-[3rem]">{{  moneyFormatter(fund.initial_capital) }}</h1>
+                    </div>                    
+                </div>
+                <div class="w-1/2  border  bg-white p-4 rounded-md">
+                    <div class="flex justify-between">
+                            <h1>Current Capital</h1>                  
+                    </div>
+                    <div class="p-4">
+                            <h1 class="text-[3rem]">{{  moneyFormatter(fund.current_capital) }}</h1>
+                    </div>
+                    <div class="flex gap-4">
+                            <BaseButton 
+                                @click="handleAddState" 
+                                name="Add Fund"
+                            />
+                            <BaseButton 
+                                @click="handleDeductState" 
+                                name="Deduct Fund"
+                                class="btn-danger"
+                            />
+                    </div>
+                </div>
             </div>
 
             <div class="w-full">               
-                <FundActivities :activities="fund.activities" @showActivity="showActivity"/>
+                <FundActivities :activities="fund.activities" @showActivity="handleShowActivity"/>
             </div>
     </div>
 
@@ -85,8 +101,9 @@ onMounted(getFund);
     <FundShowModal
         v-if="isShow"
         :data="activity"      
-        @close="handleModalState"
+        @close="handleShowActivity"
     />
+    
 </Teleport>
 
 

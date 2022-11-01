@@ -19,6 +19,8 @@ class ActivitiesResource extends JsonResource
             'id' => $this->id,
             'action' => $this->action,   
             'remark' => $this->remark,  
+            'last_capital_amount' => $this->last_capital_amount,
+            'amount' => $this->amount,
             'created_at' => $this->created_at->toFormattedDateString(),
             'user' => UserResource::make($this->whenLoaded('user')),
         ];

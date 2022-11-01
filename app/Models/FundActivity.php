@@ -13,6 +13,7 @@ class FundActivity extends Model
     protected $fillable = [
         'fund_id',
         'action',
+        'last_capital_amount',
         'amount',
         'remark',
         'user_id',

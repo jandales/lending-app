@@ -7,6 +7,7 @@ export default function useFund() {
     const hasFund = ref(false);
     const fund = ref({
         current_capital : 0,
+        initial_capital : 0,
     });
     const isSuccess = ref(false);
     const isLoading = ref(false);   
@@ -31,11 +32,12 @@ export default function useFund() {
         }              
     }
 
+
     const getFund = async () => {
         try {
             isLoading.value = true;
             let response = await axios.get('/fund');
-            const { data} =  response.data;
+            const { data} =  response.data;       
             fund.value = data;
         }  catch (error) {
             errors.value = error.response.data.errors;
@@ -50,7 +52,8 @@ export default function useFund() {
             isSaving.value = true;
             let response = await axios.post('/fund/add', payload);
             isSuccess.value = true;
-            fund.value = response.data;
+            const {data} = response.data;
+            fund.value = data;
         } catch (error) {
             errors.value = error.response.data.errors;
         } finally {
@@ -65,13 +68,13 @@ export default function useFund() {
             isSaving.value = true;
             let response = await axios.post('/fund/deduct', payload);
             isSuccess.value = true;
-            fund.value = response.data;
+            const {data} = response.data;
+            fund.value = data;
         } catch (error) {
             errors.value = error.response.data.errors;
         } finally {
             isSaving.value = false;
-        }
-        
+        }        
     }  
 
     return {

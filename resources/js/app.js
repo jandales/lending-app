@@ -11,8 +11,6 @@ const app = createApp(App);
 
 app.config.globalProperties.$defaultAvatarSrc = '/img/avatar/avatar.png';
 
-
-
 app
 .use(VueAxios, axios)
 .use(router)

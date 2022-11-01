@@ -17,8 +17,8 @@ class FundFactory extends Factory
     public function definition()
     {
         return [
-            'initial_capital' => 50000,           
-            'current_capital' => 50000,
+            'initial_capital' => 0,           
+            'current_capital' => 0,
         ];
     }
 }

@@ -20,4 +20,14 @@ class Fund extends Model
         return $this->hasMany(FundActivity::class, 'fund_id', 'id')->orderBy('id', 'desc');
     }
 
+    public function scopeCapital($query)
+    {
+        $fund = $query->where('id', 1)->first();
+        return $fund->current_capital ?? 0;
+    }
+
+
+
+
+
 }

@@ -1,8 +1,10 @@
 <script setup>
+import BaseAvatar from '../base/BaseAvatarWithName.vue';
 import { reactive } from 'vue';
 import BaseInput from '../base/BaseInput.vue';
 import BaseButton from '../base/BaseButton.vue';
 import useFund from '../../composable/fund'
+
 
 const emit = defineEmits(['close']);
 
@@ -38,13 +40,43 @@ const closeModal = () => {
           <div class="modal-body relative p-4">
           <!-- <Alert v-if="success" :alert="'success'" :message="success"/> -->
 
+        <BaseAvatar :user="data.user" class="mb-4" />  
+
+        <BaseInput         
+                :label="'Action'"                   
+                :name="'action'"
+                v-model="data.action" 
+                :disabled="true"  
+                :class="'capitalize'"          
+            
+          /> 
+
+          <BaseInput         
+                :label="'Last Capital Amount'"
+                :type="'number'"      
+                :name="'amount'"
+                v-model="data.last_capital_amount"
+                :disabled="true"
+            
+          />
+
           <BaseInput         
                 :label="'Amount'"
                 :type="'number'"      
                 :name="'amount'"
-                v-model="data.amount"             
+                v-model="data.amount"
+                :disabled="true"
             
           /> 
+
+          <BaseInput         
+                :label="'Date'"                   
+                name="Date"
+                v-model="data.created_at" 
+                :disabled="true"  
+                :class="'capitalize'"          
+            
+          />
           
         
   <div class="mb-3">
@@ -81,7 +113,7 @@ const closeModal = () => {
        
           </div>
           <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-            <BaseButton name="Cancel" class="btn-danger mr-4" @click="closeModal" />       
+            <BaseButton name="Close" class="btn-danger" @click="closeModal" />       
           </div>
         </div>
       </div>

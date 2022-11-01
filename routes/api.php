@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AppController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FundController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
@@ -54,11 +54,11 @@ Route::controller(ResetPasswordController::class)->prefix('reset-password')->gro
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::get('/setcookie', [AppController::class, 'setcookie']);
+    Route::get('/setcookie', [DashboardController::class, 'setcookie']);
 
-    Route::get('/getCookie', [AppController::class, 'getCookie']);
+    Route::get('/getCookie', [DashboardController::class, 'getCookie']);
 
-    Route::get('/app/dashboard', [AppController::class, 'dashboard']);
+    Route::get('/app/dashboard', [DashboardController::class, 'dashboard']);
 
     Route::delete('/logout', [LogoutController::class, 'logout']);
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('fund_id')->constrained()->onDelete('cascade');
             $table->string('action');
+            $table->double('last_capital_amount')->default(0);
             $table->double('amount')->default(0);
             $table->string('remark')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

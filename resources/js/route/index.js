@@ -68,9 +68,9 @@ const router = createRouter({
 
         { path : '/forgot-password', name : 'forgot.password', component : () => import('../pages/ForgotPassword.vue'), beforeEnter : middleware.guest },
 
-        { path : '/reset-password/:token', name : 'reset.password', component : () => import('../pages/ResetPassword.vue'), beforeEnter : middleware.guest },       
+        { path : '/reset-password/:token', name : 'reset.password', component : () => import('../pages/ResetPassword.vue'), beforeEnter : middleware.guest },         
 
-        { path : '/page-not-found', name : 'page.not.found', component : () => import('../pages/Page404.vue') },
+        { path: '/:pathMatch(.*)*', name: 'page.not.found', component: () => import('../pages/Page404.vue') },
        
     ],
     linkActiveClass: "active"

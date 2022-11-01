@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use App\Http\Services\AccountServices;
 use App\Http\Requests\UserUpdateRequest;
 
@@ -21,7 +22,7 @@ class AccountController extends Controller
     public function user(Request $request)
     {
 
-        return $request->user();
+        return UserResource::make($request->user());
 
     }
 

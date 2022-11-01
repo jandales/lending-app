@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Capital;
-use App\Models\Interest;
 use Illuminate\Database\Seeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,15 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CapitalSeeder::class,
             InterestSeeder::class,
+            FundSeeder::class,
         ]);
-
-        // $this->call([
-        //     LoanTypeSeeder::class,                
-        // ]);
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

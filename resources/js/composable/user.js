@@ -1,6 +1,6 @@
 
    import axios from "../axios/index.js"   
-   import { ref } from "vue";
+   import { ref, onMounted } from "vue";
 
 
 export default function useUser()  {
@@ -15,17 +15,14 @@ export default function useUser()  {
     const getUser = async() => {
         try {
             let response = await axios.get('/user'); 
-            user.value = response.data; 
+            const { data } = response.data;
+            user.value = data; 
             unAuthorized.value = true;   
         } catch (e) {  
            if(e.response.status === 401) {
              unAuthorized.value = false;
            }                    
         }
-       
-
-      
-
     }
 
     const updateUser =  async(body) => {
@@ -160,6 +157,8 @@ export default function useUser()  {
       isAdmin.value =  parseInt(role) < 2 ? true : false;
 
     }
+
+
 
     return {
         getUser,

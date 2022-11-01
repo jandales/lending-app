@@ -75,6 +75,21 @@ class Loan extends Model
         return $query->where('status', Status::$ACTIVE)
                      ->orWhere('status', Status::$PAID)
                      ->sum('total_interest');
+                     
+    }
+
+    public function scopeCollectableInterest($query)
+    {
+        return $query->where('status', Status::$ACTIVE)               
+                     ->sum('total_interest');
+                     
+    }
+
+    public function scopeTotalCollectedInterest()
+    {
+        $total_interest  = $this->TotalInterest();
+        $collectable = $this->CollectableInterest(); 
+        return $total_interest - $collectable;        
     }
     
     public function updateBalance($balance)

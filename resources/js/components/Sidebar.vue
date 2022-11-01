@@ -1,7 +1,7 @@
 <template>
     <div class="w-60 h-full shadow-md bg-white fixed" id="sidenavSecExample">
   <div class="pt-4 pb-2 px-6">
-    <a href="#!">
+    <a href="/my-app">
       <div class="flex items-center">
         <div v-if="user" class="shrink-0">        
           <img v-if="user.avatar" :src="user.avatar" class="rounded-full border w-10 h-10" alt="Avatar">
@@ -29,7 +29,7 @@
     <li class="relative">
         <NavItem  :route="{name : 'loans'}" :label="'loans'"  />
     </li>  
-    <li class="relative">
+    <li v-if="user && user.isAdmin" class="relative">
         <NavItem  :route="{name : 'funds'}" :label="'funds'"  />
     </li> 
     <li class="relative">
@@ -60,11 +60,13 @@
         </li>
       </ul>
     </li>
-    <li v-if="user && user.role < 1" class="relative">
+    <li v-if="user && user.isAdmin" class="relative">
       <NavItem :to="{name : 'users'}" :label="'users'"/>
     </li>    
    
   </ul>
+
+  
   <hr class="my-2"> 
   <div class="text-center bottom-0 absolute w-full">
     <hr class="m-0">
@@ -92,12 +94,10 @@ import { onMounted } from 'vue';
 import useUser from '../composable/user';
 import NavItem from './base/NavItem.vue';
 
-const  {  getUser, user, logout} = useUser()
+const  { getUser, user, logout } = useUser()
 
-const signOut = async()=> {     
-
+const signOut = async() => { 
     await logout();
-
 }
 
 onMounted(getUser);
