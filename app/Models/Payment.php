@@ -17,8 +17,7 @@ class Payment extends Model
         'loan_id',
         'user_id',
         'due_date_id',
-        'status'
-                
+        'status'                
     ];
 
     public function user()

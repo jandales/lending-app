@@ -25,6 +25,7 @@ class PaymentStoreRequest extends FormRequest
     {
         return [
             'due_date' => 'required',
+            'payment_date' => 'required',
             'amount' => 'required|numeric',
             'borrower_id' => 'required',
             'loan_id' => 'required',

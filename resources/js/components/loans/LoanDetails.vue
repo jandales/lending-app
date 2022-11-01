@@ -93,25 +93,29 @@
            
     </div>
 
-    <div class="bg-white p-4 border w-full rounded-md mx-auto">
+    <div class="bg-white  border w-full rounded-md mx-auto">
       <div class="block bg-white">     
-        <hi class="block tracking-wider text-lg">Payment Due Dates</hi>
+        <div class="p-4">
+            <h1 class="block tracking-wider text-lg">Payment Due Dates</h1>
+        </div>
         <div v-if="loan" class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
                     <table class="min-w-full">
                     <thead class="bg-white border-b">
                         <tr>
+                            <th>No.</th>
                             <th scope="col">Due Date</th>
                             <th scope="col">Amount</th>                           
                             <th scope="col">Paid Date</th>  
                             <th scope="col">Amount Paid</th>                     
-                            <th scope="col">Balance</th>
+                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>                       
-                        <tr v-if="loan.due_dates.length > 0"  v-for="item in dueDateList" class="last:border-b-0">                           
+                        <tr v-if="loan.due_dates.length > 0"  v-for="(item, index) in dueDateList" class="border-b last:border-b-0"> 
+                            <td>{{index + 1}}</td>                          
                             <td>
                                 {{ item.due_date}}
                             </td>
@@ -123,17 +127,10 @@
                             </td>  
                             <td>                               
                                 {{ item.amount_paid }}                            
-                            </td>  
-                            <td>                               
-                                {{ item.balance }}                            
-                            </td>
-                            <td class="flex gap-2 items-center">                               
-                               <button v-if="item.status == null" @click="createPayment(item)" class="btn-primary" :class="{'!bg-slate-400 cursor-not-allowed' : loan.status != 'active' }" :disabled="loan.status != 'active'"  data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Pay
-                               </button>  
-                               <span v-else class="px-2 py-1 bg-green-400 text-white capitalize rounded-md text-center " :class="{ '!bg-rose-500': item.status == 'failed' , '!bg-rose-500' : item.status == 'void'}">
-                                    {{item.status}}
-                               </span>                                               
+                            </td>                            
+                            <td  class="flex gap-2 items-center">  
+                                <BaseStatus v-if="item.status" :status="item.status" /> 
+                               <label v-else for="">--</label>                                              
                             </td>
                         </tr> 
                         <tr v-else>
@@ -145,11 +142,10 @@
                 </div>
             </div>
         </div>
-
+        </div>
     </div>
-    </div>
 
-<PaymentModal @loadLoan="loadLoan" :loan="loan" :data="dueDate"/>
+
 
 </div>
 
@@ -160,93 +156,67 @@
 <script setup>
 
 import Alert from '../Alert.vue';
-import PaymentModal from '../Modal/PaymentModal.vue';
 import BaseLabelRow from '../base/BaseLabelRow.vue'
 import useLoans from '../../composable/loans';
 import useCalculation from '../../composable/helper/calculations';
 import useFormatter from '../../composable/helper/formater'
 import useUser from '../../composable/user';
-import {  ref,  onMounted, computed } from 'vue';
+import {  ref,  onMounted, computed, defineAsyncComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import useExport from '../../composable/exports/loans';
 
+const BaseStatus = defineAsyncComponent(() => import('../base/BaseStatus.vue'))
+
 const { getLoan, updateStatusLoan, loan, isLoading, isSuccess, errors } = useLoans();
-
 const { calculateInterest } = useCalculation();
-
 const { moneyFormatter } = useFormatter(); 
-
-const {  loanDetailsToPDF } = useExport();
-
+const { loanDetailsToPDF } = useExport();
 const { checkUserRole, isAdmin} = useUser();
 
 const route = useRoute();
-
 const status = ref();
-
 const dueDate = ref(0);
 
 const update = async () => {
-
-    if(status.value == null) return;
-
+    if (status.value == null) return;
     await updateStatusLoan(loan.value.id, {status : status.value});
-
     await loadLoan();
-
-}
+    }
 
 const createPayment = (date) => {
-
-    dueDate.value = date;   
-
+    dueDate.value = date;  
 }
 
 const loadLoan = async() => {
-
    await getLoan(route.params.id)
-
 }
 
 const exportHandle = async () => {
      await exportLoans({...form});
-  }
+}
 
-  const printHandle = async (id) => {
-    await  loanDetailsToPDF(id);
-  }
+const printHandle = async (id) => {
+await  loanDetailsToPDF(id);
+}
 
 
 onMounted(loadLoan);
-
 onMounted(checkUserRole);
 
 const dueDateList = computed(() => {
-
-    if(loan.value == null) return;
-    
+    if(loan.value == null) return;    
     return loan.value.due_dates.map(due => {
-
         due.paid_at = due.paid_at == null ? '-- / -- / --' : due.paid_at;
-
         due.amount_paid = moneyFormatter(due.amount_paid);    
-
         due.balance = moneyFormatter(due.balance);
-
         return due;
-
     });
-
 });
 
 const interestPerDueDate = computed(() => {
-
     if(loan.value == null) return;  
-
     const amount = calculateInterest(loan.value.principal_amount, loan.value.interest)
-
     return  moneyFormatter(amount);
-
 });
 
 

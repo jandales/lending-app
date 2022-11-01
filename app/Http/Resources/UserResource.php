@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'address' => $this->address,
             'role' => $this->role ==  2 ? 'Employee' : 'Admin' ,
+            'isAdmin' => $this->role ==  2 ? false : true,
             'created_at' => $this->created_at->toFormattedDateString(),
         ];
     }

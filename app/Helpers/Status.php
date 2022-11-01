@@ -11,6 +11,6 @@ class Status {
     public static $PAID = 'paid';
     public static $REJECTED = 'rejected';
     public static $VOID = 'void'; 
-    public static $FAILED = 'failed'; 
+    public static $FAILED = 'failed';  
        
 }

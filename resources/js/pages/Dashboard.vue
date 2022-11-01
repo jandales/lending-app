@@ -1,93 +1,66 @@
 <template>
 
-<div class="w-full flex gap-8"> 
-  <BaseCard :title="'Borrowers'"  :value="customerCount" :icon="'person'" />
-
+<div class="w-full flex gap-8 mb-8"> 
+  <BaseCard :title="'Borrowers'"  :value="borrowerCount" :icon="'person'" />
   <BaseCard :title="'Active Loan'"  :value="activeLoansCount" :icon="'activeLoanCount'" />
-
-  <BaseCard :title="'Current Capital'"  :value="moneyFormatter(currentCapital)" :icon="'capital'" />
-
-  <BaseCard :title="'Total Interest'"  :value="moneyFormatter(totalInterest)" :icon="'revenue'"/> 
+  <BaseCard :title="'Collected'"  :value="moneyFormatter(totalCollectedInterest)" :icon="'capital'" />
+  <BaseCard :title="'Collectable'"  :value="moneyFormatter(totalInterest)" :icon="'revenue'"/> 
 </div>
 
-
-  <div class="border   w-full bg-white rounded-md mt-8">
-    <div class="flex  p-4 justify-between items-center">
-    <h1 class="font-semibold text-gray-700">Recent Loans</h1> 
-    </div>
-    <div  class="border border-l-0 border-r-0 bg-white">
-  <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full sm:px-6 lg:px-8">       
-        <div class="overflow-hidden">      
-          <table class="min-w-full">
-            <thead class="bg-white border-b">
-              <tr>                            
-                <th scope="col">
-                  Customer
-                </th>
-                <th scope="col">
-                  Terms
-                </th>
-                <th scope="col">
-                  Amount
-                </th>             
-                <th scope="col">
-                  Balance
-                </th>
-                <th scope="col">
-                  Status
-                </th>                
-              </tr>
-            </thead>
-            <tbody>  
-              <tr v-if="loans" v-for="loan in loans" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0">                      
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">  
-                  <RouterLink :to="{name : 'borrowers.details' , params : {id : loan.borrower.id } }" class="text-sky-500">         
+<BasePanelWrapper :title="'Recent loans'">
+  <template #body>
+  <BaseTableWrapper >
+    <BaseTable>
+      <BaseTableHead>
+        <BaseTableRow>
+          <BaseTableTh>Customer</BaseTableTh>
+          <BaseTableTh>Terms</BaseTableTh> 
+          <BaseTableTh>Amount</BaseTableTh>   
+          <BaseTableTh>Balance</BaseTableTh>                 
+          <BaseTableTh>Status</BaseTableTh>
+        </BaseTableRow>
+      </BaseTableHead>
+      <BaseTableBody v-if="loans && loans.length > 0">
+        <BaseTableRow  :body="true" v-for="loan in loans">
+          <BaseTd>
+            <RouterLink :to="{name : 'borrowers.details' , params : {id : loan.borrower.id } }" class="text-sky-500">         
                     <BaseAvatar
                       :image="loan.borrower.avatar"
                       :name="loan.borrower.name"
                     />      
-                  </RouterLink>       
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ `${loan.terms} Months` }}
-                </td>                                
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.total_amount}}
-                </td>            
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{ loan.balance_amount }}
-                </td> 
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap capitalize">
-                  <span v-if="loan.status == 'paid'" class="bg-green-500 text-xs px-2 py-1 rounded-md text-white capitalize">
-                     {{ loan.status }}
-                  </span>
-                   <span v-else-if="loan.status == 'void'"  class="bg-rose-500 text-xs px-2 py-1 rounded-md text-white capitalize">
-                     {{ loan.status }}
-                  </span>
-                  <span v-else-if="loan.status == 'rejected'"  class="bg-rose-500 text-xs px-2 py-1 rounded-md text-white capitalize">
-                     {{ loan.status }}
-                  </span>
-                   <span v-else class="bg-blue-500 text-xs px-2 py-1 rounded-md text-white capitalize">
-                     {{ loan.status }}
-                  </span>  
-                </td>               
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+            </RouterLink>
+          </BaseTd>
+          <BaseTd>{{ `${loan.terms} Months` }}</BaseTd>
+          <BaseTd>{{ loan.principal_amount }}</BaseTd>
+          <BaseTd>{{ loan.balance_amount }}</BaseTd>
+          <BaseTd><BaseStatus :status="loan.status" /></BaseTd>
+        </BaseTableRow>
+      </BaseTableBody>
+      <BaseTableBody v-else>
+        <BaseTableRow v-if="!isLoading && loans.length === 0">
+          <BaseTd colspan="5" class="text-center font-semibold">No Found Record</BaseTd>
+        </BaseTableRow>
+      </BaseTableBody>
+    </BaseTable>
+    <BaseTableSpinner v-if="isLoading" />
+  </BaseTableWrapper>
+  </template>
 
-</div>
-  </div>  
-
+</BasePanelWrapper>
 
 </template>
 <script setup>
+import BasePanelWrapper from '../components/base/BasePanelWrapper.vue'
+import BaseTableWrapper from '../components/base/table/BaseTableWrapper.vue'
+import BaseTable from '../components/base/table/BaseTable.vue'
+import BaseTableHead from '../components/base/table/BaseTableHead.vue'
+import BaseTableRow from '../components/base/table/TableRow.vue'
+import BaseTableTh from '../components/base/table/BaseTableTh.vue'
+import BaseTableBody from '../components/base/table/BaseTableBody.vue'
+import BaseTd from '../components/base/table/BaseTd.vue'
+import BaseTableSpinner from '../components/base/table/BaseTableSpinner.vue'
 
+import BaseStatus from '../components/base/BaseStatus.vue'
 import BaseCard from '../components/base/BaseCard.vue';
 import BaseAvatar from '../components/base/BaseAvatar.vue';
 import useApp from '../composable/app'
@@ -96,12 +69,10 @@ import { onMounted, computed} from 'vue';
 
 const { moneyFormatter } = useFormatter();
 
-const { getDashboards ,customerCount, totalInterest, currentCapital ,activeLoansCount, recentLoans  } = useApp();
+const { getDashboards ,borrowerCount, totalInterest, currentCapital ,activeLoansCount, recentLoans, totalCollectedInterest, isLoading  } = useApp();
 
 const getData = () => {
-
-    getDashboards();
-  
+    getDashboards();  
 }
 
 onMounted(getData);
@@ -115,6 +86,8 @@ const loans = computed(() => {
         loan.total_amount = moneyFormatter(loan.total_amount);
 
         loan.balance_amount = moneyFormatter(loan.balance_amount);
+
+        loan.principal_amount = moneyFormatter(loan.principal_amount);
 
         return loan;
 

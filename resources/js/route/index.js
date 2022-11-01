@@ -49,6 +49,8 @@ const router = createRouter({
 
                 { path : 'users/edit/:id', name : 'users.edit', component : () => import('../components/users/UserEdit.vue'),  beforeEnter : middleware.role  },
 
+                { path : 'funds', name : 'funds', component : () => import('../components/funds/FundIndex.vue'),  beforeEnter : middleware.role  },
+
                 { path : 'settings', name: 'settings', component : () => import('../pages/Setting.vue'),  children : [
       
                     {path : 'profile', name : 'settings.profile', component : () => import('../components/settings/Profile.vue')},
@@ -66,9 +68,9 @@ const router = createRouter({
 
         { path : '/forgot-password', name : 'forgot.password', component : () => import('../pages/ForgotPassword.vue'), beforeEnter : middleware.guest },
 
-        { path : '/reset-password/:token', name : 'reset.password', component : () => import('../pages/ResetPassword.vue'), beforeEnter : middleware.guest },       
+        { path : '/reset-password/:token', name : 'reset.password', component : () => import('../pages/ResetPassword.vue'), beforeEnter : middleware.guest },         
 
-        { path : '/page-not-found', name : 'page.not.found', component : () => import('../pages/Page404.vue') },
+        { path: '/:pathMatch(.*)*', name: 'page.not.found', component: () => import('../pages/Page404.vue') },
        
     ],
     linkActiveClass: "active"

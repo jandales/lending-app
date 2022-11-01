@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Helpers\Role;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -47,15 +48,8 @@ class User extends Authenticatable
     ];
 
     public function roleInWord()
-    {
-        $role = null;
-
-        if ($this->role == 0) return 'Super Admin';
-
-        if ($this->role == 1) return 'Admin';
-
-        if ($this->role == 2) return 'Employee';
-
+    {  
+        return Role::getName($this->role);  
     }
 
     public function scopeSearch($query, $keyword)
@@ -65,4 +59,5 @@ class User extends Authenticatable
                 ->orWhere('email',  'LIKE', '%' . $keyword . '%')
                 ->orWhere('phone',  'LIKE', '%' . $keyword . '%');
     }
+    
 }
