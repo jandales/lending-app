@@ -1,7 +1,7 @@
 <template>
     <div class="w-60 h-full shadow-md bg-white fixed" id="sidenavSecExample">
   <div class="pt-4 pb-2 px-6">
-    <a href="/my-app">
+    <a href="/">
       <div class="flex items-center">
         <div v-if="user" class="shrink-0">        
           <img v-if="user.avatar" :src="user.avatar" class="rounded-full border w-10 h-10" alt="Avatar">
