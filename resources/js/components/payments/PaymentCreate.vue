@@ -173,8 +173,8 @@
 
 <script setup>
 
-import Alert from '../../components/Alert.vue'
-import BaseInput from '../../components/base/BaseInput.vue'
+import Alert from '../Alert.vue'
+import BaseInput from '../base/BaseInput.vue'
 
 
 import useLoans from '../../composable/loans'
@@ -184,7 +184,7 @@ import useFormatter from '../../composable/helper/formater'
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-const LoanFinderModal = defineAsyncComponent(()=> import('../modal/LoansModal1.vue'))
+const LoanFinderModal = defineAsyncComponent(()=> import('../modal/LoansModal.vue'))
 const DueDatesModal = defineAsyncComponent(()=> import('../modal/DueDatesModal.vue'))
 const ConfirmPopup = defineAsyncComponent(() => import('../modal/ConfirmModal.vue'))
 
