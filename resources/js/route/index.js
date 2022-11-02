@@ -35,7 +35,7 @@ const router = createRouter({
 
                 { path: 'payments' , name : 'payments', component : () => import('../components/payments/PaymentIndex.vue')},
       
-                { path: 'payments/create', name : 'payments.create', component : () => import('../components/payments/Create.vue') },
+                { path: 'payments/create', name : 'payments.create', component : () => import('../components/payments/PaymentCreate.vue') },
 
                 { path: 'reports/loans', name : 'report.loans', component : () => import('../components/reports/ReportLoans.vue') },
 
