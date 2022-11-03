@@ -1,6 +1,6 @@
 {
   "resources/js/app.js": {
-    "file": "assets/app.5437d061.js",
+    "file": "assets/app.075719f4.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
@@ -24,7 +24,7 @@
       "resources/js/components/users/UserIndex.vue",
       "resources/js/components/users/UserCreate.vue",
       "resources/js/components/users/UserEdit.vue",
-      "_FundIndex.4cc7d21e.js",
+      "_FundIndex.35f6a609.js",
       "resources/js/pages/Setting.vue",
       "resources/js/components/settings/Profile.vue",
       "resources/js/components/settings/ChangePassword.vue",
@@ -36,7 +36,7 @@
     ]
   },
   "resources/js/pages/Home.vue": {
-    "file": "assets/Home.519b0f2c.js",
+    "file": "assets/Home.1cd1e839.js",
     "src": "resources/js/pages/Home.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -44,33 +44,33 @@
     ]
   },
   "resources/js/pages/Dashboard.vue": {
-    "file": "assets/Dashboard.f6984f58.js",
+    "file": "assets/Dashboard.c8b4f00f.js",
     "src": "resources/js/pages/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_BaseTableSpinner.904b4070.js",
+      "_BaseTableSpinner.7cc21318.js",
       "resources/js/components/base/BaseStatus.vue",
       "resources/js/app.js",
-      "_BaseAvatar.eb3aa15b.js",
+      "_BaseAvatar.82f933a6.js",
       "_formater.4def5762.js"
     ]
   },
-  "_BaseTableSpinner.904b4070.js": {
-    "file": "assets/BaseTableSpinner.904b4070.js",
+  "_BaseTableSpinner.7cc21318.js": {
+    "file": "assets/BaseTableSpinner.7cc21318.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/base/BaseStatus.vue": {
-    "file": "assets/BaseStatus.87e7a659.js",
+    "file": "assets/BaseStatus.c02de238.js",
     "src": "resources/js/components/base/BaseStatus.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_BaseAvatar.eb3aa15b.js": {
-    "file": "assets/BaseAvatar.eb3aa15b.js",
+  "_BaseAvatar.82f933a6.js": {
+    "file": "assets/BaseAvatar.82f933a6.js",
     "imports": [
       "resources/js/app.js"
     ]
@@ -79,72 +79,72 @@
     "file": "assets/formater.4def5762.js"
   },
   "resources/js/components/loans/LoanIndex.vue": {
-    "file": "assets/LoanIndex.c73e4a85.js",
+    "file": "assets/LoanIndex.12c69e91.js",
     "src": "resources/js/components/loans/LoanIndex.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseTableSpinner.904b4070.js",
-      "_BaseAvatar.eb3aa15b.js",
-      "_BaseButton.62680584.js",
-      "_Pagination.26cc06e1.js",
-      "_status.4d98f603.js",
-      "_BaseIconEdit.b1156f61.js",
-      "_loans.559fc937.js",
+      "_BaseTableSpinner.7cc21318.js",
+      "_BaseAvatar.82f933a6.js",
+      "_BaseButton.3aa94c2d.js",
+      "_Pagination.88909a89.js",
+      "_status.a5b439d7.js",
+      "_BaseIconEdit.bf0857c8.js",
+      "_loans.bfbb6fca.js",
       "_formater.4def5762.js"
     ],
     "dynamicImports": [
       "resources/js/components/base/BaseStatus.vue"
     ]
   },
-  "_BaseButton.62680584.js": {
-    "file": "assets/BaseButton.62680584.js",
+  "_BaseButton.3aa94c2d.js": {
+    "file": "assets/BaseButton.3aa94c2d.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_Pagination.26cc06e1.js": {
-    "file": "assets/Pagination.26cc06e1.js",
+  "_Pagination.88909a89.js": {
+    "file": "assets/Pagination.88909a89.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_status.4d98f603.js": {
-    "file": "assets/status.4d98f603.js",
+  "_status.a5b439d7.js": {
+    "file": "assets/status.a5b439d7.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_BaseIconEdit.b1156f61.js": {
-    "file": "assets/BaseIconEdit.b1156f61.js",
+  "_BaseIconEdit.bf0857c8.js": {
+    "file": "assets/BaseIconEdit.bf0857c8.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_loans.559fc937.js": {
-    "file": "assets/loans.559fc937.js",
+  "_loans.bfbb6fca.js": {
+    "file": "assets/loans.bfbb6fca.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/loans/LoanDetails.vue": {
-    "file": "assets/LoanDetails.695fbb0d.js",
+    "file": "assets/LoanDetails.eac79307.js",
     "src": "resources/js/components/loans/LoanDetails.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
       "resources/js/components/Alert.vue",
-      "_loans.559fc937.js",
+      "_loans.bfbb6fca.js",
       "_calculations.e1d1d80d.js",
       "_formater.4def5762.js",
-      "_loans.8b7fb701.js"
+      "_loans.eaaa9f8c.js"
     ],
     "dynamicImports": [
       "resources/js/components/base/BaseStatus.vue"
     ]
   },
   "resources/js/components/Alert.vue": {
-    "file": "assets/Alert.a5657db5.js",
+    "file": "assets/Alert.83632c85.js",
     "src": "resources/js/components/Alert.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -154,23 +154,23 @@
   "_calculations.e1d1d80d.js": {
     "file": "assets/calculations.e1d1d80d.js"
   },
-  "_loans.8b7fb701.js": {
-    "file": "assets/loans.8b7fb701.js",
+  "_loans.eaaa9f8c.js": {
+    "file": "assets/loans.eaaa9f8c.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/loans/LoanCreate.vue": {
-    "file": "assets/LoanCreate.3ce64643.js",
+    "file": "assets/LoanCreate.e7d33e90.js",
     "src": "resources/js/components/loans/LoanCreate.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseInput.15423172.js",
-      "_BaseButton.62680584.js",
-      "_BaseSelect.aa61d937.js",
-      "_loans.559fc937.js",
-      "_interest.5f121766.js",
+      "_BaseInput.0ecc328f.js",
+      "_BaseButton.3aa94c2d.js",
+      "_BaseSelect.f0cd7c07.js",
+      "_loans.bfbb6fca.js",
+      "_interest.dea07cd2.js",
       "_calculations.e1d1d80d.js"
     ],
     "dynamicImports": [
@@ -178,161 +178,161 @@
       "resources/js/components/Modal/BorrowerSearchModal.vue"
     ]
   },
-  "_BaseInput.15423172.js": {
-    "file": "assets/BaseInput.15423172.js",
+  "_BaseInput.0ecc328f.js": {
+    "file": "assets/BaseInput.0ecc328f.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_BaseSelect.aa61d937.js": {
-    "file": "assets/BaseSelect.aa61d937.js",
+  "_BaseSelect.f0cd7c07.js": {
+    "file": "assets/BaseSelect.f0cd7c07.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_interest.5f121766.js": {
-    "file": "assets/interest.5f121766.js",
+  "_interest.dea07cd2.js": {
+    "file": "assets/interest.dea07cd2.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/LoanTypes/Index.vue": {
-    "file": "assets/Index.7bfdb9d3.js",
+    "file": "assets/Index.96a83d0c.js",
     "src": "resources/js/components/LoanTypes/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_loanType.5059acc5.js"
+      "_loanType.4770dc1c.js"
     ]
   },
-  "_loanType.5059acc5.js": {
-    "file": "assets/loanType.5059acc5.js",
+  "_loanType.4770dc1c.js": {
+    "file": "assets/loanType.4770dc1c.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/LoanTypes/Create.vue": {
-    "file": "assets/Create.dcfe81ca.js",
+    "file": "assets/Create.7ba9e174.js",
     "src": "resources/js/components/LoanTypes/Create.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_BaseInput.15423172.js",
-      "_loanType.5059acc5.js",
+      "_BaseInput.0ecc328f.js",
+      "_loanType.4770dc1c.js",
       "resources/js/app.js"
     ]
   },
   "resources/js/components/LoanTypes/Edit.vue": {
-    "file": "assets/Edit.290c1444.js",
+    "file": "assets/Edit.13bdd3d4.js",
     "src": "resources/js/components/LoanTypes/Edit.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_BaseInput.15423172.js",
-      "_loanType.5059acc5.js",
+      "_BaseInput.0ecc328f.js",
+      "_loanType.4770dc1c.js",
       "resources/js/app.js"
     ]
   },
   "resources/js/components/borrowers/BorrowerIndex.vue": {
-    "file": "assets/BorrowerIndex.1595b62c.js",
+    "file": "assets/BorrowerIndex.e1009855.js",
     "src": "resources/js/components/borrowers/BorrowerIndex.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_BaseTableSpinner.904b4070.js",
-      "_BaseAvatar.eb3aa15b.js",
-      "_BaseButton.62680584.js",
-      "_BaseIconEdit.b1156f61.js",
-      "_status.4d98f603.js",
-      "_Pagination.26cc06e1.js",
-      "_borrowers.b0dec3f4.js",
+      "_BaseTableSpinner.7cc21318.js",
+      "_BaseAvatar.82f933a6.js",
+      "_BaseButton.3aa94c2d.js",
+      "_BaseIconEdit.bf0857c8.js",
+      "_status.a5b439d7.js",
+      "_Pagination.88909a89.js",
+      "_borrowers.ef2f402f.js",
       "resources/js/app.js"
     ]
   },
-  "_borrowers.b0dec3f4.js": {
-    "file": "assets/borrowers.b0dec3f4.js",
+  "_borrowers.ef2f402f.js": {
+    "file": "assets/borrowers.ef2f402f.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/borrowers/BorrowerCreate.vue": {
-    "file": "assets/BorrowerCreate.f00e5d6c.js",
+    "file": "assets/BorrowerCreate.2d83135e.js",
     "src": "resources/js/components/borrowers/BorrowerCreate.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_BaseInput.15423172.js",
-      "_BaseButton.62680584.js",
-      "_PageHeading.1a4408cc.js",
-      "_borrowers.b0dec3f4.js",
+      "_BaseInput.0ecc328f.js",
+      "_BaseButton.3aa94c2d.js",
+      "_PageHeading.27fa8be1.js",
+      "_borrowers.ef2f402f.js",
       "resources/js/app.js"
     ]
   },
-  "_PageHeading.1a4408cc.js": {
-    "file": "assets/PageHeading.1a4408cc.js",
+  "_PageHeading.27fa8be1.js": {
+    "file": "assets/PageHeading.27fa8be1.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/borrowers/BorrowerEdit.vue": {
-    "file": "assets/BorrowerEdit.4986cf4a.js",
+    "file": "assets/BorrowerEdit.5b3a9c24.js",
     "src": "resources/js/components/borrowers/BorrowerEdit.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_BaseInput.15423172.js",
-      "_BaseButton.62680584.js",
-      "_BaseSelect.aa61d937.js",
-      "_PageHeading.1a4408cc.js",
-      "_borrowers.b0dec3f4.js",
+      "_BaseInput.0ecc328f.js",
+      "_BaseButton.3aa94c2d.js",
+      "_BaseSelect.f0cd7c07.js",
+      "_PageHeading.27fa8be1.js",
+      "_borrowers.ef2f402f.js",
       "resources/js/app.js"
     ]
   },
   "resources/js/components/borrowers/BorrowerDetails.vue": {
-    "file": "assets/BorrowerDetails.de32e5b5.js",
+    "file": "assets/BorrowerDetails.2cdb5b95.js",
     "src": "resources/js/components/borrowers/BorrowerDetails.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_borrowers.b0dec3f4.js",
-      "_loans.559fc937.js",
+      "_borrowers.ef2f402f.js",
+      "_loans.bfbb6fca.js",
       "_calculations.e1d1d80d.js",
       "_formater.4def5762.js",
-      "_BaseTableSpinner.904b4070.js",
-      "_BaseButton.62680584.js",
-      "_Pagination.26cc06e1.js",
+      "_BaseTableSpinner.7cc21318.js",
+      "_BaseButton.3aa94c2d.js",
+      "_Pagination.88909a89.js",
       "resources/js/app.js"
     ]
   },
   "resources/js/components/payments/PaymentIndex.vue": {
-    "file": "assets/PaymentIndex.36c9ec64.js",
+    "file": "assets/PaymentIndex.3dbf62b4.js",
     "src": "resources/js/components/payments/PaymentIndex.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseTableSpinner.904b4070.js",
-      "_BaseAvatar.eb3aa15b.js",
-      "_Pagination.26cc06e1.js",
-      "_status.4d98f603.js",
-      "_BaseButton.62680584.js",
-      "_BaseIconEdit.b1156f61.js",
-      "_payments.64f369b3.js",
+      "_BaseTableSpinner.7cc21318.js",
+      "_BaseAvatar.82f933a6.js",
+      "_Pagination.88909a89.js",
+      "_status.a5b439d7.js",
+      "_BaseButton.3aa94c2d.js",
+      "_BaseIconEdit.bf0857c8.js",
+      "_payments.6f2647e2.js",
       "_formater.4def5762.js"
     ],
     "dynamicImports": [
       "resources/js/components/base/BaseStatus.vue"
     ]
   },
-  "_payments.64f369b3.js": {
-    "file": "assets/payments.64f369b3.js",
+  "_payments.6f2647e2.js": {
+    "file": "assets/payments.6f2647e2.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/payments/PaymentCreate.vue": {
-    "file": "assets/PaymentCreate.56c279dc.js",
+    "file": "assets/PaymentCreate.7dbb9bdd.js",
     "src": "resources/js/components/payments/PaymentCreate.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
       "resources/js/components/Alert.vue",
-      "_BaseInput.15423172.js",
-      "_loans.559fc937.js",
-      "_payments.64f369b3.js"
+      "_BaseInput.0ecc328f.js",
+      "_loans.bfbb6fca.js",
+      "_payments.6f2647e2.js"
     ],
     "dynamicImports": [
       "resources/js/components/modal/LoansModal.vue",
@@ -341,101 +341,101 @@
     ]
   },
   "resources/js/components/reports/ReportLoans.vue": {
-    "file": "assets/ReportLoans.4ccd2305.js",
+    "file": "assets/ReportLoans.638cf0a2.js",
     "src": "resources/js/components/reports/ReportLoans.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_report.4d6b4aaf.js",
-      "_loans.8b7fb701.js",
+      "_report.effe15d3.js",
+      "_loans.eaaa9f8c.js",
       "_formater.4def5762.js"
     ]
   },
-  "_report.4d6b4aaf.js": {
-    "file": "assets/report.4d6b4aaf.js",
+  "_report.effe15d3.js": {
+    "file": "assets/report.effe15d3.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/reports/ReportPayments.vue": {
-    "file": "assets/ReportPayments.f5226137.js",
+    "file": "assets/ReportPayments.358cb1b4.js",
     "src": "resources/js/components/reports/ReportPayments.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_report.4d6b4aaf.js",
-      "_loans.8b7fb701.js",
+      "_report.effe15d3.js",
+      "_loans.eaaa9f8c.js",
       "_formater.4def5762.js"
     ]
   },
   "resources/js/components/reports/ReportBorrower.vue": {
-    "file": "assets/ReportBorrower.03133aa0.js",
+    "file": "assets/ReportBorrower.1f1f3f37.js",
     "src": "resources/js/components/reports/ReportBorrower.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_report.4d6b4aaf.js",
-      "_loans.8b7fb701.js",
+      "_report.effe15d3.js",
+      "_loans.eaaa9f8c.js",
       "_formater.4def5762.js"
     ]
   },
   "resources/js/components/users/UserIndex.vue": {
-    "file": "assets/UserIndex.9f5de5f7.js",
+    "file": "assets/UserIndex.bbc70f72.js",
     "src": "resources/js/components/users/UserIndex.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseTableSpinner.904b4070.js",
-      "_BaseAvatar.eb3aa15b.js",
-      "_BaseButton.62680584.js",
-      "_BaseIconEdit.b1156f61.js",
-      "_status.4d98f603.js",
-      "_Pagination.26cc06e1.js",
-      "_users.dbe74ad2.js"
+      "_BaseTableSpinner.7cc21318.js",
+      "_BaseAvatar.82f933a6.js",
+      "_BaseButton.3aa94c2d.js",
+      "_BaseIconEdit.bf0857c8.js",
+      "_status.a5b439d7.js",
+      "_Pagination.88909a89.js",
+      "_users.9348e139.js"
     ],
     "dynamicImports": [
       "resources/js/components/Modal/UserResetPassword.vue"
     ]
   },
-  "_users.dbe74ad2.js": {
-    "file": "assets/users.dbe74ad2.js",
+  "_users.9348e139.js": {
+    "file": "assets/users.9348e139.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/components/users/UserCreate.vue": {
-    "file": "assets/UserCreate.17b09536.js",
+    "file": "assets/UserCreate.577fdbe2.js",
     "src": "resources/js/components/users/UserCreate.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_PageHeading.1a4408cc.js",
-      "_BaseInput.15423172.js",
-      "_BaseButton.62680584.js",
-      "_BaseSelect.aa61d937.js",
-      "_users.dbe74ad2.js",
+      "_PageHeading.27fa8be1.js",
+      "_BaseInput.0ecc328f.js",
+      "_BaseButton.3aa94c2d.js",
+      "_BaseSelect.f0cd7c07.js",
+      "_users.9348e139.js",
       "resources/js/app.js"
     ]
   },
   "resources/js/components/users/UserEdit.vue": {
-    "file": "assets/UserEdit.5b17102c.js",
+    "file": "assets/UserEdit.33b39891.js",
     "src": "resources/js/components/users/UserEdit.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_PageHeading.1a4408cc.js",
-      "_BaseInput.15423172.js",
-      "_BaseButton.62680584.js",
-      "_BaseSelect.aa61d937.js",
-      "_users.dbe74ad2.js",
+      "_PageHeading.27fa8be1.js",
+      "_BaseInput.0ecc328f.js",
+      "_BaseButton.3aa94c2d.js",
+      "_BaseSelect.f0cd7c07.js",
+      "_users.9348e139.js",
       "resources/js/app.js"
     ]
   },
-  "_FundIndex.4cc7d21e.js": {
-    "file": "assets/FundIndex.4cc7d21e.js",
+  "_FundIndex.35f6a609.js": {
+    "file": "assets/FundIndex.35f6a609.js",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
       "_formater.4def5762.js",
-      "_BaseButton.62680584.js"
+      "_BaseButton.3aa94c2d.js"
     ],
     "dynamicImports": [
       "resources/js/components/funds/FundActionModal.vue",
@@ -443,7 +443,7 @@
     ]
   },
   "resources/js/pages/Setting.vue": {
-    "file": "assets/Setting.64f14d3c.js",
+    "file": "assets/Setting.83b74633.js",
     "src": "resources/js/pages/Setting.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -451,7 +451,7 @@
     ]
   },
   "resources/js/components/settings/Profile.vue": {
-    "file": "assets/Profile.b7cf7b04.js",
+    "file": "assets/Profile.8a5f8454.js",
     "src": "resources/js/components/settings/Profile.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -459,7 +459,7 @@
     ]
   },
   "resources/js/components/settings/ChangePassword.vue": {
-    "file": "assets/ChangePassword.d6b531a5.js",
+    "file": "assets/ChangePassword.6d98eb7b.js",
     "src": "resources/js/components/settings/ChangePassword.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -467,34 +467,34 @@
     ]
   },
   "resources/js/components/settings/Interest.vue": {
-    "file": "assets/Interest.ff1cfb4d.js",
+    "file": "assets/Interest.769c55a6.js",
     "src": "resources/js/components/settings/Interest.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseTableSpinner.904b4070.js",
-      "_BaseIconEdit.b1156f61.js",
-      "_BaseButton.62680584.js",
-      "_interest.5f121766.js"
+      "_BaseTableSpinner.7cc21318.js",
+      "_BaseIconEdit.bf0857c8.js",
+      "_BaseButton.3aa94c2d.js",
+      "_interest.dea07cd2.js"
     ],
     "dynamicImports": [
       "resources/js/components/settings/InterestModal.vue"
     ]
   },
   "resources/js/pages/Login.vue": {
-    "file": "assets/Login.e5c9a0c5.js",
+    "file": "assets/Login.7177843e.js",
     "src": "resources/js/pages/Login.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseInput.15423172.js"
+      "_BaseInput.0ecc328f.js"
     ],
     "dynamicImports": [
       "resources/js/components/Alert.vue"
     ]
   },
   "resources/js/pages/ForgotPassword.vue": {
-    "file": "assets/ForgotPassword.f1cf283e.js",
+    "file": "assets/ForgotPassword.73b5d240.js",
     "src": "resources/js/pages/ForgotPassword.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -502,7 +502,7 @@
     ]
   },
   "resources/js/pages/ResetPassword.vue": {
-    "file": "assets/ResetPassword.d3d2883f.js",
+    "file": "assets/ResetPassword.566dfc8d.js",
     "src": "resources/js/pages/ResetPassword.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -510,7 +510,7 @@
     ]
   },
   "resources/js/pages/Page404.vue": {
-    "file": "assets/Page404.d38d21e3.js",
+    "file": "assets/Page404.2a4c8550.js",
     "src": "resources/js/pages/Page404.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -518,25 +518,25 @@
     ]
   },
   "resources/js/components/Modal/BorrowerSearchModal.vue": {
-    "file": "assets/BorrowerSearchModal.1bf3899f.js",
+    "file": "assets/BorrowerSearchModal.75895004.js",
     "src": "resources/js/components/Modal/BorrowerSearchModal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_borrowers.b0dec3f4.js"
+      "_borrowers.ef2f402f.js"
     ]
   },
   "resources/js/components/modal/LoansModal.vue": {
-    "file": "assets/LoansModal.8c141044.js",
+    "file": "assets/LoansModal.d9a52f21.js",
     "src": "resources/js/components/modal/LoansModal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_loans.559fc937.js"
+      "_loans.bfbb6fca.js"
     ]
   },
   "resources/js/components/modal/DueDatesModal.vue": {
-    "file": "assets/DueDatesModal.3ec115c2.js",
+    "file": "assets/DueDatesModal.4fdb1f69.js",
     "src": "resources/js/components/modal/DueDatesModal.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -546,56 +546,56 @@
     ]
   },
   "resources/js/components/modal/ConfirmModal.vue": {
-    "file": "assets/ConfirmModal.8b0acef4.js",
+    "file": "assets/ConfirmModal.aa1a9901.js",
     "src": "resources/js/components/modal/ConfirmModal.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_BaseButton.62680584.js",
+      "_BaseButton.3aa94c2d.js",
       "resources/js/app.js"
     ]
   },
   "resources/js/components/Modal/UserResetPassword.vue": {
-    "file": "assets/UserResetPassword.faf612e4.js",
+    "file": "assets/UserResetPassword.19641c5b.js",
     "src": "resources/js/components/Modal/UserResetPassword.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseButton.62680584.js"
+      "_BaseButton.3aa94c2d.js"
     ],
     "dynamicImports": [
       "resources/js/components/Alert.vue"
     ]
   },
   "resources/js/components/funds/FundActionModal.vue": {
-    "file": "assets/FundActionModal.64c8180a.js",
+    "file": "assets/FundActionModal.384af4e1.js",
     "src": "resources/js/components/funds/FundActionModal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseInput.15423172.js",
-      "_BaseButton.62680584.js",
-      "_FundIndex.4cc7d21e.js",
+      "_BaseInput.0ecc328f.js",
+      "_BaseButton.3aa94c2d.js",
+      "_FundIndex.35f6a609.js",
       "_formater.4def5762.js"
     ]
   },
   "resources/js/components/funds/FundShowModal.vue": {
-    "file": "assets/FundShowModal.fb987828.js",
+    "file": "assets/FundShowModal.f72c97ed.js",
     "src": "resources/js/components/funds/FundShowModal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseInput.15423172.js",
-      "_BaseButton.62680584.js"
+      "_BaseInput.0ecc328f.js",
+      "_BaseButton.3aa94c2d.js"
     ]
   },
   "resources/js/components/settings/InterestModal.vue": {
-    "file": "assets/InterestModal.1dd16567.js",
+    "file": "assets/InterestModal.88d65844.js",
     "src": "resources/js/components/settings/InterestModal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.js",
-      "_BaseInput.15423172.js",
-      "_interest.5f121766.js"
+      "_BaseInput.0ecc328f.js",
+      "_interest.dea07cd2.js"
     ],
     "dynamicImports": [
       "resources/js/components/Alert.vue"

@@ -140,7 +140,7 @@
 
 <Teleport to="body">
 
-    <LoanFinderModal 
+    <LoansModal 
         v-if="isOpenFinder" 
         @close="toggleModal" 
         @select="selectedLoan"
@@ -175,30 +175,23 @@
 
 import Alert from '../Alert.vue'
 import BaseInput from '../base/BaseInput.vue'
-
-
 import useLoans from '../../composable/loans'
-import useCalculateInterest from '../../composable/helper/calculateInterest'
 import usePayments from '../../composable/payments'
-import useFormatter from '../../composable/helper/formater'
+
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-const LoanFinderModal = defineAsyncComponent(()=> import('../modal/LoansModal.vue'))
+const LoansModal = defineAsyncComponent(() => import('../modal/LoansModal.vue'))
 const DueDatesModal = defineAsyncComponent(()=> import('../modal/DueDatesModal.vue'))
 const ConfirmPopup = defineAsyncComponent(() => import('../modal/ConfirmModal.vue'))
 
-const { moneyFormatter } = useFormatter()
-const { getLoan, exist, loan } = useLoans()
+const { getLoan, loan } = useLoans()
 const { addPayment, isSuccess, errors } = usePayments()
-const { calculateInterest } = useCalculateInterest()
+
 const route = useRoute()
 const router = useRouter()
 
-const success = 'success'
-const danger = 'danger'
-const info = 'info'
-
+//states for modal
 const isOpenFinder = ref(false)
 const isOpenDueDateModal = ref(false)
 const confirm = ref(false)
@@ -223,12 +216,9 @@ const toggleDueDatesModal = (state) => {
 }
 
 const handleConfirmPayment = async (state) => {
-
     if (!state) return confirm.value = false;
-
     await handleProccessPayment();
-    confirm.value = false;
-    
+    confirm.value = false;    
 }
 
 const store = async () => { 
