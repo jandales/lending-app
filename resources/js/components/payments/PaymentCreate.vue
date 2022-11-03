@@ -9,7 +9,7 @@ import BaseInput from '../base/BaseInput.vue';
 import useLoans from '../../composable/loans';
 import usePayments from '../../composable/payments';
 
-const DueDatesModal = defineAsyncComponent( ()=> import('../modal/DueDatesModal.vue') );
+const DueDatesModal = defineAsyncComponent( () => import('../modal/DueDatesModal.vue') );
 const ConfirmPopup = defineAsyncComponent( () => import('../modal/ConfirmModal.vue') );
 const LoansModal = defineAsyncComponent( () => import('../modal/LoansModal.vue') );
 
