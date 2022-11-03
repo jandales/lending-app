@@ -1,17 +1,111 @@
-<template>
 
+<script setup>
+
+import { useRoute, useRouter } from 'vue-router';
+import { ref, reactive, onMounted, defineAsyncComponent } from 'vue';
+
+import Alert from '../Alert.vue';
+import BaseInput from '../base/BaseInput.vue';
+import useLoans from '../../composable/loans';
+import usePayments from '../../composable/payments';
+
+const DueDatesModal = defineAsyncComponent( ()=> import('../modal/DueDatesModal.vue') );
+const ConfirmPopup = defineAsyncComponent( () => import('../modal/ConfirmModal.vue') );
+const LoansModal = defineAsyncComponent( () => import('../modal/LoansModal.vue') );
+
+const { getLoan, loan } = useLoans()
+const { addPayment, isSuccess, errors } = usePayments()
+
+const route = useRoute()
+const router = useRouter()
+
+//states for modal
+const isOpenFinder = ref(false)
+const isOpenDueDateModal = ref(false)
+const confirm = ref(false)
+
+const form = reactive({
+    amount : 0,
+    remark : null,
+    borrower_id : null,
+    loan_id : null,
+    reference_number : null,
+    due_date_id :  null,
+    due_date : null,
+    payment_date : null,
+})
+
+const toggleModal = (state) => {
+   isOpenFinder.value = state; 
+}
+
+const toggleDueDatesModal = (state) => {
+    isOpenDueDateModal.value = state
+}
+
+const handleConfirmPayment = async (state) => {
+    if (!state) return confirm.value = false
+    await handleProccessPayment()
+    confirm.value = false;    
+}
+
+const store = async () => { 
+      
+    errors.value = [];
+
+    if (form.payment_date == null) {
+        errors.value =  { payment_date : ['Amount value is greater than balance amount']};    
+        return;
+    }
+
+    if (form.amount == 0) {
+        confirm.value = true;
+        return;
+    }  
+
+    if ( form.amount > loan.value.balance_amount ) { 
+        errors.value =  { amount: ['Amount value is greater than balance amount']};      
+        return;
+    }
+
+    await handleProccessPayment();
+    
+}
+
+const handleProccessPayment =  async () => {
+    form.borrower_id = loan.value.borrower.id;    
+    form.loan_id = loan.value.id; 
+    await addPayment({...form});    
+    if (isSuccess.value === false) return 
+    router.push({name : 'payments'})     
+}
+
+const selectedLoan = (loan) => {    
+   getLoan(loan.id);  
+   form.reference_number = loan.loan_number   
+}
+
+const selectDueDate = (date) => {
+    form.due_date_id = date.id
+    form.due_date = date.due_date
+}
+
+onMounted(() => {
+     if(route.params.loan_id == null) return;
+     getLoan(route.params.loan_id)
+});
+
+</script>
+
+<template>
         
 <div class="w-2/3 mx-auto">
     <Alert v-if="isSuccess" :alert="'success'" :message="'Payment Successfully created'" />
-<Alert v-if="loan && loan.status == 'approved' " :alert="'danger'" :message="'You cant create payment for this loan, Because is not yet released'" />
+    <Alert v-if="loan && loan.status == 'approved' " :alert="'danger'" :message="'You cant create payment for this loan, Because is not yet released'" />
+    <Alert v-if="errors.message"  :alert="'danger'" :message="errors.message"/>
+</div>
 
-<Alert v-if="errors.message"  :alert="'danger'" :message="errors.message"/>
-</div>   
-<div   class="flex w-full justify-center gap-4">
-
-
-
-    
+<div   class="flex w-full justify-center gap-4">    
 
     <div  class="bg-white p-4 border w-2/3 rounded-md mx-auto">
         <h1 class="block tracking-wider text-lg mb-6 ">Create  Payment</h1>
@@ -171,100 +265,3 @@
   
 </template>
 
-<script setup>
-
-import Alert from '../Alert.vue'
-import BaseInput from '../base/BaseInput.vue'
-import useLoans from '../../composable/loans'
-import usePayments from '../../composable/payments'
-
-import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-
-const DueDatesModal = defineAsyncComponent( ()=> import('../modal/DueDatesModal.vue') )
-const ConfirmPopup = defineAsyncComponent( () => import('../modal/ConfirmModal.vue') )
-const LoansModal = defineAsyncComponent( () => import('../modal/LoansModal.vue') )
-
-const { getLoan, loan } = useLoans()
-const { addPayment, isSuccess, errors } = usePayments()
-
-const route = useRoute()
-const router = useRouter()
-
-//states for modal
-const isOpenFinder = ref(false)
-const isOpenDueDateModal = ref(false)
-const confirm = ref(false)
-
-const form = reactive({
-    amount : 0,
-    remark : null,
-    borrower_id : null,
-    loan_id : null,
-    reference_number : null,
-    due_date_id :  null,
-    due_date : null,
-    payment_date : null,
-})
-
-const toggleModal = (state) => {
-   isOpenFinder.value = state; 
-}
-
-const toggleDueDatesModal = (state) => {
-    isOpenDueDateModal.value = state;
-}
-
-const handleConfirmPayment = async (state) => {
-    if (!state) return confirm.value = false;
-    await handleProccessPayment();
-    confirm.value = false;    
-}
-
-const store = async () => { 
-      
-    errors.value = [];
-
-    if (form.payment_date == null) {
-        errors.value =  { payment_date : ['Amount value is greater than balance amount']};    
-        return;
-    }
-
-    if (form.amount == 0) {
-        confirm.value = true;
-        return;
-    }  
-
-    if ( form.amount > loan.value.balance_amount ) { 
-        errors.value =  { amount: ['Amount value is greater than balance amount']};      
-        return;
-    }
-
-    await handleProccessPayment();
-    
-}
-
-const handleProccessPayment =  async () => {
-    form.borrower_id = loan.value.borrower.id;    
-    form.loan_id = loan.value.id; 
-    await addPayment({...form});    
-    if (isSuccess.value === false) return 
-    router.push({name : 'payments'})     
-}
-
-const selectedLoan = (loan) => {    
-   getLoan(loan.id);  
-   form.reference_number = loan.loan_number   
-}
-
-const selectDueDate = (date) => {
-    form.due_date_id = date.id
-    form.due_date = date.due_date
-}
-
-onMounted(() => {
-     if(route.params.loan_id == null) return;
-     getLoan(route.params.loan_id)
-});
-
-</script>
