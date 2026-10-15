@@ -33,7 +33,7 @@ class LoanServices extends BaseServices {
     public function getLoans($type = null, $filter = null, $sort = null, $order = null)
     {      
         $loans = Loan::with('borrower')
-                ->when(!is_null($type), function ($query) use ($type) {
+                ->when(!is_null($type) && $type !== 'all', function ($query) use ($type) {
                     $query->where('type', $type);
                 })
                 ->when(!is_null($filter), function ($query) use ($filter) {
@@ -132,9 +132,9 @@ class LoanServices extends BaseServices {
 
     public function search($keyword, $type = null) 
     {
-        $loans = Loan::when($type != null, function($q) use ($type) {
+        $loans = Loan::when($type != null && $type !== 'all', function($q) use ($type) {
                         $q->where('type', $type);
-                })  
+                    })
                 ->Search($keyword, $type)
                 ->paginate($this->perpage);
                 

@@ -73,11 +73,18 @@ php artisan migrate --seed
 | Capital | 1 sample record |
 | Interest | 1 sample record |
 | Fund | 1 sample record |
+| Borrowers | 10 sample borrowers |
 
 `LoanTypeSeeder` (daily / 15Days / monthly) exists but is **not** included in `DatabaseSeeder`. Run it separately if needed:
 
 ```bash
 php artisan db:seed --class=LoanTypeSeeder
+```
+
+To seed borrowers only:
+
+```bash
+php artisan db:seed --class=BorrowerSeeder
 ```
 
 ### Default login

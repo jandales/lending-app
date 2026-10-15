@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CapitalSeeder::class,
             InterestSeeder::class,
             FundSeeder::class,
+            BorrowerSeeder::class,
         ]);
     }
 }

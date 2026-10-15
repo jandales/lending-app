@@ -2,6 +2,10 @@
     <div class="w-full mb-6">
         <ul class="flex gap-8 border-b">
           <li class="text-gray-400 py-2 cursor-pointer text-sm" 
+              :class="{'!text-sky-500 border-b-2 border-sky-500' : loanType == 'all'}">
+            <span @click="handleFilterLoanType('all')">All</span>
+          </li>
+          <li class="text-gray-400 py-2 cursor-pointer text-sm" 
               :class="{'!text-sky-500 border-b-2 border-sky-500' : loanType == 'monthly'}">
             <span @click="handleFilterLoanType('monthly')">Monthly</span>
           </li>
@@ -67,7 +71,7 @@
                             /> 
                         </router-link> 
                       </BaseTd>            
-                      <BaseTd class="capitalize"> {{ loanType }} </BaseTd>                            
+                      <BaseTd class="capitalize"> {{ loan.type }} </BaseTd>                            
                       <BaseTd> {{ moneyFormatter(loan.total_amount) }} </BaseTd>
                       <BaseTd> {{ loan.created_at }} </BaseTd> 
                       <BaseTd>                          
@@ -139,47 +143,48 @@ const filter = ref(null)
 const sortName = ref(null)
 const sort = ref(Object)
 const keyword = ref(null)
-const loanType = ref('monthly');
+const loanType = ref('all');
 
+const typeParam = () => loanType.value === 'all' ? null : loanType.value
 
 const destroy = async (id) => {
     await destroyLoan(id)
-    await getLoans()
+    await getLoans(1, typeParam(), filter.value, sort.value)
 }
 
 const handleFilter = (status) => {
   filterName.value = status.name
   filter.value = status.value
-  getLoans(1, loanType.value, filter.value)
+  getLoans(1, typeParam(), filter.value, sort.value)
 }
 
 const handleSorting = (payload) => {
   sortName.value = payload.displayName
   sort.value = payload.value
-  getLoans(1, loanType.value, filter.value, sort.value)
+  getLoans(1, typeParam(), filter.value, sort.value)
 }
 
 const handleFilterLoanType = (status) => {
     loanType.value = status
-    getLoans(1, loanType.value)
+    getLoans(1, typeParam(), filter.value, sort.value)
 }
 
 
 const pageChange = (page) => {
   page = page.split("=")[1]
-  getLoans(page, loanType.value)
+  getLoans(page, typeParam(), filter.value, sort.value)
 }
 
-onMounted(getLoans(1, loanType.value))
+onMounted(() => getLoans(1, typeParam()))
 
 onMounted(checkUserRole)
 
 watch(keyword, async(value) => {
-  if ( value.length > 2 ){ 
-     await loanSearch(value, loanType.value);
+  if ( value && value.length > 2 ){ 
+     await loanSearch(value, typeParam());
      return;
   }
- await getLoans(1, loanType.value);
+ await getLoans(1, typeParam(), filter.value, sort.value);
 })
 
 

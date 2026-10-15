@@ -192,11 +192,12 @@ const loadLoan = async() => {
 }
 
 const exportHandle = async () => {
-     await exportLoans({...form});
+    if (!loan.value) return;
+    await loanDetailsToPDF(loan.value.id);
 }
 
 const printHandle = async (id) => {
-await  loanDetailsToPDF(id);
+    await loanDetailsToPDF(id);
 }
 
 
