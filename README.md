@@ -63,23 +63,6 @@ Or in one step:
 php artisan migrate --seed
 ```
 
-### Seeders
-
-`php artisan db:seed` runs `DatabaseSeeder`, which creates:
-
-| Data | Details |
-|------|---------|
-| Admin user | `admin@gmail.com` / `password` |
-| Capital | 1 sample record |
-| Interest | 1 sample record |
-| Fund | 1 sample record |
-
-`LoanTypeSeeder` (daily / 15Days / monthly) exists but is **not** included in `DatabaseSeeder`. Run it separately if needed:
-
-```bash
-php artisan db:seed --class=LoanTypeSeeder
-```
-
 ### Default login
 
 After seeding, sign in with:
