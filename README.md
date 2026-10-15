@@ -50,12 +50,42 @@ DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
 
-3. Run migrations (and optional seeders):
+3. Run migrations and seeders:
 
 ```bash
 php artisan migrate
 php artisan db:seed
 ```
+
+Or in one step:
+
+```bash
+php artisan migrate --seed
+```
+
+### Seeders
+
+`php artisan db:seed` runs `DatabaseSeeder`, which creates:
+
+| Data | Details |
+|------|---------|
+| Admin user | `admin@gmail.com` / `password` |
+| Capital | 1 sample record |
+| Interest | 1 sample record |
+| Fund | 1 sample record |
+
+`LoanTypeSeeder` (daily / 15Days / monthly) exists but is **not** included in `DatabaseSeeder`. Run it separately if needed:
+
+```bash
+php artisan db:seed --class=LoanTypeSeeder
+```
+
+### Default login
+
+After seeding, sign in with:
+
+- **Email:** `admin@gmail.com`
+- **Password:** `password`
 
 ## Run locally
 
@@ -100,3 +130,13 @@ This project uses `barryvdh/laravel-dompdf` with `dompdf` 2.x, which Composer ma
 ```bash
 composer audit
 ```
+
+### Login fails — "Your credetials is invalid"
+
+Usually means the database was migrated but not seeded (no users). Run:
+
+```bash
+php artisan db:seed
+```
+
+Then log in with `admin@gmail.com` / `password`.
