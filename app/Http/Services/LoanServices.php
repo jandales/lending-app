@@ -104,7 +104,17 @@ class LoanServices extends BaseServices {
     }
     
     public function updateStatus(Loan $loan, $status, $user_id)
-    {   
+    {
+        $lockedStatuses = [Status::$PAID, Status::$VOID, Status::$REJECTED, Status::$ACTIVE];
+
+        if (in_array($loan->status, $lockedStatuses, true)) {
+            return response()->json([
+                'errors' => [
+                    'status' => ['This loan status can no longer be updated.'],
+                ],
+            ], 422);
+        }
+
         if (Status::$REJECTED  == $status) {
             return Self::reject($loan); 
         }   

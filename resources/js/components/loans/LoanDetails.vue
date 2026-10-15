@@ -34,15 +34,16 @@
                     </div>        
                 </div>
 
-                <div  class="flex items-center gap-4">
-                    <div v-if="isAdmin" class="form-group w-60 mb-6 mt-6">
+                <div v-if="isAdmin && canUpdateStatus" class="flex items-center gap-4">
+                    <div class="form-group w-60 mb-6 mt-6">
                         <div class="flex items-center gap-4">
                             <label for="exampleInputPassword1"  class="form-label text-sm inline-block text-gray-700">Status</label>
-                            <select v-model="status" aria-label="Default select example"  placeholder="Select" class="py-[10px] w-full capitalize text-sm">  
-                                <option v-if="loan.status == 'pending'"  value='approved'  :selected="status == loan.status">Approved</option>
-                                <option v-if="loan.status == 'approved'" value='active'  :selected="status == loan.status">Release</option>  
-                                <option v-if="loan.status == 'pending'"  value='rejected'  :selected="status == loan.status">Reject</option>
-                                <option v-else  value='void'>Void</option>
+                            <select v-model="status" aria-label="Default select example"  placeholder="Select" class="py-[10px] w-full capitalize text-sm">
+                                <option disabled value="">Select status</option>
+                                <option v-if="loan.status == 'pending'" value="approved">Approved</option>
+                                <option v-if="loan.status == 'pending'" value="rejected">Reject</option>
+                                <option v-if="loan.status == 'approved'" value="active">Release</option>
+                                <option v-if="loan.status == 'approved'" value="void">Void</option>
                             </select>
                         </div> 
                     </div>    
@@ -174,14 +175,22 @@ const { loanDetailsToPDF } = useExport();
 const { checkUserRole, isAdmin} = useUser();
 
 const route = useRoute();
-const status = ref();
+const status = ref('');
 const dueDate = ref(0);
 
+const lockedStatuses = ['paid', 'void', 'rejected', 'active'];
+
+const canUpdateStatus = computed(() => {
+    if (!loan.value) return false;
+    return !lockedStatuses.includes(loan.value.status);
+});
+
 const update = async () => {
-    if (status.value == null) return;
-    await updateStatusLoan(loan.value.id, {status : status.value});
+    if (!status.value || !canUpdateStatus.value) return;
+    await updateStatusLoan(loan.value.id, { status: status.value });
+    status.value = '';
     await loadLoan();
-    }
+}
 
 const createPayment = (date) => {
     dueDate.value = date;  
