@@ -89,7 +89,11 @@ onMounted(getFund);
             </div>
 
             <div class="w-full">               
-                <FundActivities :activities="fund.activities" @showActivity="handleShowActivity"/>
+                <FundActivities
+                    :activities="fund.activities"
+                    :currentCapital="fund.current_capital"
+                    @showActivity="handleShowActivity"
+                />
             </div>
     </div>
 

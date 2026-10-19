@@ -51,6 +51,14 @@ export default function useExport(){
         
     }
 
+    const exportFundActivities = async () => {
+        let response = await axios.get('/fund/export', {
+            responseType: 'blob',
+        });
+
+        downloadExcel(response.data, 'FundActivities')
+    }
+
     const reportBorrowerstoPDF = async () => {
         let response = await axios.get('/create-pdf', {
                             responseType: 'arraybuffer'
@@ -91,6 +99,7 @@ export default function useExport(){
         exportLoans,
         exportBorrowers,
         exportPayments,
+        exportFundActivities,
         reportBorrowerstoPDF,
         reportLoanToPDF,
         reportPaymentToPDF,

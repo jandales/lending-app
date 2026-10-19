@@ -1,14 +1,13 @@
 <script setup>
 import BaseAvatar from '../base/BaseAvatarWithName.vue';
-import { reactive } from 'vue';
+import { computed } from 'vue';
 import BaseInput from '../base/BaseInput.vue';
 import BaseButton from '../base/BaseButton.vue';
-import useFund from '../../composable/fund'
+import useFormatter from '../../composable/helper/formater';
 
+const { moneyFormatter } = useFormatter();
 
 const emit = defineEmits(['close']);
-
-
 
 const props = defineProps({ 
     data : {
@@ -17,103 +16,71 @@ const props = defineProps({
     } 
 })
 
-
 const closeModal = () => {
     emit('close')
 }
 
+const actionLabel = computed(() => {
+    if (props.data?.action_label) {
+        return props.data.action_label;
+    }
+    const action = props.data?.action || '';
+    return action.charAt(0).toUpperCase() + action.slice(1);
+})
+
 </script>
 <template>
-    <div class="fixed  modal top-0 left-0  w-full h-full outline-none overflow-x-hidden overflow-y-auto backdrop-blur-sm bg-black/30"
+    <div class="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 backdrop-blur-sm bg-slate-900/40"
       tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog relative w-auto pointer-events-none">
-        <div
-          class="modal-content border-none shadow-card relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-          <div
-            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-slate-200 rounded-t-md">
-            <h5 class="text-xl font-medium leading-normal text-slate-800" id="exampleModalLabel">Activity Info</h5>
+      <div class="w-full max-w-lg pointer-events-auto">
+        <div class="bg-white rounded-3xl shadow-float border border-white overflow-hidden">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+            <h5 class="text-lg font-bold text-slate-800 tracking-tight" id="exampleModalLabel">Activity Info</h5>
             <button type="button"
                 @click="closeModal()"
-              class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-              aria-label="Close"></button>
+              class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition"
+              aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-          <div class="modal-body relative p-4">
-          <!-- <Alert v-if="success" :alert="'success'" :message="success"/> -->
+          <div class="px-6 py-5 space-y-1">
+            <BaseAvatar :user="data.user" class="mb-5" />
 
-        <BaseAvatar :user="data.user" class="mb-4" />  
+            <BaseInput
+                :label="'Action'"
+                :modelValue="actionLabel"
+                :disabled="true"
+            />
 
-        <BaseInput         
-                :label="'Action'"                   
-                :name="'action'"
-                v-model="data.action" 
-                :disabled="true"  
-                :class="'capitalize'"          
-            
-          /> 
-
-          <BaseInput         
+            <BaseInput
                 :label="'Last Capital Amount'"
-                :type="'number'"      
-                :name="'amount'"
-                v-model="data.last_capital_amount"
+                :modelValue="moneyFormatter(data.last_capital_amount)"
                 :disabled="true"
-            
-          />
+            />
 
-          <BaseInput         
+            <BaseInput
                 :label="'Amount'"
-                :type="'number'"      
-                :name="'amount'"
-                v-model="data.amount"
+                :modelValue="moneyFormatter(data.amount)"
                 :disabled="true"
-            
-          /> 
+            />
 
-          <BaseInput         
-                :label="'Date'"                   
-                name="Date"
-                v-model="data.created_at" 
-                :disabled="true"  
-                :class="'capitalize'"          
-            
-          />
-          
-        
-  <div class="mb-3">
-    <label for="exampleFormControlTextarea1" class="form-label inline-block mb-2 text-slate-700"
-      >Remark</label
-    >
-    <textarea
-      class="
-        form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-slate-700
-        bg-white bg-clip-padding
-        border border-solid border-slate-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-slate-700 focus:bg-white focus:border-brand-500 focus:outline-none
-      "
-      id="exampleFormControlTextarea1"
-      rows="3"
-      placeholder="Your Remark"
-      v-model="data.remark"
-    ></textarea>
+            <BaseInput
+                :label="'Date'"
+                :modelValue="data.created_at"
+                :disabled="true"
+            />
 
-
-  </div>
-
-       
+            <BaseInput
+                :label="'Remark'"
+                :type="'textarea'"
+                :modelValue="data.remark"
+                :disabled="true"
+            />
           </div>
-          <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-slate-200 rounded-b-md">
-            <BaseButton name="Close" class="btn-danger" @click="closeModal" />       
+          <div class="flex justify-end px-6 py-4 border-t border-slate-100">
+            <BaseButton name="Close" class="btn-light" @click="closeModal" />
           </div>
         </div>
       </div>

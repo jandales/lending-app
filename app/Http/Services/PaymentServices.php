@@ -70,7 +70,15 @@ class PaymentServices extends BaseServices
         $balance -= $amount; 
         $loan->updateBalance($balance); 
         
-        $this->fundServices->setAmount($amount)->updateCurrentCapital();  
+        $loanLabel = $loan->loan_number ? ' (Loan #'.$loan->loan_number.')' : '';
+
+        $this->fundServices
+            ->setAmount($amount)
+            ->isDeduction(false)
+            ->updateCurrentCapital(
+                $data['user_id'] ?? null,
+                'Payment received #'.$payment->id.$loanLabel
+            );
 
         $dueDate = DueDate::find($data['due_date_id'])->update($amount, $balance);   
         
@@ -124,7 +132,10 @@ class PaymentServices extends BaseServices
         
         $loan->updateBalance($balance)->updateStatus(Status::$ACTIVE); 
 
-        $this->fundServices->setAmount($amount)->updateCurrentCapital();
+        $this->fundServices
+            ->setAmount($amount)
+            ->isDeduction()
+            ->updateCurrentCapital($payment->user_id ?? null, 'Payment voided #'.$payment->id);
 
         $payment->status = Status::$VOID;
         $payment->save();  

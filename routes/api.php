@@ -23,6 +23,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Export\PaymentExportController;
 use App\Http\Controllers\Report\PaymentReportController;
 use App\Http\Controllers\Export\BorrowerExportController;
+use App\Http\Controllers\Export\FundActivityExportController;
 use App\Http\Controllers\Report\BorrowerReportController;
 
 
@@ -188,6 +189,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/add',  'add');
         Route::post('/deduct', 'deduct');
     });
+
+    Route::get('/fund/export', [FundActivityExportController::class, 'index']);
 
     Route::post('/reports/loans', [LoanReportController::class, 'index']);
 

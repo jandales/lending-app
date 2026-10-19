@@ -7,6 +7,7 @@
             id="exampleFormControlTextarea1"
             rows="3"  
             :value="props.modelValue"
+            :disabled="props.disabled"
             v-bind="$attrs">
         </textarea>
 

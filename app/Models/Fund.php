@@ -17,7 +17,9 @@ class Fund extends Model
 
     public function activities() 
     {
-        return $this->hasMany(FundActivity::class, 'fund_id', 'id')->orderBy('id', 'desc');
+        return $this->hasMany(FundActivity::class, 'fund_id', 'id')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc');
     }
 
     public function scopeCapital($query)

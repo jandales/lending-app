@@ -1,11 +1,11 @@
 <template>
    <div class="w-full flex items-center bg-white rounded-3xl shadow-card border border-white p-6 mb-5">
-     <img v-if="profile.avatar" :src="profile.avatar" class="rounded-full border-2 border-brand-100 w-20 h-20 object-cover"  alt="Avatar" />
+     <img v-if="form.avatarPreview" :src="form.avatarPreview" class="rounded-full border-2 border-brand-100 w-20 h-20 object-cover"  alt="Avatar" />
      <img v-else :src="$defaultAvatarSrc" class="rounded-full border-2 border-brand-100 w-20 h-20 object-cover"  alt="Avatar" />
      <div class="ml-4">
-        <label for="" class="block font-bold text-slate-800 text-lg">{{ profile.name }}</label>
+        <label for="" class="block font-bold text-slate-800 text-lg">{{ form.name }}</label>
         <label class="text-brand-600 cursor-pointer text-sm hover:underline hover:text-brand-700">
-            <input @change="upload($event)"  v-on="profile.avatar" name="avatar" type="file" class="hidden" />
+            <input @change="upload($event)" name="avatar" type="file" class="hidden" accept="image/*" />
             Change avatar
         </label>
      </div>
@@ -14,86 +14,83 @@
         <div v-if="success" class="rounded-2xl py-3.5 px-4 mb-4 text-sm font-medium border bg-emerald-50 text-emerald-700 border-emerald-100" role="alert">
                 {{ success }}
         </div>
-        <h1 class="text-xl font-bold text-slate-800 tracking-tight">Personal information</h1>
+        <h1 class="text-xl font-bold text-slate-800 tracking-tight mb-6">Personal information</h1>
         
-        <form @submit.prevent="updateProfile" v-if="profile">
-           
-        
-                <div class="form-floating mt-6 mb-6">
-                    <input type="text"  v-model="profile.name"  placeholder="First Name">
-                    <label for="floatingInput"  class="text-slate-700">Name</label>
-                     <small class="text-alert-danger" v-for="error in errors.name">{{ error }}</small>
-                </div>  
+        <form @submit.prevent="updateProfile">
+            <BaseInput
+                label="Name"
+                v-model="form.name"
+                :errors="errors.name"
+            />
 
-         
-            <div class="grid grid-cols-2 gap-4">
-                <div class="form-floating mb-6">
-                    <input type="email"  disabled  v-model="profile.email"  placeholder="Email Address">
-                    <label for="floatingInput"  class="text-slate-700">Email</label>
-                     <small class="text-alert-danger" v-for="error in errors.email">{{ error }}</small>
-                </div>             
-                <div class="form-floating mb-6">                    
-                    <input type="text" v-model="profile.phone" placeholder="Phone Number">
-                    <label class="text-slate-700">Phone Number</label>
-                    <small class="text-alert-danger" v-for="error in errors.phone">{{ error }}</small>
-                </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <BaseInput
+                    label="Email"
+                    type="email"
+                    v-model="form.email"
+                    :disabled="true"
+                    :errors="errors.email"
+                />
+                <BaseInput
+                    label="Phone Number"
+                    v-model="form.phone"
+                    :errors="errors.phone"
+                />
             </div>
 
-            <div class="form-floating mb-6">               
-                <input type="text" v-model="profile.address" aria-describedby="emailHelp123" placeholder="Address">
-                 <label class="text-slate-700">Address</label>
-                 <small class="text-alert-danger" v-for="error in errors.phone">{{ error }}</small>
-            </div>
+            <BaseInput
+                label="Address"
+                v-model="form.address"
+                :errors="errors.address"
+            />
 
-            <button  type="submit" class="btn-primary">Update Profile</button>
-           
+            <button type="submit" class="btn-primary">Update Profile</button>
         </form>
    </div>
 </template>
 
 <script setup>
-
-    import { onMounted, computed } from 'vue';
-
+    import { onMounted, reactive, watch } from 'vue';
+    import BaseInput from '../base/BaseInput.vue';
     import useUser from '../../composable/user';
     
     const { getUser, updateUser, uploadAvatar, user, errors, success } = useUser();
 
-    const updateProfile = async() => {
+    const form = reactive({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        avatarPreview: null,
+    });
 
-        await updateUser(profile)
+    const syncForm = (data) => {
+        if (!data) return;
+        form.name = data.name ?? '';
+        form.email = data.email ?? '';
+        form.phone = data.phone ?? '';
+        form.address = data.address ?? '';
+        form.avatarPreview = data.avatar ?? null;
+    };
 
-    }
+    watch(user, (value) => syncForm(value), { immediate: true });
 
-    const upload = async(event) => {
+    const updateProfile = async () => {
+        await updateUser({
+            value: {
+                name: form.name,
+                email: form.email,
+                phone: form.phone,
+                address: form.address,
+            },
+        });
+    };
 
-        const  file = event.target.files[0];
+    const upload = async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        await uploadAvatar({ avatar: file });
+    };
 
-        profile.value.avatar = file; 
-
-        await uploadAvatar({avatar : profile.value.avatar})
-
-    }
-
-    onMounted(getUser())
-
-    const profile = computed(()=> {
-
-        if(user.value ==  null) return {};
-
-        return  {
-
-            name : user.value.name,
-
-            email : user.value.email,
-
-            phone : user.value.phone,
-
-            address : user.value.address, 
-
-            avatar : user.value.avatar, 
-
-        };   
-    }) 
-   
+    onMounted(getUser);
 </script>

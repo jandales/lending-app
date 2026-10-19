@@ -89,7 +89,10 @@ class LoanServices extends BaseServices {
         $request['user_id'] = $user_id;                          
         $loan = Self::createLoan($request);       
 
-        $this->fundServices->setAmount($pricipal_amount)->isDeduction()->updateCurrentCapital();
+        $this->fundServices
+            ->setAmount($pricipal_amount)
+            ->isDeduction()
+            ->updateCurrentCapital($user_id, 'Loan disbursement #'.$loan->loan_number);
 
         return new LoanResource($loan);        
 
@@ -116,7 +119,7 @@ class LoanServices extends BaseServices {
         }
 
         if (Status::$REJECTED  == $status) {
-            return Self::reject($loan); 
+            return Self::reject($loan, $user_id); 
         }   
 
         if (Status::$VOID == $status) {
@@ -151,7 +154,7 @@ class LoanServices extends BaseServices {
         return LoanResource::collection($loans);
     }
 
-    public function reject(Loan $loan)
+    public function reject(Loan $loan, $user_id = null)
     {
         $loan->status = Status::$REJECTED;
 
@@ -160,8 +163,9 @@ class LoanServices extends BaseServices {
         BorrowerServices::updateLoanStatus($loan->borrower_id, 0);
 
         $this->fundServices
-            ->setAmount($loan->principal_amount)    
-            ->updateCurrentCapital();
+            ->setAmount($loan->principal_amount)
+            ->isDeduction(false)
+            ->updateCurrentCapital($user_id, 'Loan rejected #'.$loan->loan_number.' - capital restored');
 
         return $loan;  
 
