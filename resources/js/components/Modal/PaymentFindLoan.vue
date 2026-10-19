@@ -32,7 +32,7 @@ watch(keyword, async (value) => {
 <template>
     <div  class="fixed w-full flex justify-center z-10 top-0 left-0 min-h-screen  ">
         <div class="relative w-full max-w-lg transform px-4 transition-all mx-auto opacity-100 scale-100 py-10 h-fit ">
-            <div class="overflow-hidden rounded-lg bg-white shadow-md " id="headlessui-dialog-panel-506">
+            <div class="overflow-hidden rounded-lg bg-white shadow-card " id="headlessui-dialog-panel-506">
                 <div class="flex items-center">
                     <input v-model="keyword"
                     class="block w-full 
@@ -54,7 +54,7 @@ watch(keyword, async (value) => {
                 <div v-if="keyword.length > 0 && loans.length == 0 " class="bg-slate-50 py-20 px-16 text-center border-t"><h2 class="font-semibold text-slate-900">No results found</h2></div>
                 <ul v-else class="max-h-[18.375rem] divide-y divide-slate-200 overflow-y-auto rounded-b-lg border-t border-slate-200 text-sm leading-6">
                     <li v-for="loan in loans" :key="loan.id" @click="select(loan)" class="flex items-center justify-between p-4 bg-slate-50 cursor-pointer">
-                        <span class="whitespace-nowrap font-semibold text-sky-600">{{ loan.loan_number }}</span>
+                        <span class="whitespace-nowrap font-semibold text-brand-600">{{ loan.loan_number }}</span>
                         <span class="ml-4 text-right text-xs text-slate-600">{{ `${loan.borrower.name} / ${loan.borrower.email}` }}</span>
                     </li>
                 </ul>

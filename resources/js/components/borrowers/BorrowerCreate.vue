@@ -48,7 +48,7 @@
 
                 <div class="flex justify-center">
                         <div class="mb-6 w-full">
-                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Image</label>
+                            <label for="formFile" class="form-label inline-block mb-2 text-slate-700">Image</label>
                             <input 
                             @change="onChangeFile($event)"
                             v-on="form.avatar"
@@ -59,14 +59,14 @@
                             py-1.5
                             text-base
                             font-normal
-                            text-gray-700
+                            text-slate-700
                             bg-white bg-clip-padding
-                            border border-solid border-gray-300
+                            border border-solid border-slate-300
                             rounded
                             transition
                             ease-in-out
                             m-0
-                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile">
+                            focus:text-slate-700 focus:bg-white focus:border-brand-500 focus:outline-none" type="file" id="formFile">
                             <img
                                 v-if="avatar" 
                                 :src="avatar"

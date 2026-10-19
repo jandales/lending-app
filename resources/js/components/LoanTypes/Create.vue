@@ -47,8 +47,6 @@
             <button
                 @click="store"
                 type="button"
-                data-mdb-ripple="true"
-                data-mdb-ripple-color="light"
                 class="btn-primary">
                 Save
             </button>

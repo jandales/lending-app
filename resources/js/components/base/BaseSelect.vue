@@ -1,7 +1,7 @@
 <template>
      <div class="flex items-center justify-center">
                 <div class="mb-6 w-full" :class="parentClass">
-                    <label for="formFile" class="form-label inline-block mb-2 text-gray-700" :class="labelClass">{{label}}</label>
+                    <label for="formFile" class="inline-block mb-1.5 text-sm font-medium text-slate-700" :class="labelClass">{{label}}</label>
                     <select name="role" :id="id" :value="modelValue" class="py-[10px] capitalize" @input="updateInput" v-bind="$attrs" >                       
                         <option v-for="(option, index) in options" :key="index" :value="option.value" selected> 
                             {{  option.name }} 

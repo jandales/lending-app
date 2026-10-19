@@ -1,7 +1,7 @@
 <template>
-    <div class="form-group mb-6">
+    <div class="form-group mb-5">
         <div class="block" :class="{ 'flex items-center  gap-4 ' : inline}">
-               <label class="form-label inline-block mb-2 text-gray-700" :class="{'!mb-0' : inline}">{{props.label}}</label> 
+               <label class="inline-block mb-1.5 text-sm font-medium text-slate-700" :class="{'!mb-0' : inline}">{{props.label}}</label> 
         <textarea 
             v-if="props.type == 'textarea'"
             id="exampleFormControlTextarea1"

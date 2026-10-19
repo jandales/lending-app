@@ -27,13 +27,13 @@ const close = () => {
 </script>
 
 <template>
-     <div  class="fixed w-full flex justify-center z-10 top-0 left-0 min-h-screen backdrop-blur-sm bg-black/30 ...">
+     <div  class="fixed w-full flex justify-center z-10 top-0 left-0 min-h-screen backdrop-blur-sm bg-slate-900/40">
         <div class="relative w-full max-w-[700px] transform px-4 transition-all mx-auto opacity-100 scale-100 py-10 h-fit ">
-            <div class="bg-white p-4 border w-full rounded-md mx-auto">
+            <div class="bg-white p-5 border border-slate-200 shadow-card w-full rounded-xl mx-auto">
                 <div class="block">    
                     <div class="flex items-center justify-between">
-                        <h1 class="block tracking-wider text-lg">Payment Due Dates</h1>
-                        <span @click="close" class="text-gray-400">
+                        <h1 class="block text-lg font-semibold text-slate-800">Payment due dates</h1>
+                        <span @click="close" class="text-slate-400 hover:text-slate-600 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -42,7 +42,7 @@ const close = () => {
                   
                     <div  class="flex flex-col">
 
-                        <div v-if="error" class=" rounded-lg py-2 px-6 mb-4  mt-4 text-base bg-red-100 text-red-700" role="alert">
+                        <div v-if="error" class="rounded-lg py-2.5 px-4 mb-4 mt-4 text-sm font-medium border bg-red-50 text-red-700 border-red-100" role="alert">
                                     {{ error }}
                          </div>
 
@@ -62,7 +62,7 @@ const close = () => {
                                 </thead>
                                 <tbody>           
                                          
-                                    <tr v-for="item in list" :key="item.id" @click="select(item)" class="border-b last:border-b-0 cursor-pointer hover:bg-gray-100">                           
+                                    <tr v-for="item in list" :key="item.id" @click="select(item)" class="border-b border-slate-100 last:border-b-0 cursor-pointer hover:bg-slate-50">                           
                                         <td>
                                             {{ item.due_date}}
                                         </td>

@@ -1,9 +1,9 @@
 <template>
 <div class="modal fade fixed top-0 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="exampleModalLg" tabindex="-1" aria-labelledby="exampleModalLgLabel" aria-modal="true" role="dialog">
   <div class="modal-dialog modal-lg relative w-auto pointer-events-none">
-    <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-      <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLgLabel">
+    <div class="modal-content border-none shadow-card relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+      <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-slate-200 rounded-t-md">
+        <h5 class="text-xl font-medium leading-normal text-slate-800" id="exampleModalLgLabel">
           Find Borrower
         </h5>
         <button type="button"
@@ -26,37 +26,37 @@
                         <table class="min-w-full">
                         <thead class="bg-white border-b">
                             <tr>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                            <th scope="col" class="text-sm font-medium text-slate-900 px-6 py-4 text-left">
                                 #
                             </th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                            <th scope="col" class="text-sm font-medium text-slate-900 px-6 py-4 text-left">
                                 Name
                             </th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                            <th scope="col" class="text-sm font-medium text-slate-900 px-6 py-4 text-left">
                                 Address
                             </th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                            <th scope="col" class="text-sm font-medium text-slate-900 px-6 py-4 text-left">
                                 Phone
                             </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-if="borrowers.length === 0">
-                                <td colspan="4" class="text-sm text-gray-900 text-center font-light px-6 py-4 whitespace-nowrap">No borrower found</td>
+                                <td colspan="4" class="text-sm text-slate-900 text-center font-light px-6 py-4 whitespace-nowrap">No borrower found</td>
                             </tr>
-                            <tr v-for="borrower in borrowers" class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <tr v-for="borrower in borrowers" class="bg-white border-b transition duration-300 ease-in-out hover:bg-slate-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
                                 <div class="form-check">
-                                    <input v-model="selected" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="borrower" id="flexCheckChecked" :value="borrower">                    
+                                    <input v-model="selected" class="form-check-input appearance-none h-4 w-4 border border-slate-300 rounded-sm bg-white checked:bg-brand-600 checked:border-brand-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="borrower" id="flexCheckChecked" :value="borrower">                    
                                 </div>
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                             {{ borrower.name }}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                             {{ borrower.address}}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                             {{ borrower.phone}}
                             </td>             
                             </tr>           
@@ -67,7 +67,7 @@
                 </div>
             </div>
            <div class="flex gap-4 justify-end mt-4">
-                <button type="button" class="btn-danger" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn-light" data-bs-dismiss="modal">Cancel</button>
                 <button @click="selectBorrower" data-bs-dismiss="modal" class="btn-primary">Select</button>
            </div>
       </div>

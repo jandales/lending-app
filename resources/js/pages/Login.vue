@@ -1,15 +1,21 @@
 <template>
-<section class="h-screen">
-  <div class="px-6 h-full flex justify-center items-center text-gray-800"> 
-      <div class="w-full md:w-2/6 mb-12 md:mb-0">
+<section class="h-screen relative overflow-hidden bg-canvas">
+  <div class="absolute inset-0 brand-gradient opacity-[0.12]"></div>
+  <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-brand-400/20 blur-3xl"></div>
+  <div class="absolute -bottom-32 -left-24 w-[28rem] h-[28rem] rounded-full bg-emerald-300/20 blur-3xl"></div>
+  <div class="relative px-6 h-full flex justify-center items-center">
+      <div class="w-full max-w-md bg-white rounded-3xl shadow-float border border-white p-9">
         <form>
           <Alert v-if="errors.message" :alert="'danger'" :message="errors.message" />
 
-          <div class="flex flex-row items-center justify-center py-4">
-            <h1 class="text-[2rem] mb-0 font-bold">Login</h1>   
+          <div class="flex flex-col items-center py-2 mb-8">
+            <div class="w-14 h-14 rounded-2xl brand-gradient flex items-center justify-center shadow-glow mb-4">
+              <span class="text-white font-bold text-2xl">E</span>
+            </div>
+            <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Welcome back</h1>
+            <p class="text-sm text-slate-400 mt-1">Sign in to Etto Lending</p>
           </div>
 
-          <!-- Email input -->
             <BaseInput 
               :id="'email'"
               :type="'email'"
@@ -28,32 +34,17 @@
               placeholder="Password"
             />         
 
-          <div class="text-center lg:text-left mb-6">
+          <div class="text-center lg:text-left mb-2 mt-2">
             <button
               @click.prevent="login"
               type="button"
-              class="inline-block w-full px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              class="btn-primary w-full !py-3"
                >
               <div v-if="isLoading" class="spinner-border animate-spin inline-block w-4 h-4 border-4 rounded-full" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <label v-else for="">Login</label>               
+                <label v-else for="">Sign in</label>               
             </button>          
-          </div>
-          <div class="flex justify-between items-center mb-6">
-            <!-- <div class="form-group form-check">
-              <input
-              
-                type="checkbox"
-                class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                id="exampleCheck2"
-              />
-             
-              <label class="form-check-label inline-block text-gray-800" for="exampleCheck2"
-                >Remember me</label
-              >
-            </div> -->
-            <!-- <router-link :to="{name : 'forgot.password' }" class="text-gray-800 text-sm cursor-pointer hover:text-sky-500">Forgot password?</router-link> -->
           </div>
         </form>
       </div>  

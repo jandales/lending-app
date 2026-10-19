@@ -4,10 +4,10 @@
       <h1>List of types</h1>     
       <router-link  v-if="!selectAllState && listId.length < 2"
             to="/loan-types/create"
-            class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+            class="btn-primary">
             Create new type
       </router-link>
-       <button v-else @click="deleteSeleted" type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Delete</button>
+       <button v-else @click="deleteSeleted" type="button" class="btn-danger">Delete</button>
   </div>
   <div  class="border border-l-0 border-r-0 bg-white">
     <div class="flex flex-col">
@@ -39,7 +39,7 @@
                 </tr>
               </thead>
               <tbody>  
-                <tr v-for="loanType in loanTypes" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
+                <tr v-for="loanType in loanTypes" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-slate-50"> 
                   <td>
                     <div class="flex justify-center">
                       <div class="form-check px-2">
@@ -47,19 +47,19 @@
                       </div>
                     </div>  
                   </td>            
-                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                     {{loanType.type}}
                   </td>
-                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                     {{`${loanType.interest}%`}}
                   </td>
-                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                     {{loanType.description}}
                   </td>         
                   <td>
                     <div class="flex justify-end gap-4 mr-4 ">
-                        <router-link :to="{name : 'loanTypes.edit' , params : {id : loanType.id} }" type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Edit</router-link>
-                        <button @click="deleteLoanType(loanType.id)" type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Delete</button>
+                        <router-link :to="{name : 'loanTypes.edit' , params : {id : loanType.id} }" type="button" class="btn-primary">Edit</router-link>
+                        <button @click="deleteLoanType(loanType.id)" type="button" class="btn-danger">Delete</button>
                     </div>
                   </td>
                 </tr>

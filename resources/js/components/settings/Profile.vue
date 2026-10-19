@@ -1,27 +1,27 @@
 <template>
-   <div class="w-full flex items-center bg-white rounded-md border p-4 mb-4">
-     <img v-if="profile.avatar" :src="profile.avatar" class="rounded-full border w-20 h-20"  alt="Avatar" />
-     <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-20 h-20"  alt="Avatar" />
+   <div class="w-full flex items-center bg-white rounded-3xl shadow-card border border-white p-6 mb-5">
+     <img v-if="profile.avatar" :src="profile.avatar" class="rounded-full border-2 border-brand-100 w-20 h-20 object-cover"  alt="Avatar" />
+     <img v-else :src="$defaultAvatarSrc" class="rounded-full border-2 border-brand-100 w-20 h-20 object-cover"  alt="Avatar" />
      <div class="ml-4">
-        <label for="" class="block">{{ profile.name }}</label>
-        <label class="text-blue-600 cursor-pointer text-sm hover:underline hover:text-blue-700">
+        <label for="" class="block font-bold text-slate-800 text-lg">{{ profile.name }}</label>
+        <label class="text-brand-600 cursor-pointer text-sm hover:underline hover:text-brand-700">
             <input @change="upload($event)"  v-on="profile.avatar" name="avatar" type="file" class="hidden" />
-            Change Avatar
+            Change avatar
         </label>
      </div>
    </div>
-   <div class="w-full bg-white rounded-md border p-4">
-        <div v-if="success" class="bg-green-100  rounded-lg py-5 px-6 mb-4 text-base text-green-700" role="alert">
+   <div class="w-full bg-white rounded-3xl shadow-card border border-white p-6">
+        <div v-if="success" class="rounded-2xl py-3.5 px-4 mb-4 text-sm font-medium border bg-emerald-50 text-emerald-700 border-emerald-100" role="alert">
                 {{ success }}
         </div>
-        <h1 class="text-xl">Profile</h1>
+        <h1 class="text-xl font-bold text-slate-800 tracking-tight">Personal information</h1>
         
         <form @submit.prevent="updateProfile" v-if="profile">
            
         
                 <div class="form-floating mt-6 mb-6">
                     <input type="text"  v-model="profile.name"  placeholder="First Name">
-                    <label for="floatingInput"  class="text-gray-700">Name</label>
+                    <label for="floatingInput"  class="text-slate-700">Name</label>
                      <small class="text-alert-danger" v-for="error in errors.name">{{ error }}</small>
                 </div>  
 
@@ -29,19 +29,19 @@
             <div class="grid grid-cols-2 gap-4">
                 <div class="form-floating mb-6">
                     <input type="email"  disabled  v-model="profile.email"  placeholder="Email Address">
-                    <label for="floatingInput"  class="text-gray-700">Email</label>
+                    <label for="floatingInput"  class="text-slate-700">Email</label>
                      <small class="text-alert-danger" v-for="error in errors.email">{{ error }}</small>
                 </div>             
                 <div class="form-floating mb-6">                    
                     <input type="text" v-model="profile.phone" placeholder="Phone Number">
-                    <label class="text-gray-700">Phone Number</label>
+                    <label class="text-slate-700">Phone Number</label>
                     <small class="text-alert-danger" v-for="error in errors.phone">{{ error }}</small>
                 </div>
             </div>
 
             <div class="form-floating mb-6">               
                 <input type="text" v-model="profile.address" aria-describedby="emailHelp123" placeholder="Address">
-                 <label class="text-gray-700">Address</label>
+                 <label class="text-slate-700">Address</label>
                  <small class="text-alert-danger" v-for="error in errors.phone">{{ error }}</small>
             </div>
 

@@ -1,7 +1,7 @@
 <template>
    <div class="bg-white p-4 border rounded-md w-full"> 
         <PageHeading :title="'Create User'" />  
-        <p class="mt-2 text-gray-400">Password is auto generated and sent to user email</p>
+        <p class="mt-2 text-slate-400">Password is auto generated and sent to user email</p>
         <div class="block bg-white rounded-md mt-6">
             <form>
                 <BaseInput

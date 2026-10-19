@@ -1,50 +1,51 @@
 <template>
-<section  class="h-screen">
-  <div class="px-6 h-full flex justify-center items-center text-gray-800"> 
-      <div v-if="data" class="md:w-2/6 mb-12 md:mb-0">
-        <div v-if="success" class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+<section class="h-screen relative overflow-hidden bg-canvas">
+  <div class="absolute inset-0 brand-gradient opacity-[0.12]"></div>
+  <div class="relative px-6 h-full flex justify-center items-center">
+      <div v-if="data" class="w-full max-w-md bg-white rounded-3xl shadow-float border border-white p-9">
+        <div v-if="success" class="rounded-2xl py-3.5 px-4 mb-4 text-sm font-medium border bg-emerald-50 text-emerald-700 border-emerald-100" role="alert">
           {{ success }}
         </div>
         <form>
-          <div class="flex flex-row items-center justify-center py-4">
-            <h1 class="text-[2rem] mb-0 font-bold">Reset Password</h1>   
+          <div class="flex flex-col items-center py-2 mb-8">
+            <div class="w-14 h-14 rounded-2xl brand-gradient flex items-center justify-center shadow-glow mb-4">
+              <span class="text-white font-bold text-2xl">E</span>
+            </div>
+            <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Reset password</h1>
           </div>
 
-          <!-- Email input -->
-          <div class="mb-6">
-            <label for=""  class="form-label inline-block mb-2 text-gray-700">New Password</label>
+          <div class="mb-5">
+            <label for="" class="inline-block mb-1.5 text-sm font-medium text-slate-700">New password</label>
             <input
             name="password"
               v-model="form.password"
               type="password"
-              class="form-control block w-full px-4 py-2 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               id="exampleFormControlInput2"
               placeholder="New Password"
             />
             <small class="text-alert-danger" v-for="error in errors.password">{{ error }}</small>
             </div>
 
-             <div class="mb-6">
-                <label for=""  class="form-label inline-block mb-2 text-gray-700">Confirm Password</label>
+             <div class="mb-5">
+                <label for="" class="inline-block mb-1.5 text-sm font-medium text-slate-700">Confirm password</label>
                 <input
                   name="password_confirmation"
                   v-model="form.password_confirmation"
                   type="password"
-                  class="form-control block w-full px-4 py-2 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   id="exampleFormControlInput2"
                   placeholder="Confirm Password"
                 />
                 <small class="text-alert-danger" v-for="error in errors.password_confirmation">{{ error }}</small>
             </div>
-            <div class="flex justify-between items-center mb-6">
-              <router-link :to="{name:'login'}" class="text-sm">Back to Login</router-link>
+            <div class="flex justify-center items-center mb-4">
+              <router-link :to="{name:'login'}" class="text-sm text-slate-500 hover:text-brand-600">Back to Login</router-link>
             </div> 
           <div class="w-full text-left">
             <button
               @click.prevent="handleSumbit"
               type="button"
-              class="inline-block w-full  px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-              Change Password
+              class="btn-primary w-full !py-3">
+              Change password
             </button>          
           </div>
         </form>
@@ -74,21 +75,5 @@ const handleSumbit  = async() => {
 onMounted(() => {
   checkToken(route.params.token);
 })
-
-// const form = computed(() => {
-//     return {
-//         email : data.value.email,
-//         token : data.value.token,
-//         password : '',
-//         password_confirmation : '',
-//     }
-    
-// })
-
-
-
-
-
-
 
 </script>

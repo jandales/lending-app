@@ -6,17 +6,17 @@
   items-center
   justify-between
   py-4
-  bg-gray-100
-  text-gray-500
-  hover:text-gray-700
-  focus:text-gray-700
-  shadow-lg
+  bg-slate-100
+  text-slate-500
+  hover:text-slate-700
+  focus:text-slate-700
+  shadow-card
   navbar navbar-expand-lg navbar-light
   ">
   <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
   <button class="
       navbar-toggler
-      text-gray-500
+      text-slate-500
       border-0
       hover:shadow-none hover:no-underline
       py-2
@@ -36,9 +36,9 @@
   <a class="
         flex
         items-center
-        text-gray-900
-        hover:text-gray-900
-        focus:text-gray-900
+        text-slate-900
+        hover:text-slate-900
+        focus:text-slate-900
         mt-2
         lg:mt-0
         mr-1
@@ -49,13 +49,13 @@
   <!-- Left links -->
   <ul class="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
     <li class="nav-item p-2">
-      <a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0" href="#">Dashboard</a>
+      <a class="nav-link text-slate-500 hover:text-slate-700 focus:text-slate-700 p-0" href="#">Dashboard</a>
     </li>
     <li class="nav-item p-2">
-      <a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0" href="#">Team</a>
+      <a class="nav-link text-slate-500 hover:text-slate-700 focus:text-slate-700 p-0" href="#">Team</a>
     </li>
     <li class="nav-item p-2">
-      <a class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0" href="#">Projects</a>
+      <a class="nav-link text-slate-500 hover:text-slate-700 focus:text-slate-700 p-0" href="#">Projects</a>
     </li>
   </ul>
   <!-- Left links -->
@@ -65,7 +65,7 @@
   <!-- Right elements -->
   <div class="flex items-center relative">
   <!-- Icon -->
-  <a class="text-gray-500 hover:text-gray-700 focus:text-gray-700 mr-4" href="#">
+  <a class="text-slate-500 hover:text-slate-700 focus:text-slate-700 mr-4" href="#">
     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="shopping-cart"
       class="w-4" role="img" xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 576 512">
@@ -76,9 +76,9 @@
   </a>
   <div class="dropdown relative">
     <a class="
-          text-gray-500
-          hover:text-gray-700
-          focus:text-gray-700
+          text-slate-500
+          hover:text-slate-700
+          focus:text-slate-700
           mr-4
           dropdown-toggle
           hidden-arrow
@@ -105,7 +105,7 @@
       list-none
       text-left
       rounded-lg
-      shadow-lg
+      shadow-card
       mt-1
       hidden
       m-0
@@ -125,8 +125,8 @@
           w-full
           whitespace-nowrap
           bg-transparent
-          text-gray-700
-          hover:bg-gray-100
+          text-slate-700
+          hover:bg-slate-50
         " href="#">Action</a>
       </li>
       <li>
@@ -140,8 +140,8 @@
           w-full
           whitespace-nowrap
           bg-transparent
-          text-gray-700
-          hover:bg-gray-100
+          text-slate-700
+          hover:bg-slate-50
         " href="#">Another action</a>
       </li>
       <li>
@@ -155,8 +155,8 @@
           w-full
           whitespace-nowrap
           bg-transparent
-          text-gray-700
-          hover:bg-gray-100
+          text-slate-700
+          hover:bg-slate-50
         " href="#">Something else here</a>
       </li>
     </ul>
@@ -180,7 +180,7 @@
     list-none
     text-left
     rounded-lg
-    shadow-lg
+    shadow-card
     mt-1
     hidden
     m-0
@@ -200,8 +200,8 @@
         w-full
         whitespace-nowrap
         bg-transparent
-        text-gray-700
-        hover:bg-gray-100
+        text-slate-700
+        hover:bg-slate-50
       " href="#">Action</a>
       </li>
       <li>
@@ -215,8 +215,8 @@
         w-full
         whitespace-nowrap
         bg-transparent
-        text-gray-700
-        hover:bg-gray-100
+        text-slate-700
+        hover:bg-slate-50
       " href="#">Another action</a>
       </li>
       <li>
@@ -230,8 +230,8 @@
         w-full
         whitespace-nowrap
         bg-transparent
-        text-gray-700
-        hover:bg-gray-100
+        text-slate-700
+        hover:bg-slate-50
       " href="#">Something else here</a>
       </li>
     </ul>

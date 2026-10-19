@@ -6,7 +6,7 @@
               </div>
         </div>   
         <div class="flex gap-2">
-        <BaseDropDown  :options="paymentStatus" :title="'status'" :value="filterName"  @click-action="handleFilter" />
+        <BaseDropDown  :options="paymentStatus" :title="'Status'" :value="filterName"  @click-action="handleFilter" />
         <BaseDropDown :options="paymentSorting" :title="'Sort'" :value="sortName"  @click-action="handleSort" />
   </div>
 </div>
@@ -14,7 +14,7 @@
   <template #action>
         <router-link 
             :to="{ name : 'payments.create' }"
-            class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+            class="btn-primary">
             Create Payment
         </router-link>  
   </template>
@@ -34,12 +34,12 @@
               <BaseTableBody v-if="filteredPayments.length > 0">
                 <BaseTableRow  :body="true" v-for="(payment, index) in filteredPayments" :key="index">
                   <BaseTd>
-                      <RouterLink :to="{ name : 'loans.details' , params : { id : payment.loan.id } }" class="text-sky-500">
+                      <RouterLink :to="{ name : 'loans.details' , params : { id : payment.loan.id } }" class="text-brand-600">
                         {{ payment.loan.number }}
                       </RouterLink>       
                   </BaseTd>
                   <BaseTd>
-                      <router-link :to="{name: 'borrowers.details', params : { id :  payment.borrower.id }}" class="text-sky-500">
+                      <router-link :to="{name: 'borrowers.details', params : { id :  payment.borrower.id }}" class="text-brand-600">
                         <BaseAvatar
                           :image="payment.borrower.avatar"
                           :name="payment.borrower.name"

@@ -1,35 +1,23 @@
 <template>
-    <div class="w-full mb-6">
-        <ul class="flex gap-8 border-b">
-          <li class="text-gray-400 py-2 cursor-pointer text-sm" 
-              :class="{'!text-sky-500 border-b-2 border-sky-500' : loanType == 'all'}">
-            <span @click="handleFilterLoanType('all')">All</span>
-          </li>
-          <li class="text-gray-400 py-2 cursor-pointer text-sm" 
-              :class="{'!text-sky-500 border-b-2 border-sky-500' : loanType == 'monthly'}">
-            <span @click="handleFilterLoanType('monthly')">Monthly</span>
-          </li>
-          <li class="text-gray-400  cursor-pointer py-2 text-sm" 
-              :class="{'!text-sky-500 border-b-2 border-sky-500' : loanType == '15days'}">
-            <span @click="handleFilterLoanType('15days')">15Days</span>
-          </li >
-          <li class="text-gray-400  cursor-pointer py-2 text-sm" 
-              :class="{'!text-sky-500 border-b-2 border-sky-500' : loanType == 'weekly'}">
-            <span @click="handleFilterLoanType('weekly')">Weekly</span>
-          </li>
-          <li  class="text-gray-400  cursor-pointer py-2 text-sm" 
-              :class="{'!text-sky-500 border-b-2 border-sky-500 ' : loanType == 'daily'}" >
-            <span @click="handleFilterLoanType('daily')">Daily</span>
+    <div class="w-full mb-5 bg-white rounded-3xl shadow-card border border-white p-2">
+        <ul class="flex flex-wrap gap-1 p-1 rounded-full bg-slate-100/80">
+          <li
+              v-for="tab in loanTypeTabs"
+              :key="tab.value"
+              @click="handleFilterLoanType(tab.value)"
+              class="cursor-pointer text-sm font-medium px-5 py-2 rounded-full transition duration-200 select-none"
+              :class="loanType === tab.value
+                ? 'bg-white text-brand-700 shadow-soft'
+                : 'text-slate-400 hover:text-slate-600'">
+            {{ tab.label }}
           </li>
         </ul>
     </div>
-    <div class="w-full flex mb-6 justify-between">
-        <div class="flex items-center justify-center">
-              <div class="xl:w-52">
-                <BaseSearch v-model="keyword"/>                     
-              </div>
-        </div>   
-        <div class="flex gap-2">
+    <div class="w-full flex mb-6 justify-between items-center gap-4">
+        <div class="flex items-center flex-1 max-w-sm">
+                <BaseSearch v-model="keyword"/>
+        </div>
+        <div class="flex gap-2 shrink-0">
         <BaseDropDown :options="loanStatus"  :title="'Status'" :value="filterName"  @click-action="handleFilter" />
         <BaseDropDown :options="loanSorting" :title="'Sort'"   :value="sortName"    @click-action="handleSorting" />
   </div>
@@ -38,7 +26,7 @@
       <template #action>
           <router-link 
             :to="{name : 'loans.create'}"
-            class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+            class="btn-primary">
             Create Loan
           </router-link>  
       </template>
@@ -59,12 +47,12 @@
                 <BaseTableBody v-if="loans.length > 0"  >
                   <BaseTableRow :body="true" v-for="loan in loans">                     
                       <BaseTd>
-                        <router-link :to="{name: 'loans.details', params : { id :  loan.id }}" class="text-sky-500">
+                        <router-link :to="{name: 'loans.details', params : { id :  loan.id }}" class="text-brand-600">
                            {{loan.loan_number}}
                         </router-link> 
                       </BaseTd>
                       <BaseTd>
-                        <router-link :to="{name: 'borrowers.details', params : { id :  loan.borrower.id }}" class="text-sky-500">
+                        <router-link :to="{name: 'borrowers.details', params : { id :  loan.borrower.id }}" class="text-brand-600">
                             <BaseAvatar
                               :image="loan.borrower.avatar"
                               :name="loan.borrower.name"
@@ -78,8 +66,8 @@
                           <BaseStatus v-if="loan.status" :status="loan.status" />  
                       </BaseTd>
                       <BaseTd>
-                          <div class="flex justify-end gap-4 mr-4 ">                                   
-                              <router-link :to="{name : 'loans.details' , params : {id : loan.id} }" type="button" class="btn-icon-info">
+                          <div class="flex justify-end gap-2 mr-4">                                   
+                              <router-link :to="{name : 'loans.details' , params : {id : loan.id} }" class="btn-icon-info">
                                   <BaseIconEdit/>
                               </router-link>
                               <BaseButton v-if="isAdmin && loan.status != 'paid'" @click="destroy(loan.id)" class="btn-icon-danger">
@@ -144,6 +132,14 @@ const sortName = ref(null)
 const sort = ref(Object)
 const keyword = ref(null)
 const loanType = ref('all');
+
+const loanTypeTabs = [
+  { label: 'All', value: 'all' },
+  { label: 'Monthly', value: 'monthly' },
+  { label: '15Days', value: '15days' },
+  { label: 'Weekly', value: 'weekly' },
+  { label: 'Daily', value: 'daily' },
+]
 
 const typeParam = () => loanType.value === 'all' ? null : loanType.value
 

@@ -21,10 +21,10 @@
     
             <div v-if="form.customer" class="w-full flex  items-center justify-between ml-4">
                <div>
-                     <label for="" class="block text-sm font-semibold text-gray-700">{{ form.customer.name }}</label>
-                    <label for="" class="block text-sm text-gray-700">{{form.customer.phone}}</label>
+                     <label for="" class="block text-sm font-semibold text-slate-700">{{ form.customer.name }}</label>
+                    <label for="" class="block text-sm text-slate-700">{{form.customer.phone}}</label>
                </div>  
-               <span class="text-sky-500 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModalLg">
+               <span class="text-brand-600 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModalLg">
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg> -->
@@ -33,14 +33,14 @@
             </div>
 
             <div v-else class="ml-4">
-                <label for=""  class="text-sky-500" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Select borrower</label>
+                <label for=""  class="text-brand-600" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Select borrower</label>
                  <small class="text-alert-danger" v-for="error in errors.customer_id" >{{ error }}</small>
             </div>
         </div>         
 
             <div class="grid grid-cols-2 gap-4">
                 <div class="form-group mb-6">
-                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-gray-700">Payment Terms</label>
+                    <label for="exampleInputPassword1" class="form-label inline-block mb-2 text-slate-700">Payment Terms</label>
                     <select aria-label="Default select example"  v-model="form.loan_type_id" @change="chooseLoanType" placeholder="Select" class="py-[10px] capitalize">     
                             <option 
                             v-for="loanType in loanTypes"
@@ -110,10 +110,10 @@
         <button 
             v-if="exist"
             type="button" 
-            class="inline-block px-6 py-2.5 bg-blue-600
+            class="inline-block px-6 py-2.5 bg-brand-600
             text-white font-medium text-xs
             leading-tight uppercase rounded
-            shadow-md focus:outline-none focus:ring-0
+            shadow-card focus:outline-none focus:ring-0
             transition duration-150 ease-in-out
             pointer-events-none opacity-60"
             disabled>       
@@ -124,8 +124,6 @@
             v-else 
             @click="store"  
             type="button" 
-            data-mdb-ripple="true"
-            data-mdb-ripple-color="light"
             class="btn-primary">
             Save
         </button>

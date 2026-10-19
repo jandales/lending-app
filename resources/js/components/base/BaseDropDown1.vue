@@ -39,8 +39,8 @@ const handleclick  = (value) => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                   {{title}}
-                    <span class="text-black ml-2  transition
+                   <span class="capitalize">{{title}}</span>
+                    <span class="text-slate-700 ml-2 capitalize transition
                       duration-150
                       ease-in-out">{{ value}}</span>
                     <svg
@@ -72,7 +72,7 @@ const handleclick  = (value) => {
                       list-none
                       text-left
                       rounded-lg
-                      shadow-lg
+                      shadow-card
                       mt-1                     
                       m-0
                       bg-clip-padding
@@ -94,8 +94,8 @@ const handleclick  = (value) => {
                           w-full
                           whitespace-nowrap
                           bg-transparent
-                          text-gray-700
-                          hover:bg-gray-100
+                          text-slate-700
+                          hover:bg-slate-50
                           capitalize
                         "
                         href="#"
@@ -115,8 +115,8 @@ const handleclick  = (value) => {
                           capitalize
                           whitespace-nowrap
                           bg-transparent
-                          text-gray-700
-                          hover:bg-gray-100
+                          text-slate-700
+                          hover:bg-slate-50
                         "
                         href="#"
                         >{{option.name}}</a

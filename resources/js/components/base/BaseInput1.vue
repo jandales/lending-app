@@ -1,8 +1,8 @@
 <template>
     <div class="form-group mb-6">
         <div class="flex justify-between">
-            <label for="exampleFormControlInpu3" class="form-label inline-block mb-2 text-gray-700">{{props.label}}</label> 
-             <label for="" class="ml-auto cursor-pointer mb-2 text-sm" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Find Customers</label>  
+            <label for="exampleFormControlInpu3" class="inline-block mb-1.5 text-sm font-medium text-slate-700">{{props.label}}</label> 
+             <label for="" class="ml-auto cursor-pointer mb-1.5 text-sm font-medium text-brand-600 hover:text-brand-700" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Find Customers</label>  
         </div>
         <input 
             :id="props.id"

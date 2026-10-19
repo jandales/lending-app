@@ -28,7 +28,7 @@
 
          <div class="flex items-center w-full">
 
-                <label for="exampleInputPassword1" class="form-label block min-w-[100px] text-gray-700">Start Date </label>
+                <label for="exampleInputPassword1" class="form-label block min-w-[100px] text-slate-700">Start Date </label>
                 <input type="date" name="start-date" v-model ="form.start_date" />
                 <!-- <small class="text-alert-danger" v-for="error in errors.loan_type_id">{{ error }}</small> -->
         </div>
@@ -36,7 +36,7 @@
 
          <div class="flex items-center  w-full">
 
-                <label for="exampleInputPassword1" class="form-label block min-w-[100px]  text-gray-700">End Date </label>
+                <label for="exampleInputPassword1" class="form-label block min-w-[100px]  text-slate-700">End Date </label>
                 <input type="date" name="end-date" v-model ="form.end_date" />
                 <!-- <small class="text-alert-danger" v-for="error in errors.loan_type_id">{{ error }}</small> -->
          </div>
@@ -79,25 +79,25 @@
             </thead>
             <tbody>  
            
-              <tr v-if="payments.length > 0" v-for="payment in payments" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-gray-100"> 
+              <tr v-if="payments.length > 0" v-for="payment in payments" class="bg-white border-b transition duration-300 ease-in-out last:border-b-0 hover:bg-slate-50"> 
                 <td class=" text-sm  font-light px-6 py-4 whitespace-nowrap">
                   {{ payment.loan.loan_number }}
                 </td>       
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">    
+                <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">    
                   {{ payment.borrower }}  
                 </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ payment.due_date  }}
                 </td>  
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ payment.amount }}
                 </td>  
-                  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  <td class="text-sm text-slate-900 font-light px-6 py-4 whitespace-nowrap">
                   {{ payment.paid_at }}
                 </td>  
               </tr>
               <tr v-else>
-                <td colspan="8" class="text-xl text-center text-gray-900 font-light px-6 py-4 whitespace-nowrap">No Record Found</td>
+                <td colspan="8" class="text-xl text-center text-slate-900 font-light px-6 py-4 whitespace-nowrap">No Record Found</td>
               </tr>
             </tbody>
           </table>

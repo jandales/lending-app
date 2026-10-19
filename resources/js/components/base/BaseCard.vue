@@ -1,29 +1,29 @@
 <template>
-     <div class="w-1/3 p-4 bg-white rounded-lg shadow-md min-h-[100px]">       
-        <div class="flex justify-between items-center">
-           <div>
-             <div class="flex w-full text-gray-500 font-semibold text-sm capitalize mb-4">{{props.title}}</div>
-            <div class="text-xl  text-gray-700 font-bold">{{props.value}}</div>
+     <div class="flex-1 min-w-0 p-6 bg-white rounded-3xl shadow-card border border-white min-h-[120px]">
+        <div class="flex justify-between items-start gap-4">
+           <div class="min-w-0">
+             <div class="text-slate-400 font-medium text-sm capitalize mb-2">{{props.title}}</div>
+            <div class="text-2xl text-slate-800 font-bold tracking-tight truncate">{{props.value}}</div>
            </div>
 
-            <span v-if="props.icon == 'person'"  class="bg-sky-500 text-white p-4 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <span v-if="props.icon == 'person'"  class="bg-brand-50 text-brand-600 p-3.5 rounded-2xl shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
             </span>
-            <span v-if="props.icon == 'capital'"  class="bg-teal-400 text-white p-4 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <span v-if="props.icon == 'capital'"  class="bg-emerald-50 text-emerald-600 p-3.5 rounded-2xl shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
             </span>
-            <span v-if="props.icon == 'revenue'" class="bg-rose-500 text-white p-4 rounded-md">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+            <span v-if="props.icon == 'revenue'" class="bg-sky-50 text-sky-600 p-3.5 rounded-2xl shrink-0">
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
                 </svg>
             </span>
 
-            <span  v-if="props.icon == 'activeLoanCount'" class="bg-orange-500 text-white p-4 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <span  v-if="props.icon == 'activeLoanCount'" class="bg-violet-50 text-violet-600 p-3.5 rounded-2xl shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
                 </svg>
             </span>

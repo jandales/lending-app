@@ -3,17 +3,17 @@
         <img
             v-if="props.image"
         :src="props.image"
-        class="rounded-full w-9 h-9 border"
+        class="rounded-full w-9 h-9 border border-slate-200 object-cover"
         alt="Avatar"
         />
         <img
         v-else
         :src="$defaultAvatarSrc"
-        class="rounded-full w-9 h-9 border"
+        class="rounded-full w-9 h-9 border border-slate-200 object-cover"
         alt="Avatar"
         />
 
-        <label for="customer_name" class="capitalize ml-2">{{props.name}}</label>
+        <label for="customer_name" class="capitalize ml-2.5 text-sm font-medium text-slate-700">{{props.name}}</label>
     </div>
 </template>
 <script setup>

@@ -28,10 +28,10 @@ const closeModal = () => {
       tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog relative w-auto pointer-events-none">
         <div
-          class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+          class="modal-content border-none shadow-card relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
           <div
-            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-            <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLabel">Activity Info</h5>
+            class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-slate-200 rounded-t-md">
+            <h5 class="text-xl font-medium leading-normal text-slate-800" id="exampleModalLabel">Activity Info</h5>
             <button type="button"
                 @click="closeModal()"
               class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
@@ -80,7 +80,7 @@ const closeModal = () => {
           
         
   <div class="mb-3">
-    <label for="exampleFormControlTextarea1" class="form-label inline-block mb-2 text-gray-700"
+    <label for="exampleFormControlTextarea1" class="form-label inline-block mb-2 text-slate-700"
       >Remark</label
     >
     <textarea
@@ -92,14 +92,14 @@ const closeModal = () => {
         py-1.5
         text-base
         font-normal
-        text-gray-700
+        text-slate-700
         bg-white bg-clip-padding
-        border border-solid border-gray-300
+        border border-solid border-slate-300
         rounded
         transition
         ease-in-out
         m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+        focus:text-slate-700 focus:bg-white focus:border-brand-500 focus:outline-none
       "
       id="exampleFormControlTextarea1"
       rows="3"
@@ -112,7 +112,7 @@ const closeModal = () => {
 
        
           </div>
-          <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+          <div  class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-slate-200 rounded-b-md">
             <BaseButton name="Close" class="btn-danger" @click="closeModal" />       
           </div>
         </div>

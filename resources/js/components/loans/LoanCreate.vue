@@ -20,12 +20,12 @@
                 <div  class="w-full flex justify-between items-center">
                     
                     <div v-if="borrower">
-                        <label  for="" class="block text-lg font-semibold text-sky-500 capitalize" :class="{'text-rose-500' : exist}">{{ borrower.name }}</label>
-                        <label v-if="!exist" class="text-gray-500">{{ borrower.email }} / {{ borrower.phone }}</label>
+                        <label  for="" class="block text-lg font-semibold text-brand-600 capitalize" :class="{'text-rose-500' : exist}">{{ borrower.name }}</label>
+                        <label v-if="!exist" class="text-slate-500">{{ borrower.email }} / {{ borrower.phone }}</label>
                         <label v-else class="text-rose-500">This Borrower has an exist loan</label>
                     </div>                                      
                 
-                    <span  class="text-sky-500 cursor-pointer" @click="toggleModal(true)">                           
+                    <span  class="text-brand-600 cursor-pointer" @click="toggleModal(true)">                           
                         Select Borrower
                     </span> 
 

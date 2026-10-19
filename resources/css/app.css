@@ -2,109 +2,159 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-canvas text-slate-800 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .surface-card {
+    @apply bg-white rounded-3xl shadow-card border border-white/80;
+  }
+
+  .brand-gradient {
+    background-image: linear-gradient(135deg, #2563eb 0%, #0ea5e9 55%, #34d399 100%);
+  }
+}
+
 input[type="text"],
 input[type="number"],
 input[type="email"],
 input[type="password"],
 input[type="date"],
 textarea,
-select{
-    @apply form-control block w-full px-3 py-1.5 text-base 
-    font-normal text-gray-700 bg-white bg-clip-padding
-    border border-solid border-gray-300 rounded transition
-    ease-in-out m-0 focus:text-gray-700 focus:bg-white
-  focus:border-blue-600 focus:outline-none;
+select {
+  @apply block w-full px-4 py-2.5 text-sm text-slate-800 bg-white
+    border border-slate-200/80 rounded-xl shadow-soft
+    placeholder:text-slate-400
+    transition duration-150 ease-in-out
+    focus:border-brand-400 focus:outline-none focus:ring-4 focus:ring-brand-500/10;
 }
 
 table tr th {
-    @apply text-xs font-bold text-gray-900 px-6 py-4 text-left;    
+  @apply text-[11px] font-semibold uppercase tracking-wider text-slate-400 px-6 py-3.5 text-left bg-slate-50/80;
 }
 
 table tr td {
-    @apply  !px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900;
+  @apply !px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700;
 }
 
 table tr td:first-child,
 table tr th:first-child {
-    @apply  !pr-0;
+  @apply !pr-0;
 }
 
 table tr td:nth-child(2),
 table tr th:nth-child(2) {
-    @apply  !pl-0;
+  @apply !pl-0;
 }
 
-.form-input{
-    @apply mb-3 xl:w-96;
+.form-input {
+  @apply mb-3 xl:w-96;
 }
 
 .btn-primary {
-    @apply inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out;
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+    bg-brand-600 text-white font-medium text-sm normal-case tracking-normal
+    rounded-lg shadow-soft
+    hover:bg-brand-700
+    focus:outline-none focus:ring-2 focus:ring-brand-500/25
+    active:bg-brand-800
+    transition duration-150 ease-in-out
+    disabled:opacity-50 disabled:cursor-not-allowed;
 }
+
 .btn-danger {
-    @apply inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out;
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+    bg-rose-600 text-white font-medium text-sm normal-case tracking-normal
+    rounded-lg shadow-soft
+    hover:bg-rose-700
+    focus:outline-none focus:ring-2 focus:ring-rose-500/20
+    active:bg-rose-800
+    transition duration-150 ease-in-out
+    disabled:opacity-50 disabled:cursor-not-allowed;
 }
+
 .btn-info {
-    @apply inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out;
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+    bg-brand-500 text-white font-medium text-sm normal-case tracking-normal
+    rounded-lg shadow-soft
+    hover:bg-brand-600
+    focus:outline-none focus:ring-2 focus:ring-brand-500/25
+    active:bg-brand-700
+    transition duration-150 ease-in-out
+    disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
-.text-alert-danger{
-    @apply block mt-2 text-sm text-red-700;
-}
-input[type="checkbox"]{
-    @apply form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer
+.text-alert-danger {
+  @apply block mt-2 text-sm text-red-600;
 }
 
-
-.btn-icon-danger{
-    @apply inline-block p-2 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out
+input[type="checkbox"] {
+  @apply appearance-none h-4 w-4 border border-slate-300 rounded
+    bg-white checked:bg-brand-600 checked:border-brand-600
+    focus:outline-none focus:ring-2 focus:ring-brand-500/20
+    transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain
+    float-left mr-2 cursor-pointer;
 }
 
-.btn-icon-info{
-    @apply inline-block p-2 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out
+.btn-icon-danger {
+  @apply inline-flex items-center justify-center p-2
+    !bg-white text-rose-500 font-medium text-sm
+    rounded-lg border border-slate-200
+    hover:!bg-rose-50 hover:text-rose-600 hover:border-rose-200
+    focus:outline-none focus:ring-2 focus:ring-rose-500/20
+    transition duration-150 ease-in-out
+    !shadow-none;
 }
 
-.btn-icon-primary{
-    @apply inline-block p-2 bg-sky-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-sky-700 hover:shadow-lg focus:bg-sky-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-800 active:shadow-lg transition duration-150 ease-in-out
+.btn-icon-info {
+  @apply inline-flex items-center justify-center p-2
+    !bg-white text-brand-600 font-medium text-sm
+    rounded-lg border border-slate-200
+    hover:!bg-brand-50 hover:border-brand-200
+    focus:outline-none focus:ring-2 focus:ring-brand-500/20
+    transition duration-150 ease-in-out
+    !shadow-none;
 }
 
-.tab-item{
-    @apply  nav-link w-full block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent cursor-pointer
-}
-
-.form-inline {
-    @apply flex flex-col md:flex-row w-full;
-}
-
-.router-link-exact-active,
-.router-link-active
-{
-    @apply  text-blue-600 bg-blue-50;
-
+.btn-icon-primary {
+  @apply inline-flex items-center justify-center p-2
+    !bg-white text-slate-500 font-medium text-sm
+    rounded-lg border border-slate-200
+    hover:!bg-slate-50 hover:text-brand-600
+    focus:outline-none focus:ring-2 focus:ring-brand-500/20
+    transition duration-150 ease-in-out
+    !shadow-none;
 }
 
 .btn-light {
-    @apply 
-    px-6
-    py-2.5
-   !bg-white
-    text-gray-500
-    font-medium
-    text-xs
-    leading-tight
-    capitalize
-    rounded    
-    border  
-    hover:bg-gray-100 
-    focus:bg-gray-100  focus:outline-none focus:ring-0
-    active:bg-gray-300  active:text-white
-    transition
-    duration-150
-    ease-in-out
-    flex
-    items-center
-    whitespace-nowrap
-    shadow-none
-    hover:shadow-none focus:shadow-none active:shadow-none
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap
+    px-5 py-2.5
+    !bg-white text-slate-600 font-medium text-sm normal-case tracking-normal
+    rounded-lg border border-slate-200 shadow-soft
+    hover:!bg-slate-50 hover:text-slate-800
+    focus:outline-none focus:ring-2 focus:ring-brand-500/20
+    active:bg-slate-100
+    transition duration-150 ease-in-out;
 }
 
+.tab-item {
+  @apply w-full block font-medium text-sm leading-tight normal-case
+    border-x-0 border-t-0 border-b-2 border-transparent
+    px-6 py-3 my-2
+    text-slate-600
+    hover:border-transparent hover:bg-slate-50
+    focus:border-transparent cursor-pointer
+    transition duration-150 ease-in-out;
+}
+
+.form-inline {
+  @apply flex flex-col md:flex-row w-full;
+}
+
+.router-link-exact-active,
+.router-link-active {
+  @apply !text-brand-700 !bg-brand-50 !font-semibold;
+}

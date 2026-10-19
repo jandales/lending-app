@@ -4,14 +4,16 @@
     });
 </script>
 <template>
-    <div class="border  w-full bg-white rounded-md">
-        <div class="flex  p-4 justify-between items-center">
-            <h1 class="capitalize">{{ title }}</h1> 
+    <div class="w-full bg-white rounded-3xl shadow-card border border-white overflow-hidden">
+        <div class="flex px-6 py-5 justify-between items-center">
+            <h1 class="capitalize text-lg font-bold text-slate-800 tracking-tight">{{ title }}</h1>
             <slot name="action">
-            </slot>            
+            </slot>
         </div>
         <slot name="filter"></slot>
-        <slot name="body">
-        </slot>
+        <div class="border-t border-slate-100">
+            <slot name="body">
+            </slot>
+        </div>
     </div>
 </template>

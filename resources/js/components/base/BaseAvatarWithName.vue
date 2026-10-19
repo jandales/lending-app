@@ -3,13 +3,13 @@
             <img
                 v-if="user.image"
                 :src="user.image"
-                class="rounded-full w-12 shadow-lg"
+                class="rounded-full w-12 shadow-card"
                 alt="Avatar"
             />
             <img
                 v-else
                 :src="$defaultAvatarSrc"
-                class="rounded-full w-12 shadow-lg"
+                class="rounded-full w-12 shadow-card"
                 alt="Avatar"
             />   
             

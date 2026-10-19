@@ -7,7 +7,7 @@
 
 </script>
 <template>
-    <th  class="bg-gray-100" v-bind="$attrs">
+    <th  class="bg-slate-100" v-bind="$attrs">
        <slot></slot>
     </th>
 </template>

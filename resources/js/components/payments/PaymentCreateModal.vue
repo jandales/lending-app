@@ -4,10 +4,10 @@
   id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog relative w-auto pointer-events-none">
     <div
-      class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+      class="modal-content border-none shadow-card relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
       <div
-        class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLabel">Create Payment</h5>
+        class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-slate-200 rounded-t-md">
+        <h5 class="text-xl font-medium leading-normal text-slate-800" id="exampleModalLabel">Create Payment</h5>
         <button type="button"
           class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
           data-bs-dismiss="modal" aria-label="Close"></button>
@@ -15,9 +15,9 @@
       <div class="modal-body relative p-4">
         <BaseLabelRow :name="'Due Date :'" :value="data.due_date"/>
        <div class="flex flex-col gap-2 mb-4">    
-            <label for="" class="block text-sm font-semibold text-gray-700 mb-2">{{`Reference Number :`}} <span class="font-normal">{{loan.loan_number}}</span></label>      
-            <label for="" class="block text-sm font-semibold text-gray-700 mb-2">{{`Due Date :`}} <span class="font-normal">{{data.due_date}}</span></label> 
-            <label for="" class="block text-sm font-semibold text-gray-700 mb-2">{{`Collection Amount :`}} <span class="font-normal">{{moneyFormatter(data.collection_amount)}}</span></label>                           
+            <label for="" class="block text-sm font-semibold text-slate-700 mb-2">{{`Reference Number :`}} <span class="font-normal">{{loan.loan_number}}</span></label>      
+            <label for="" class="block text-sm font-semibold text-slate-700 mb-2">{{`Due Date :`}} <span class="font-normal">{{data.due_date}}</span></label> 
+            <label for="" class="block text-sm font-semibold text-slate-700 mb-2">{{`Collection Amount :`}} <span class="font-normal">{{moneyFormatter(data.collection_amount)}}</span></label>                           
         </div>
          <!-- <BaseInput           
             :label="`Amount`"
@@ -38,41 +38,10 @@
       
       </div>
       <div
-        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-        <button type="button" class="px-6
-          py-2.5
-          bg-purple-600
-          text-white
-          font-medium
-          text-xs
-          leading-tight
-          uppercase
-          rounded
-          shadow-md
-          hover:bg-purple-700 hover:shadow-lg
-          focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0
-          active:bg-purple-800 active:shadow-lg
-          transition
-          duration-150
-          ease-in-out" data-bs-dismiss="modal">Close</button>
+        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-slate-200 rounded-b-md">
+        <button type="button" class="btn-light" data-bs-dismiss="modal">Close</button>
         <button type="button"
-        @click="store" class="px-6
-      py-2.5
-      bg-blue-600
-      text-white
-      font-medium
-      text-xs
-      leading-tight
-      uppercase
-      rounded
-      shadow-md
-      hover:bg-blue-700 hover:shadow-lg
-      focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-      active:bg-blue-800 active:shadow-lg
-      transition
-      duration-150
-      ease-in-out
-      ml-1"
+        @click="store" class="btn-primary ml-2"
       data-bs-dismiss="modal">Submit</button>
       </div>
     </div>

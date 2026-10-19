@@ -9,8 +9,8 @@
                             <img v-else :src="$defaultAvatarSrc" class="rounded-full border w-20 h-20"  alt="Avatar"/>        
                             <div class="w-full flex  items-center justify-between ml-4">
                                 <div>
-                                    <label for="" class="block text-xl capitalize font-semibold text-gray-700 mb-1">{{ borrower.name }} 
-                                        <router-link :to="{name: 'borrowers.edit', params : { id :  borrower.id } }" class="ml-2 text-xs text-sky-500">Edit</router-link>
+                                    <label for="" class="block text-xl capitalize font-semibold text-slate-700 mb-1">{{ borrower.name }} 
+                                        <router-link :to="{name: 'borrowers.edit', params : { id :  borrower.id } }" class="ml-2 text-xs text-brand-600">Edit</router-link>
                                     </label>  
                                 </div>  
                             </div> 
@@ -19,18 +19,18 @@
             
                 <div  class="flex flex-col w-full">
                         <div class="flex gap-2 mb-1">
-                            <div for="" class="block min-w-[100px] text-sm text-gray-700 break-words">Phone Number :</div>
-                            <label for="" class="block text-sm text-gray-500">{{borrower.phone}}</label>
+                            <div for="" class="block min-w-[100px] text-sm text-slate-700 break-words">Phone Number :</div>
+                            <label for="" class="block text-sm text-slate-500">{{borrower.phone}}</label>
                         </div>
 
                         <div class="flex gap-2 mb-1">
-                            <div for="" class="block min-w-[100px] text-sm text-gray-700 break-words">Email :</div>
-                            <label for="" class="block text-sm text-gray-500">{{borrower.email}}</label>    
+                            <div for="" class="block min-w-[100px] text-sm text-slate-700 break-words">Email :</div>
+                            <label for="" class="block text-sm text-slate-500">{{borrower.email}}</label>    
                         </div>  
                         
                         <div class="flex gap-2 mb-1">
-                            <div  for="" class="block min-w-[100px] text-sm text-gray-700">Address :</div>
-                            <label for="" class="block text-sm text-gray-500 break-all">{{borrower.address}}</label>    
+                            <div  for="" class="block min-w-[100px] text-sm text-slate-700">Address :</div>
+                            <label for="" class="block text-sm text-slate-500 break-all">{{borrower.address}}</label>    
                         </div>
                 </div>
             </div> 
@@ -51,7 +51,7 @@
                             <BaseTableBody v-if="borrower.loans.length > 0"  >
                             <BaseTableRow :body="true" v-for="loan in borrower.loans">                                
                                 <BaseTd class="capitalize">                                     
-                                    <router-link :to="{name : 'loans.details' , params : {id : loan.id} }" class="text-sky-500">
+                                    <router-link :to="{name : 'loans.details' , params : {id : loan.id} }" class="text-brand-600">
                                         {{ loan.loan_number }}
                                     </router-link>
                                 </BaseTd>                
